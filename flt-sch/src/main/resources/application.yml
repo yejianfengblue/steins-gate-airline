@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      database: sga-flt-sch
+
+  profiles:
+    active: local

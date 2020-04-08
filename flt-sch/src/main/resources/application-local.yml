@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+
+server:
+  port: 30100
+
+app:
+  data:
+    populator:
+      enabled: true
