@@ -1,7 +1,13 @@
 spring:
+  application:
+    name: sga-flt-sch
+  profiles:
+    active: local
+
   data:
     mongodb:
       database: sga-flt-sch
 
-  profiles:
-    active: local
+  jackson:
+    mapper:
+      infer-property-mutators: false
