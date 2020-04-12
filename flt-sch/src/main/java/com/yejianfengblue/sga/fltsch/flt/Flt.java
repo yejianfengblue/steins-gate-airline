@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.Description;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,9 +31,13 @@ public class Flt {
     @Id
     String id;
 
+    @NotNull
+    @Size(min = 2, max = 2)
     @Description("airline carrier code")
     String carrier;
 
+    @NotNull
+    @Size(min = 3, max = 5)
     @Description("flight number")
     String fltNum;
 
@@ -39,13 +45,18 @@ public class Flt {
 //    @Description("PAX for passenger, FRTR for freighter")
     ServiceType serviceType;
 
+    @NotNull
     @Description("flight date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     LocalDate fltDate;
 
+    @NotNull
+    @Min(1) @Max(7)
     @Description("day of week of flight date, from 1 (Monday) to 7 (Sunday)")
     Integer fltDow;
 
+    @NotEmpty
+    @Valid
     @Description("flight leg collection")
     List<FltLeg> fltLegs = new ArrayList<>();
 
