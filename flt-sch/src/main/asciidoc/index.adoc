@@ -21,7 +21,7 @@ use of HTTP verbs.
 | `POST`
 | Used to create a new resource
 
-| `PUT`
+| `PATCH`
 | Used to update an existing resource, including partial updates
 
 | `DELETE`

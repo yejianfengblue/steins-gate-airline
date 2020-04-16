@@ -49,7 +49,7 @@ operation::flt-get[snippets='response-fields,curl-request,http-response']
 [[resources_flts_update]]
 === Update a flight
 
-A `PUT` request is used to update a flight
+A `PATCH` request is used to update a flight
 
 operation::flt-update[snippets='request-fields,curl-request,http-response']
 

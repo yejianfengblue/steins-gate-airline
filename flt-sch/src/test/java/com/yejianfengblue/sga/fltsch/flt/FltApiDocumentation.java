@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
@@ -34,7 +33,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -271,21 +270,32 @@ public class FltApiDocumentation {
                 .getHeader(HttpHeaders.LOCATION);
 
         // update
-        Map<String, Object> updateRequestPayload = new HashMap<>(fltPostRequestPayload);
-        updateRequestPayload.put("serviceType", "FRTR");
+        HashMap<String, Object> updatedFltLeg = new HashMap<>();
+        updatedFltLeg.put("depDate", "2020-01-01");
+        updatedFltLeg.put("depDow", 3);
+        updatedFltLeg.put("legDep", "HKG");
+        updatedFltLeg.put("legArr", "TPE");
+        updatedFltLeg.put("legSeqNum", 1);
+        updatedFltLeg.put("schDepTime", "2020-01-01T00:00:00");
+        updatedFltLeg.put("schArrTime", "2020-01-01T04:00:00");
+        updatedFltLeg.put("estDepTime", "2020-01-01T00:00:00");
+        updatedFltLeg.put("estArrTime", "2020-01-01T04:00:00");
+        updatedFltLeg.put("actDepTime", "2020-01-01T00:00:00");
+        updatedFltLeg.put("actArrTime", "2020-01-01T04:00:00");
+        updatedFltLeg.put("depTimeDiff", 480);
+        updatedFltLeg.put("arrTimeDiff", 480);
+        updatedFltLeg.put("acReg", "B-HNK");
+        updatedFltLeg.put("iataAcType", "773");
+        HashMap<String, Object> updateRequestPayload = new HashMap<>();
+        updateRequestPayload.put("fltLegs", List.of(updatedFltLeg));
 
         this.mockMvc
                 .perform(
-                        put(fltLocation).contentType(RestMediaTypes.HAL_JSON)
+                        patch(fltLocation).contentType(RestMediaTypes.MERGE_PATCH_JSON)
                                 .content(objectMapper.writeValueAsString(updateRequestPayload)))
                 .andExpect(status().isNoContent())
                 .andDo(document("flt-update",
                         requestFields(
-                                fieldWithPath("carrier").description("Flight carrier"),
-                                fieldWithPath("fltNum").description("Flight number"),
-                                fieldWithPath("serviceType").description("Service type, PAX for passenger, FRTR for freighter"),
-                                fieldWithPath("fltDate").description("Flight date in format yyyy-MM-dd"),
-                                fieldWithPath("fltDow").type(JsonFieldType.NUMBER).description("Day of week of flight date, from 1 (Monday) to 7 (Sunday)"),
                                 fieldWithPath("fltLegs").type(JsonFieldType.ARRAY).description("An array of flight legs")
                         ).andWithPrefix("fltLegs[].",
                                 fieldWithPath("depDate").description("Departure date in format yyyy-MM-dd, in local timezone"),
@@ -311,7 +321,8 @@ public class FltApiDocumentation {
                         get(fltLocation).accept(RestMediaTypes.HAL_JSON)
                                 .content(objectMapper.writeValueAsString(updateRequestPayload)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("serviceType").value(updateRequestPayload.get("serviceType")));
+                .andExpect(jsonPath("fltLegs[0].acReg").value(updatedFltLeg.get("acReg")))
+                .andExpect(jsonPath("fltLegs[0].iataAcType").value(updatedFltLeg.get("iataAcType")));
     }
 
 
