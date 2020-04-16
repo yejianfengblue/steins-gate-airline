@@ -1,17 +1,20 @@
 package com.yejianfengblue.sga.fltsch.util;
 
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.hypermedia.HypermediaDocumentation;
 import org.springframework.restdocs.hypermedia.LinkDescriptor;
 import org.springframework.restdocs.hypermedia.LinksSnippet;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 public interface RestdocsUtil {
 
@@ -40,5 +43,20 @@ public interface RestdocsUtil {
         return PayloadDocumentation.responseFields(
                 subsectionWithPath("_links").ignored().optional()
         ).and(Arrays.asList(descriptors));
+    }
+
+    public static class ConstrainedFields {
+
+        private final ConstraintDescriptions constraintDescriptions;
+
+        public ConstrainedFields(Class<?> input) {
+            this.constraintDescriptions = new ConstraintDescriptions(input);
+        }
+
+        public FieldDescriptor withPath(String path) {
+            return fieldWithPath(path).attributes(key("constraints").value(StringUtils
+                    .collectionToDelimitedString(this.constraintDescriptions
+                            .descriptionsForProperty(path), ". ")));
+        }
     }
 }

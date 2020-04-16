@@ -126,6 +126,9 @@ public class FltApiDocumentation {
         fltLeg.put("iataAcType", "333");
         fltPostRequestPayload.put("fltLegs", List.of(fltLeg));
 
+        RestdocsUtil.ConstrainedFields fltConstrainedFields = new RestdocsUtil.ConstrainedFields(Flt.class);
+        RestdocsUtil.ConstrainedFields fltLegConstrainedFields = new RestdocsUtil.ConstrainedFields(FltLeg.class);
+
         this.mockMvc
                 .perform(
                         post("/flts")
@@ -134,28 +137,28 @@ public class FltApiDocumentation {
                 .andExpect(status().isCreated())
                 .andDo(document("flts-create",
                         requestFields(
-                                fieldWithPath("carrier").description("Flight carrier"),
-                                fieldWithPath("fltNum").description("Flight number"),
-                                fieldWithPath("serviceType").description("Service type, PAX for passenger, FRTR for freighter"),
-                                fieldWithPath("fltDate").description("Flight date in format yyyy-MM-dd"),
-                                fieldWithPath("fltDow").type(JsonFieldType.NUMBER).description("Day of week of flight date, from 1 (Monday) to 7 (Sunday)"),
-                                fieldWithPath("fltLegs").type(JsonFieldType.ARRAY).description("An array of flight legs")
+                                fltConstrainedFields.withPath("carrier").description("Flight carrier"),
+                                fltConstrainedFields.withPath("fltNum").description("Flight number"),
+                                fltConstrainedFields.withPath("serviceType").description("Service type, PAX for passenger, FRTR for freighter"),
+                                fltConstrainedFields.withPath("fltDate").description("Flight date in format yyyy-MM-dd"),
+                                fltConstrainedFields.withPath("fltDow").type(JsonFieldType.NUMBER).description("Day of week of flight date, from 1 (Monday) to 7 (Sunday)"),
+                                fltConstrainedFields.withPath("fltLegs").type(JsonFieldType.ARRAY).description("An array of flight legs")
                         ).andWithPrefix("fltLegs[].",
-                                fieldWithPath("depDate").description("Departure date in format yyyy-MM-dd, in local timezone"),
-                                fieldWithPath("depDow").type(JsonFieldType.NUMBER).description("Day of week of departure date, from 1 (Monday) to 7 (Sunday)"),
-                                fieldWithPath("legDep").description("Departure airport of this flight leg"),
-                                fieldWithPath("legArr").description("Arrival airport of this flight leg"),
-                                fieldWithPath("legSeqNum").type(JsonFieldType.NUMBER).description("Flight leg sequence number of routing, starting from 1"),
-                                fieldWithPath("schDepTime").description("Scheduled departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("schArrTime").description("Scheduled arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("estDepTime").description("Estimated departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("estArrTime").description("Estimated arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("actDepTime").description("Actual departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("actArrTime").description("Actual arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("depTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of departure airport"),
-                                fieldWithPath("arrTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of arrival airport"),
-                                fieldWithPath("acReg").description("Aircraft registration, alternatively called tail number"),
-                                fieldWithPath("iataAcType").description("IATA aircraft type code")),
+                                fltLegConstrainedFields.withPath("depDate").description("Departure date in format yyyy-MM-dd, in local timezone"),
+                                fltLegConstrainedFields.withPath("depDow").type(JsonFieldType.NUMBER).description("Day of week of departure date, from 1 (Monday) to 7 (Sunday)"),
+                                fltLegConstrainedFields.withPath("legDep").description("Departure airport of this flight leg"),
+                                fltLegConstrainedFields.withPath("legArr").description("Arrival airport of this flight leg"),
+                                fltLegConstrainedFields.withPath("legSeqNum").type(JsonFieldType.NUMBER).description("Flight leg sequence number of routing, starting from 1"),
+                                fltLegConstrainedFields.withPath("schDepTime").description("Scheduled departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("schArrTime").description("Scheduled arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("estDepTime").description("Estimated departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("estArrTime").description("Estimated arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("actDepTime").description("Actual departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("actArrTime").description("Actual arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("depTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of departure airport"),
+                                fltLegConstrainedFields.withPath("arrTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of arrival airport"),
+                                fltLegConstrainedFields.withPath("acReg").description("Aircraft registration, alternatively called tail number"),
+                                fltLegConstrainedFields.withPath("iataAcType").description("IATA aircraft type code")),
                         responseHeaders(
                                 headerWithName(HttpHeaders.LOCATION).description("Created flt resource location"))
                 ));
@@ -289,6 +292,9 @@ public class FltApiDocumentation {
         HashMap<String, Object> updateRequestPayload = new HashMap<>();
         updateRequestPayload.put("fltLegs", List.of(updatedFltLeg));
 
+        RestdocsUtil.ConstrainedFields fltConstrainedFields = new RestdocsUtil.ConstrainedFields(Flt.class);
+        RestdocsUtil.ConstrainedFields fltLegConstrainedFields = new RestdocsUtil.ConstrainedFields(FltLeg.class);
+
         this.mockMvc
                 .perform(
                         patch(fltLocation).contentType(RestMediaTypes.MERGE_PATCH_JSON)
@@ -296,23 +302,23 @@ public class FltApiDocumentation {
                 .andExpect(status().isNoContent())
                 .andDo(document("flt-update",
                         requestFields(
-                                fieldWithPath("fltLegs").type(JsonFieldType.ARRAY).description("An array of flight legs")
+                                fltConstrainedFields.withPath("fltLegs").type(JsonFieldType.ARRAY).description("An array of flight legs")
                         ).andWithPrefix("fltLegs[].",
-                                fieldWithPath("depDate").description("Departure date in format yyyy-MM-dd, in local timezone"),
-                                fieldWithPath("depDow").type(JsonFieldType.NUMBER).description("Day of week of departure date, from 1 (Monday) to 7 (Sunday)"),
-                                fieldWithPath("legDep").description("Departure airport of this flight leg"),
-                                fieldWithPath("legArr").description("Arrival airport of this flight leg"),
-                                fieldWithPath("legSeqNum").type(JsonFieldType.NUMBER).description("Flight leg sequence number of routing, starting from 1"),
-                                fieldWithPath("schDepTime").description("Scheduled departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("schArrTime").description("Scheduled arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("estDepTime").description("Estimated departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("estArrTime").description("Estimated arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("actDepTime").description("Actual departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("actArrTime").description("Actual arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
-                                fieldWithPath("depTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of departure airport"),
-                                fieldWithPath("arrTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of arrival airport"),
-                                fieldWithPath("acReg").description("Aircraft registration, alternatively called tail number"),
-                                fieldWithPath("iataAcType").description("IATA aircraft type code"))
+                                fltLegConstrainedFields.withPath("depDate").description("Departure date in format yyyy-MM-dd, in local timezone"),
+                                fltLegConstrainedFields.withPath("depDow").type(JsonFieldType.NUMBER).description("Day of week of departure date, from 1 (Monday) to 7 (Sunday)"),
+                                fltLegConstrainedFields.withPath("legDep").description("Departure airport of this flight leg"),
+                                fltLegConstrainedFields.withPath("legArr").description("Arrival airport of this flight leg"),
+                                fltLegConstrainedFields.withPath("legSeqNum").type(JsonFieldType.NUMBER).description("Flight leg sequence number of routing, starting from 1"),
+                                fltLegConstrainedFields.withPath("schDepTime").description("Scheduled departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("schArrTime").description("Scheduled arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("estDepTime").description("Estimated departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("estArrTime").description("Estimated arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("actDepTime").description("Actual departure time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("actArrTime").description("Actual arrival time, in local timezone, in format yyyy-MM-ddTHH:mm:ss"),
+                                fltLegConstrainedFields.withPath("depTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of departure airport"),
+                                fltLegConstrainedFields.withPath("arrTimeDiff").type(JsonFieldType.NUMBER).description("Time difference in minutes of the timezone of arrival airport"),
+                                fltLegConstrainedFields.withPath("acReg").description("Aircraft registration, alternatively called tail number"),
+                                fltLegConstrainedFields.withPath("iataAcType").description("IATA aircraft type code"))
                 ));
 
         // verify
