@@ -1,0 +1,56 @@
+[[resources_flts]]
+== Flights
+
+The flights resources is used to list and create flights.
+
+
+
+[[resources_flts_list]]
+=== List flights
+
+A `GET` request will list all flights.
+
+operation::flts-get[snippets='response-fields,curl-request,http-response,links']
+
+
+
+[[resources_flts_create]]
+=== Create a flight
+
+A `POST` request is used to create a flight.
+
+operation::flts-create[snippets='request-fields,curl-request,http-response']
+
+
+
+[[resources_flt]]
+== Flight
+
+The Flight resource is used to retrieve, update, and delete individual flight.
+
+
+
+[[resources_flt_links]]
+=== Links
+
+include::{snippets}/flt-get/links.adoc[]
+
+
+
+[[resources_flt_get]]
+=== Get a flight
+
+A `GET` request will get the details of a flights
+
+operation::flt-get[snippets='response-fields,curl-request,http-response']
+
+
+
+[[resources_flts_update]]
+=== Update a flight
+
+A `PATCH` request is used to update a flight
+
+operation::flt-update[snippets='request-fields,curl-request,http-response']
+
+
