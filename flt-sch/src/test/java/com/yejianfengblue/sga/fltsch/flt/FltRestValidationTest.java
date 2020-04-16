@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Ensure the bean validation works when create flt via HTTP POST request and update flt via HTTP PUT request
+ * Ensure the bean validation works when create flt via HTTP POST request and update flt via HTTP PATCH request
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -289,7 +289,7 @@ public class FltRestValidationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
-                .andExpect(jsonPath("$.errors[0].invalidValue").value(nullValue()))
+                .andExpect(jsonPath("$.errors[0].invalidValue").value(either(empty()).or(nullValue())))
                 .andExpect(jsonPath("$.errors[0].message").value(NOT_EMPTY_MESSAGE));
 
         fltPostRequestPayload.put(property, null);
@@ -301,7 +301,7 @@ public class FltRestValidationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
-                .andExpect(jsonPath("$.errors[0].invalidValue").value(nullValue()))
+                .andExpect(jsonPath("$.errors[0].invalidValue").value(either(empty()).or(nullValue())))
                 .andExpect(jsonPath("$.errors[0].message").value(NOT_EMPTY_MESSAGE));
 
         fltPostRequestPayload.put(property, new ArrayList<>());
@@ -313,7 +313,7 @@ public class FltRestValidationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
-                .andExpect(jsonPath("$.errors[0].invalidValue").value(empty()))
+                .andExpect(jsonPath("$.errors[0].invalidValue").value(either(empty()).or(nullValue())))
                 .andExpect(jsonPath("$.errors[0].message").value(NOT_EMPTY_MESSAGE));
     }
 
@@ -887,17 +887,17 @@ public class FltRestValidationTest {
 
     //////////////////////////////////// fltLegs property END
 
-    // One positive and negative test to prove that bean validation also works via PUT request
+    // One positive and negative test to prove that bean validation also works via PATCH request
 
     @Test
-    void putUpdateFltSuccess() throws Exception {
+    void patchUpdateFltSuccess() throws Exception {
 
-        String property = "fltNum";
+        HashMap<String, Object> fltLeg = validFltLeg();
+        fltLeg.put("iataAcType", "333");
+        fltLeg.put("acReg", "B-LAD");
+        HashMap<String, Object> fltPostRequestPayload = validFlt(List.of(fltLeg));
 
-        HashMap<String, Object> fltPostRequestPayload = validFltWith1Leg();
-
-        // create a flt with fltNum 001
-        fltPostRequestPayload.put(property, "001");
+        // create a flt with a leg whose IATA AC type is 333
         String fltLocation = this.mockMvc
                 .perform(
                         post("/flts")
@@ -912,15 +912,18 @@ public class FltRestValidationTest {
                 .perform(
                         get(fltLocation).accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$." + property).value("001"));
+                .andExpect(jsonPath("fltLegs[0].iataAcType").value("333"))
+                .andExpect(jsonPath("fltLegs[0].acReg").value("B-LAD"));
 
-        // PUT update
-        fltPostRequestPayload.put(property, "002");
+        // PATCH update
+        fltLeg.put("iataAcType", "773");
+        fltLeg.put("acReg", "B-HNK");
+        HashMap<String, Object> fltPatchRequestPayload = validFlt(List.of(fltLeg));
         this.mockMvc
                 .perform(
-                        put(fltLocation)
-                                .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                        patch(fltLocation)
+                                .contentType(RestMediaTypes.MERGE_PATCH_JSON)
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // get the updated flt
@@ -928,18 +931,22 @@ public class FltRestValidationTest {
                 .perform(
                         get(fltLocation).accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$." + property).value("002"));
+                .andExpect(jsonPath("fltLegs[0].iataAcType").value("773"))
+                .andExpect(jsonPath("fltLegs[0].acReg").value("B-HNK"));
     }
 
     @Test
-    void putUpdateFltFailValidationError() throws Exception {
+    void patchUpdateFltValidationError() throws Exception {
 
-        String property = "fltNum";
+        String propertyPrefix = "fltLegs[0].";
+        String property = "depDate";
 
-        HashMap<String, Object> fltPostRequestPayload = validFltWith1Leg();
+        HashMap<String, Object> fltLeg = validFltLeg();
+        fltLeg.put("iataAcType", "333");
+        fltLeg.put("acReg", "B-LAD");
+        HashMap<String, Object> fltPostRequestPayload = validFlt(List.of(fltLeg));
 
-        // create a flt with fltNum 001
-        fltPostRequestPayload.put(property, "001");
+        // create a flt with a leg whose IATA AC type is 333
         String fltLocation = this.mockMvc
                 .perform(
                         post("/flts")
@@ -954,20 +961,38 @@ public class FltRestValidationTest {
                 .perform(
                         get(fltLocation).accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$." + property).value("001"));
+                .andExpect(jsonPath("fltLegs[0].iataAcType").value("333"))
+                .andExpect(jsonPath("fltLegs[0].acReg").value("B-LAD"));
 
-        // PUT update
-        fltPostRequestPayload.put(property, "00");
+        // PATCH update
+        HashMap<String, Object> fltLegToUpdate = new HashMap<>();
+        fltLegToUpdate.put("depDate", null);
+        fltLegToUpdate.put("depDow", 3);
+        fltLegToUpdate.put("legDep", "HKG");
+        fltLegToUpdate.put("legArr", "TPE");
+        fltLegToUpdate.put("legSeqNum", 1);
+        fltLegToUpdate.put("schDepTime", "2020-01-01T00:00:00");
+        fltLegToUpdate.put("schArrTime", "2020-01-01T04:00:00");
+        fltLegToUpdate.put("estDepTime", "2020-01-01T00:00:00");
+        fltLegToUpdate.put("estArrTime", "2020-01-01T04:00:00");
+        fltLegToUpdate.put("actDepTime", "2020-01-01T00:00:00");
+        fltLegToUpdate.put("actArrTime", "2020-01-01T04:00:00");
+        fltLegToUpdate.put("depTimeDiff", 480);
+        fltLegToUpdate.put("arrTimeDiff", 480);
+        fltLegToUpdate.put("acReg", "B-LAD");
+        fltLegToUpdate.put("iataAcType", "773");
+
+        HashMap<String, Object> fltPatchRequestPayload = validFlt(List.of(fltLegToUpdate));
         this.mockMvc
                 .perform(
-                        put(fltLocation)
-                                .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                        patch(fltLocation)
+                                .contentType(RestMediaTypes.MERGE_PATCH_JSON)
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0].property").value(property))
-                .andExpect(jsonPath("$.errors[0].invalidValue").value("00"))
-                .andExpect(jsonPath("$.errors[0].message").value(String.format(SIZE_MESSAGE, 3, 5)));
+                .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
+                .andExpect(jsonPath("$.errors[0].invalidValue").value(nullValue()))
+                .andExpect(jsonPath("$.errors[0].message").value(NOT_NULL_MESSAGE));
     }
 
     private static HashMap<String, Object> validFlt(List<HashMap<String, Object>> fltLegs) {

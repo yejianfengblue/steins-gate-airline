@@ -1,12 +1,13 @@
 package com.yejianfengblue.sga.fltsch.flt;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.yejianfengblue.sga.fltsch.constant.ServiceType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,11 +25,11 @@ import java.util.List;
 @Document("flt")
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
 @EqualsAndHashCode(callSuper = false)
 public class Flt {
 
     @Id
+    @JsonIgnore
     String id;
 
     @NotNull
@@ -41,6 +42,7 @@ public class Flt {
     @Description("flight number")
     String fltNum;
 
+    @NotNull
     // comment out serviceType description, as Spring Data Rest has NPE BUG when generate enum description
 //    @Description("PAX for passenger, FRTR for freighter")
     ServiceType serviceType;
@@ -80,7 +82,92 @@ public class Flt {
         this.serviceType = serviceType;
         this.fltDate = fltDate;
         this.fltDow = fltDow;
-        this.fltLegs = fltLegs;
+        this.fltLegs = null != fltLegs ? fltLegs : new ArrayList<>();
+    }
+
+    @JsonIgnore
+    public String getId() {
+        return id;
+    }
+
+    @JsonGetter
+    public String getCarrier() {
+        return carrier;
+    }
+
+    @JsonGetter
+    public String getFltNum() {
+        return fltNum;
+    }
+
+    @JsonGetter
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    @JsonGetter
+    public LocalDate getFltDate() {
+        return fltDate;
+    }
+
+    @JsonGetter
+    public Integer getFltDow() {
+        return fltDow;
+    }
+
+    @JsonGetter
+    public List<FltLeg> getFltLegs() {
+        return fltLegs;
+    }
+
+    @JsonGetter
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @JsonGetter
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    @JsonGetter
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    @JsonGetter
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setCarrier(String carrier) {
+        if (null == this.carrier)
+            this.carrier = carrier;
+    }
+
+    public void setFltNum(String fltNum) {
+        if (null == this.fltNum)
+            this.fltNum = fltNum;
+    }
+
+    public void setServiceType(ServiceType serviceType) {
+        if (null == this.serviceType)
+            this.serviceType = serviceType;
+    }
+
+    public void setFltDate(LocalDate fltDate) {
+        if (null == this.fltDate)
+            this.fltDate = fltDate;
+    }
+
+    public void setFltDow(Integer fltDow) {
+        if (null == this.fltDow)
+            this.fltDow = fltDow;
+    }
+
+    @JsonSetter
+    public void setFltLegs(List<FltLeg> fltLegs) {
+        this.fltLegs = null != fltLegs ? fltLegs : new ArrayList<>();
     }
 
     /**
