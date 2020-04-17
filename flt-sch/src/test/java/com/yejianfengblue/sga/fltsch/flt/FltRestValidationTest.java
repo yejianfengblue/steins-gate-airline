@@ -997,28 +997,28 @@ public class FltRestValidationTest {
 
     private static HashMap<String, Object> validFlt(List<HashMap<String, Object>> fltLegs) {
 
-        HashMap<String, Object> fltPostRequestPayload = new HashMap<>();
-        fltPostRequestPayload.put("carrier", "SG");
-        fltPostRequestPayload.put("fltNum", "001");
-        fltPostRequestPayload.put("serviceType", "PAX");
-        fltPostRequestPayload.put("fltDate", "2020-01-01");
-        fltPostRequestPayload.put("fltDow", 3);
-        fltPostRequestPayload.put("fltLegs", fltLegs);
+        HashMap<String, Object> flt = new HashMap<>();
+        flt.put("carrier", "SG");
+        flt.put("fltNum", "001");
+        flt.put("serviceType", "PAX");
+        flt.put("fltDate", "2020-01-01");
+        flt.put("fltDow", 3);
+        flt.put("fltLegs", fltLegs);
 
-        return fltPostRequestPayload;
+        return flt;
     }
 
     private static HashMap<String, Object> validFltWith1Leg() {
 
-        HashMap<String, Object> fltPostRequestPayload = new HashMap<>();
-        fltPostRequestPayload.put("carrier", "SG");
-        fltPostRequestPayload.put("fltNum", "001");
-        fltPostRequestPayload.put("serviceType", "PAX");
-        fltPostRequestPayload.put("fltDate", "2020-01-01");
-        fltPostRequestPayload.put("fltDow", 3);
-        fltPostRequestPayload.put("fltLegs", List.of(validFltLeg()));
+        HashMap<String, Object> flt = new HashMap<>();
+        flt.put("carrier", "SG");
+        flt.put("fltNum", "001");
+        flt.put("serviceType", "PAX");
+        flt.put("fltDate", "2020-01-01");
+        flt.put("fltDow", 3);
+        flt.put("fltLegs", List.of(validFltLeg()));
 
-        return fltPostRequestPayload;
+        return flt;
     }
 
     private static HashMap<String, Object> validFltLeg() {
