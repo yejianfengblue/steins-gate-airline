@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FltPutDisabledTest {
+public class FltDisabledHttpMethodTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -66,6 +66,34 @@ public class FltPutDisabledTest {
                         put(fltLocation)
                                 .contentType(RestMediaTypes.HAL_JSON)
                                 .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void deleteIsNotAllowed() throws Exception {
+
+        HashMap<String, Object> fltPostRequestPayload = validFltWith1Leg();
+
+        // create a flt with fltNum 001
+        String fltLocation = this.mockMvc
+                .perform(
+                        post("/flts")
+                                .contentType(RestMediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse()
+                .getHeader(HttpHeaders.LOCATION);
+
+        // get the created flt
+        this.mockMvc
+                .perform(
+                        get(fltLocation).accept(RestMediaTypes.HAL_JSON))
+                .andExpect(status().isOk());
+
+        // DELETE
+        this.mockMvc
+                .perform(
+                        delete(fltLocation))
                 .andExpect(status().isMethodNotAllowed());
     }
 
