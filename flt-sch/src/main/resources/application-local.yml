@@ -11,7 +11,7 @@ server:
   port: 30100
 
 app:
-  data:
+  flt:
     populator:
       enabled: true
-  flt.kafka.enabled: true
+    kafka.enabled: true

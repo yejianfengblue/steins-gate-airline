@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.*;
 import java.util.ArrayList;
 
-@ConditionalOnProperty(name = "app.data.populator.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "app.flt.populator.enabled", havingValue = "true")
 @Component
 @Slf4j
 @RequiredArgsConstructor
