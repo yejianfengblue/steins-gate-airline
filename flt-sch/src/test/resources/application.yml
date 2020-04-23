@@ -1,12 +1,12 @@
 spring:
   application:
     name: sga-flt-sch
-  profiles:
-    active: local
 
   data:
     mongodb:
       database: sga-flt-sch
+      host: localhost
+      port: 27017
 
   jackson:
     mapper:

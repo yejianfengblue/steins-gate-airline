@@ -1,13 +1,11 @@
 package com.yejianfengblue.sga.fltsch.flt;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import com.yejianfengblue.sga.fltsch.constant.ServiceType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Value;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Document("flt")
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
@@ -199,4 +198,31 @@ public class Flt {
         this.fltLegs.remove(fltLeg);
     }
 
+    @Value
+    static class FltEvent {
+
+        Flt flt;
+
+        Type type;
+
+        UUID id;
+
+        Instant timestamp;
+
+        static FltEvent of(Flt flt, Type type) {
+            return new FltEvent(flt, type, UUID.randomUUID(), Instant.now());
+        }
+
+        private FltEvent(Flt flt, Type type, UUID id, Instant timestamp) {
+
+            this.flt = flt;
+            this.type = type;
+            this.id = id;
+            this.timestamp = timestamp;
+        }
+
+        enum Type {
+            CREATE, UPDATE
+        }
+    }
 }

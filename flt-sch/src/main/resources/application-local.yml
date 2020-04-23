@@ -3,6 +3,9 @@ spring:
     mongodb:
       host: localhost
       port: 27017
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
 
 server:
   port: 30100
@@ -11,3 +14,4 @@ app:
   data:
     populator:
       enabled: true
+  flt.kafka.enabled: true
