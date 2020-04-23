@@ -5,6 +5,7 @@ spring:
   data:
     mongodb:
       database: sga-flt-sch
+      host: localhost
       port: 27017
 
   jackson:

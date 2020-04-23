@@ -29,7 +29,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
@@ -47,7 +46,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @EmbeddedKafka(topics = "flt")
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @Slf4j
 public class FltKafkaTest {
 
@@ -145,7 +143,6 @@ public class FltKafkaTest {
         assertThat(fltEventJsonNode.get("flt").get("fltLegs").get(0).get("acReg").textValue()).isEqualTo(fltLeg.get("acReg"));
         assertThat(fltEventJsonNode.get("flt").get("fltLegs").get(0).get("iataAcType").textValue()).isEqualTo(fltLeg.get("iataAcType"));
 
-        consumer.unsubscribe();
     }
 
     @Test
@@ -275,7 +272,6 @@ public class FltKafkaTest {
         assertThat(fltEventJsonNode.get("flt").get("fltLegs").get(1).get("acReg").textValue()).isEqualTo(fltLegTpeNrt.get("acReg"));
         assertThat(fltEventJsonNode.get("flt").get("fltLegs").get(1).get("iataAcType").textValue()).isEqualTo(fltLegTpeNrt.get("iataAcType"));
 
-        consumer.unsubscribe();
     }
 
     @TestConfiguration
