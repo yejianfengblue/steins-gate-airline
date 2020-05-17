@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: sga-booking
+
+  data:
+    mongodb:
+      database: sga-booking
+      host: localhost
+      port: 27017
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+
+server:
+  forward-headers-strategy: framework
+  port: 30200
