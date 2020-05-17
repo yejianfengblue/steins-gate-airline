@@ -6,6 +6,11 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
 
 server:
   port: 30100
