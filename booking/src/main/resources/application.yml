@@ -12,6 +12,12 @@ spring:
     mapper:
       infer-property-mutators: false
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+
 server:
   forward-headers-strategy: framework
   port: 30200
