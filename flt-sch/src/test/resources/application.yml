@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: sga-flt-sch
+
+  data:
+    mongodb:
+      database: sga-flt-sch
+      host: localhost
+      port: 27017
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: fltEvent:com.yejianfengblue.sga.fltsch.flt.Flt$FltEvent
