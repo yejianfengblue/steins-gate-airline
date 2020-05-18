@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -104,7 +105,8 @@ public class FltKafkaTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated());
 
         // one FltEvent message is sent to Kafka
@@ -115,7 +117,7 @@ public class FltKafkaTest {
         log.info(record.toString());
         assertThat(new String(record.headers().lastHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME).value(), StandardCharsets.UTF_8))
                 .isEqualTo("fltEvent");
-        JsonNode fltEventJsonNode =  objectMapper.readTree(record.value());
+        JsonNode fltEventJsonNode = objectMapper.readTree(record.value());
         assertThat(fltEventJsonNode.has("id")).isTrue();
         assertThat(fltEventJsonNode.has("timestamp")).isTrue();
         assertThat(fltEventJsonNode.get("type").textValue()).isEqualTo(Flt.FltEvent.Type.CREATE.toString());
@@ -177,7 +179,8 @@ public class FltKafkaTest {
                 .perform(
                         post("/flts")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -216,7 +219,8 @@ public class FltKafkaTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().is2xxSuccessful());
 
         // one FltEvent message is sent to Kafka
@@ -227,7 +231,7 @@ public class FltKafkaTest {
         log.info(record.toString());
         assertThat(new String(record.headers().lastHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME).value(), StandardCharsets.UTF_8))
                 .isEqualTo("fltEvent");
-        JsonNode fltEventJsonNode =  objectMapper.readTree(record.value());
+        JsonNode fltEventJsonNode = objectMapper.readTree(record.value());
         assertThat(fltEventJsonNode.has("id")).isTrue();
         assertThat(fltEventJsonNode.has("timestamp")).isTrue();
         assertThat(fltEventJsonNode.get("type").textValue()).isEqualTo(Flt.FltEvent.Type.UPDATE.toString());
@@ -280,7 +284,8 @@ public class FltKafkaTest {
         /**
          * A {@link ProducerFactory} configured with the embedded Kafka, default key serializer,
          * and a value serializer {@link JsonSerializer} configured in the Spring context.
-         * @param jsonSerializer  {@link com.yejianfengblue.sga.fltsch.config.KafkaConfig#jsonSerializer(ObjectMapper)}
+         *
+         * @param jsonSerializer {@link com.yejianfengblue.sga.fltsch.config.KafkaConfig#jsonSerializer(ObjectMapper)}
          */
         @Primary
         @Bean
