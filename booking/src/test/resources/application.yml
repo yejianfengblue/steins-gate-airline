@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: sga-booking
+
+  data:
+    mongodb:
+      database: sga-booking
+      host: localhost
+      port: 27017
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+eureka:
+  client:
+    enabled: false
