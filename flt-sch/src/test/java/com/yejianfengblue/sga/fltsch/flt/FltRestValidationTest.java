@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +44,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated());
     }
 
@@ -59,7 +61,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -73,7 +76,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -93,7 +97,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -105,7 +110,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -125,7 +131,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -137,7 +144,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -157,7 +165,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -169,7 +178,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -189,7 +199,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -201,7 +212,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -221,7 +233,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -233,7 +246,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -253,7 +267,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -265,7 +280,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -285,7 +301,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -297,7 +314,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -309,7 +327,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(property))
@@ -333,7 +352,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -345,7 +365,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -367,7 +388,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -379,7 +401,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -401,7 +424,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -413,7 +437,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -435,7 +460,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -447,7 +473,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -469,7 +496,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -481,7 +509,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -503,7 +532,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -515,7 +545,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -537,7 +568,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -549,7 +581,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -571,7 +604,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -583,7 +617,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -605,7 +640,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -627,7 +663,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -639,7 +676,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -661,7 +699,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -673,7 +712,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -695,7 +735,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -707,7 +748,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -729,7 +771,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -741,7 +784,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -763,7 +807,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -775,7 +820,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -797,7 +843,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -809,7 +856,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -831,7 +879,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -843,7 +892,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -865,7 +915,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -877,7 +928,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
@@ -902,7 +954,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -910,7 +963,9 @@ public class FltRestValidationTest {
         // get the created flt
         this.mockMvc
                 .perform(
-                        get(fltLocation).accept(RestMediaTypes.HAL_JSON))
+                        get(fltLocation)
+                                .accept(RestMediaTypes.HAL_JSON)
+                                .with(jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs[0].iataAcType").value("333"))
                 .andExpect(jsonPath("fltLegs[0].acReg").value("B-LAD"));
@@ -923,13 +978,16 @@ public class FltRestValidationTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isNoContent());
 
         // get the updated flt
         this.mockMvc
                 .perform(
-                        get(fltLocation).accept(RestMediaTypes.HAL_JSON))
+                        get(fltLocation)
+                                .accept(RestMediaTypes.HAL_JSON)
+                                .with(jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs[0].iataAcType").value("773"))
                 .andExpect(jsonPath("fltLegs[0].acReg").value("B-HNK"));
@@ -951,7 +1009,8 @@ public class FltRestValidationTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -959,7 +1018,9 @@ public class FltRestValidationTest {
         // get the created flt
         this.mockMvc
                 .perform(
-                        get(fltLocation).accept(RestMediaTypes.HAL_JSON))
+                        get(fltLocation)
+                                .accept(RestMediaTypes.HAL_JSON)
+                                .with(jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs[0].iataAcType").value("333"))
                 .andExpect(jsonPath("fltLegs[0].acReg").value("B-LAD"));
@@ -987,7 +1048,8 @@ public class FltRestValidationTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].property").value(propertyPrefix + property))
