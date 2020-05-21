@@ -11,6 +11,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.javamoney.moneta.Money;
 import org.springframework.data.annotation.*;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,7 +25,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString
-public class Booking {
+public class Booking extends AbstractAggregateRoot<Booking> {
 
     @Id
     @JsonIgnore
@@ -167,6 +168,45 @@ public class Booking {
     }
 
     /**
+     * Update booking status to {@link Status#CONFIRMED}. Must check with {@link Status#valid(Status, Status)}
+     * before calling this method.
+     *
+     * @return the booking with status {@link Status#CONFIRMED}
+     */
+    Booking confirm() {
+
+        this.status = Status.CONFIRMED;
+
+        return this;
+    }
+
+    /**
+     * Update booking status to {@link Status#CANCELLED}. Must check with {@link Status#valid(Status, Status)}
+     * before calling this method.
+     *
+     * @return the booking with status {@link Status#CANCELLED}
+     */
+    Booking cancel() {
+
+        this.status = Status.CANCELLED;
+
+        return this;
+    }
+
+    /**
+     * Update booking status to {@link Status#CHECKED_IN}. Must check with {@link Status#valid(Status, Status)}
+     * before calling this method.
+     *
+     * @return the booking with status {@link Status#CHECKED_IN}
+     */
+    Booking checkIn() {
+
+        this.status = Status.CHECKED_IN;
+
+        return this;
+    }
+
+    /**
      * Booking status indicator
      */
     enum Status {
@@ -193,6 +233,28 @@ public class Booking {
          * The booking is checked in.
          * Status change is not allowed anymore.
          */
-        CHECKED_IN,
+        CHECKED_IN;
+
+        /**
+         * Check whether it's valid to transit from current status to the new status.
+         *
+         * @throws IllegalStateException if the current status is unhandled
+         */
+        static boolean valid(Status currentStatus, Status newStatus) throws IllegalStateException {
+
+            switch (currentStatus) {
+                case DRAFT:
+                    return CONFIRMED == newStatus ||
+                            CANCELLED == newStatus;
+                case CONFIRMED:
+                    return CHECKED_IN == newStatus ||
+                            CANCELLED == newStatus;
+                case CHECKED_IN:
+                case CANCELLED:
+                    return false;
+                default:
+                    throw new IllegalStateException("Unhandled status '" + currentStatus + "'");
+            }
+        }
     }
 }
