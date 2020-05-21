@@ -21,3 +21,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://dev-722818.okta.com/oauth2/default
+
+eureka:
+  client:
+    enabled: false
