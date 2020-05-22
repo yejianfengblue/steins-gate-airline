@@ -177,6 +177,8 @@ public class Booking extends AbstractAggregateRoot<Booking> {
 
         this.status = Status.CONFIRMED;
 
+        registerEvent(BookingEvent.of(this, BookingEvent.Type.CONFIRM));
+
         return this;
     }
 
@@ -188,7 +190,13 @@ public class Booking extends AbstractAggregateRoot<Booking> {
      */
     Booking cancel() {
 
+        Status originalStatus = this.status;
+
         this.status = Status.CANCELLED;
+
+        if (Status.DRAFT != originalStatus) {
+            registerEvent(BookingEvent.of(this, BookingEvent.Type.CANCEL));
+        }
 
         return this;
     }
@@ -202,6 +210,8 @@ public class Booking extends AbstractAggregateRoot<Booking> {
     Booking checkIn() {
 
         this.status = Status.CHECKED_IN;
+
+        registerEvent(BookingEvent.of(this, BookingEvent.Type.CHECK_IN));
 
         return this;
     }

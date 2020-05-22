@@ -2,6 +2,10 @@ spring:
   application:
     name: sga-booking
 
+  cloud:
+    stream:
+      source: booking
+
   data:
     mongodb:
       database: sga-booking
