@@ -33,6 +33,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,7 +85,9 @@ public class FltApiDocumentation {
                 ));
         sg002 = this.fltRepository.save(sg002);
 
-        this.mockMvc.perform(get("/flts"))
+        this.mockMvc.perform(
+                get("/flts")
+                        .with(jwt()))
                 .andExpect(status().isOk())
                 .andDo(document("flts-get",  //  snippet dir "flts" under target/generated-snippets
                         // generate a snippet "links.adoc" under "flts"
@@ -133,7 +136,8 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated())
                 .andDo(document("flts-create",
                         requestFields(
@@ -181,7 +185,10 @@ public class FltApiDocumentation {
 
         flt = this.fltRepository.save(flt);
 
-        this.mockMvc.perform(get("/flts/" + flt.getId()).accept(RestMediaTypes.HAL_JSON))
+        this.mockMvc.perform(
+                get("/flts/" + flt.getId())
+                        .accept(RestMediaTypes.HAL_JSON)
+                        .with(jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("carrier").value(flt.getCarrier()))
                 .andExpect(jsonPath("fltNum").value(flt.getFltNum()))
@@ -267,7 +274,8 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -297,8 +305,10 @@ public class FltApiDocumentation {
 
         this.mockMvc
                 .perform(
-                        patch(fltLocation).contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(updateRequestPayload)))
+                        patch(fltLocation)
+                                .contentType(RestMediaTypes.MERGE_PATCH_JSON)
+                                .content(objectMapper.writeValueAsString(updateRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isNoContent())
                 .andDo(document("flt-update",
                         requestFields(
@@ -324,8 +334,10 @@ public class FltApiDocumentation {
         // verify
         this.mockMvc
                 .perform(
-                        get(fltLocation).accept(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(updateRequestPayload)))
+                        get(fltLocation)
+                                .accept(RestMediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(updateRequestPayload))
+                                .with(jwt()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs[0].acReg").value(updatedFltLeg.get("acReg")))
                 .andExpect(jsonPath("fltLegs[0].iataAcType").value(updatedFltLeg.get("iataAcType")));
