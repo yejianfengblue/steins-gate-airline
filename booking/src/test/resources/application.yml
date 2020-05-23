@@ -4,7 +4,7 @@ spring:
 
   data:
     mongodb:
-      database: sga-booking
+      database: sga-booking-test
       host: localhost
       port: 27017
 
