@@ -5,6 +5,11 @@ spring:
   cloud:
     stream:
       source: booking
+      bindings:
+        fltEventReceiver-in-0:
+          destination: flt
+      function:
+        definition: fltEventReceiver
 
   data:
     mongodb:

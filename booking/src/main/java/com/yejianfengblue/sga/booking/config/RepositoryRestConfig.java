@@ -1,5 +1,6 @@
 package com.yejianfengblue.sga.booking.config;
 
+import com.yejianfengblue.sga.booking.inventory.Inventory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.core.mapping.ExposureConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.validation.Validator;
 
 @Configuration
@@ -30,5 +32,8 @@ public class RepositoryRestConfig implements RepositoryRestConfigurer {
         ExposureConfiguration exposureConfiguration = repositoryRestConfiguration.getExposureConfiguration();
         exposureConfiguration.disablePutForCreation();
         exposureConfiguration.disablePutOnItemResources();
+
+        exposureConfiguration.forDomainType(Inventory.class).withItemExposure((metdata, httpMethods) ->
+                httpMethods.disable(HttpMethod.POST, HttpMethod.PATCH, HttpMethod.DELETE));
     }
 }
