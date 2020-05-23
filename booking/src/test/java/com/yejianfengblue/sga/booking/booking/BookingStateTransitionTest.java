@@ -1,6 +1,7 @@
 package com.yejianfengblue.sga.booking.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,6 +37,11 @@ public class BookingStateTransitionTest {
     BookingRepository bookingRepository;
 
     private final static String BASE_URL = "http://localhost";
+
+    @AfterEach
+    void cleanTestData() {
+        bookingRepository.deleteAll();
+    }
 
     // GET
 

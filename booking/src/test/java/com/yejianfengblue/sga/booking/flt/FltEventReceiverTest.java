@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yejianfengblue.sga.booking.inventory.Inventory;
 import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +41,7 @@ public class FltEventReceiverTest {
     @Autowired
     ObjectMapper objectMapper;
 
-//    @AfterEach
+    @AfterEach
     void clean() {
         fltRepository.deleteAll();
         inventoryRepository.deleteAll();

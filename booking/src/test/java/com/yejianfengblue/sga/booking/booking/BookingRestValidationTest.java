@@ -2,6 +2,7 @@ package com.yejianfengblue.sga.booking.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +27,14 @@ public class BookingRestValidationTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    BookingRepository bookingRepository;
+
+    @AfterEach
+    void cleanTestData() {
+        bookingRepository.deleteAll();
+    }
 
     @Test
     void createBookingSuccess() throws Exception {

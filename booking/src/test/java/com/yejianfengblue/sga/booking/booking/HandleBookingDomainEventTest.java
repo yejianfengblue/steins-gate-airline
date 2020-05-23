@@ -3,6 +3,7 @@ package com.yejianfengblue.sga.booking.booking;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +33,11 @@ public class HandleBookingDomainEventTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @AfterEach
+    void cleanTestData() {
+        bookingRepository.deleteAll();
+    }
 
     @Test
     void whenConfirmBooking_thenBookingEventIsSent() throws JsonProcessingException {
