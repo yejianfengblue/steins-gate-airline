@@ -43,7 +43,7 @@ public class BookingStateTransitionTest {
     void givenDraftBooking_whenGet_thenLinksContainConfirmAndCancelButNoCheckIn() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();
@@ -66,7 +66,7 @@ public class BookingStateTransitionTest {
     void givenConfirmedBooking_whenGet_thenLinksContainCheckInAndCancelButNoConfirm() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
@@ -90,7 +90,7 @@ public class BookingStateTransitionTest {
     void givenCheckedInBooking_whenGet_thenLinksNotContainConfirmOrCheckInOrCancel() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking.checkIn();
         booking = bookingRepository.save(booking);
@@ -115,7 +115,7 @@ public class BookingStateTransitionTest {
     void givenCancelledBooking_whenGet_thenLinksNotContainConfirmOrCheckInOrCancel() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.cancel();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);
@@ -141,7 +141,7 @@ public class BookingStateTransitionTest {
     void givenDraftBooking_whenPutConfirm_thenStatusBecomesConfirmed() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();
@@ -161,7 +161,7 @@ public class BookingStateTransitionTest {
     void givenConfirmedBooking_whenPutCheckIn_thenStatusBecomesCheckedIn() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
@@ -182,7 +182,7 @@ public class BookingStateTransitionTest {
     void givenConfirmedBooking_whenDeleteCancel_thenStatusBecomesCancelled() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
@@ -205,7 +205,7 @@ public class BookingStateTransitionTest {
     void givenDraftBooking_whenPutCheckIn_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();
@@ -224,7 +224,7 @@ public class BookingStateTransitionTest {
     void givenConfirmedBooking_whenPutConfirm_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
@@ -244,7 +244,7 @@ public class BookingStateTransitionTest {
     void givenCheckedInBooking_whenPutConfirm_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking.checkIn();
         booking = bookingRepository.save(booking);
@@ -265,7 +265,7 @@ public class BookingStateTransitionTest {
     void givenCheckedInBooking_whenDeleteCancel_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.confirm();
         booking.checkIn();
         booking = bookingRepository.save(booking);
@@ -286,7 +286,7 @@ public class BookingStateTransitionTest {
     void givenCancelledBooking_whenPutConfirm_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.cancel();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);
@@ -306,7 +306,7 @@ public class BookingStateTransitionTest {
     void givenCancelledBooking_whenPutCheckIn_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.cancel();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);
@@ -326,7 +326,7 @@ public class BookingStateTransitionTest {
     void givenCancelledBooking_whenDeleteCancel_thenBadRequest() throws Exception {
 
         // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE");
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking.cancel();
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);

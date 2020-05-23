@@ -16,6 +16,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
@@ -53,6 +54,9 @@ public class Booking extends AbstractAggregateRoot<Booking> {
     @Size(min = 3, max = 3)
     String segDest;
 
+    @NotBlank
+    String passenger;
+
     Money fare;
 
     Status status;
@@ -70,13 +74,15 @@ public class Booking extends AbstractAggregateRoot<Booking> {
     Instant lastModifiedDate;
 
     @JsonCreator
-    public Booking(String carrier, String fltNum, LocalDate fltDate, String segOrig, String segDest) {
+    public Booking(String carrier, String fltNum, LocalDate fltDate, String segOrig, String segDest, String passenger) {
 
         this.carrier = carrier;
         this.fltNum = fltNum;
         this.fltDate = fltDate;
         this.segOrig = segOrig;
         this.segDest = segDest;
+        this.passenger = passenger;
+
         this.status = Status.DRAFT;
         this.fare = Money.of(1000, Currencies.CNY);
     }
@@ -108,6 +114,11 @@ public class Booking extends AbstractAggregateRoot<Booking> {
     @JsonGetter
     public String getSegDest() {
         return segDest;
+    }
+
+    @JsonGetter
+    public String getPassenger() {
+        return passenger;
     }
 
     @JsonGetter

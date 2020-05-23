@@ -21,6 +21,7 @@ public class BookingJsonSchemaTest {
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("fltDate")).isTrue();
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("segOrig")).isTrue();
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("segDest")).isTrue();
+        JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("passenger")).isTrue();
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("fare")).isTrue();
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("status")).isTrue();
         JsonSchemaUtil.assertCouldSerialize(objectMapper, Booking.class.getDeclaredField("createdBy")).isTrue();
@@ -38,6 +39,7 @@ public class BookingJsonSchemaTest {
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("fltDate")).isTrue();
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("segOrig")).isTrue();
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("segDest")).isTrue();
+        JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("passenger")).isTrue();
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("fare")).isFalse();
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("status")).isFalse();
         JsonSchemaUtil.assertCouldDeserialize(objectMapper, Booking.class.getDeclaredField("createdBy")).isFalse();

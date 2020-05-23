@@ -359,6 +359,7 @@ public class BookingRestValidationTest {
         booking.put("fltDate", "2020-01-01");
         booking.put("segOrig", "HKG");
         booking.put("segDest", "TPE");
+        booking.put("passenger", "Tester");
 
         return booking;
     }

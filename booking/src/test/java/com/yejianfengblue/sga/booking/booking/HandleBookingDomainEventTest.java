@@ -38,7 +38,7 @@ public class HandleBookingDomainEventTest {
 
         Booking booking = new Booking(null,
                 "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", null, DRAFT,
+                "HKG", "TPE", "Tester", null, DRAFT,
                 null, null, null, null);
         // when
         booking.confirm();
@@ -70,7 +70,7 @@ public class HandleBookingDomainEventTest {
 
         Booking booking = new Booking(null,
                 "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", null, CONFIRMED,
+                "HKG", "TPE", "Tester", null, CONFIRMED,
                 null, null, null, null);
         // when
         booking.checkIn();
@@ -102,7 +102,7 @@ public class HandleBookingDomainEventTest {
 
         Booking booking = new Booking(null,
                 "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", null, DRAFT,
+                "HKG", "TPE", "Tester", null, DRAFT,
                 null, null, null, null);
         // when
         booking.cancel();
@@ -119,7 +119,7 @@ public class HandleBookingDomainEventTest {
 
         Booking booking = new Booking(null,
                 "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", null, CONFIRMED,
+                "HKG", "TPE", "Tester", null, CONFIRMED,
                 null, null, null, null);
         // when
         booking.cancel();
