@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.yejianfengblue.sga.booking.common.Currencies;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -76,6 +77,7 @@ public class Booking extends AbstractAggregateRoot<Booking> {
         this.segOrig = segOrig;
         this.segDest = segDest;
         this.status = Status.DRAFT;
+        this.fare = Money.of(1000, Currencies.CNY);
     }
 
     public String getId() {
