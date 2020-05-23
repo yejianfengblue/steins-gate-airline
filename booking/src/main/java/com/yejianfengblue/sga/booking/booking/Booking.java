@@ -30,6 +30,7 @@ public class Booking extends AbstractAggregateRoot<Booking> {
 
     @Id
     @JsonIgnore
+    @EqualsAndHashCode.Include
     String id;
 
     @NotNull
