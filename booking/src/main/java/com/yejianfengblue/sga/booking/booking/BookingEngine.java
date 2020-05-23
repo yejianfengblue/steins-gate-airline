@@ -24,6 +24,6 @@ public class BookingEngine {
 
         streamBridge.send(BOOKING_EVENT_OUT_BINDING, bookingEvent);
 
-        log.info("Send to binding {} : ", bookingEvent);
+        log.info("Send to booking : {}", bookingEvent);
     }
 }
