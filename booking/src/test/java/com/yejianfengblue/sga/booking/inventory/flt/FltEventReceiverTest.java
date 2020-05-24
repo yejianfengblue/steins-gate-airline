@@ -1,4 +1,4 @@
-package com.yejianfengblue.sga.booking.flt;
+package com.yejianfengblue.sga.booking.inventory.flt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;

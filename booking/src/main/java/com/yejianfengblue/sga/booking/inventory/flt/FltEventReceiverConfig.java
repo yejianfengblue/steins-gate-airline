@@ -1,4 +1,4 @@
-package com.yejianfengblue.sga.booking.flt;
+package com.yejianfengblue.sga.booking.inventory.flt;
 
 import com.yejianfengblue.sga.booking.inventory.Inventory;
 import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
