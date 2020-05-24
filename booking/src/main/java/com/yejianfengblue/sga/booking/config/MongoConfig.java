@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
@@ -24,6 +26,11 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Override
     protected String getDatabaseName() {
         return properties.getDatabase();
+    }
+
+    @Bean
+    MongoTransactionManager transactionManager(MongoDatabaseFactory mongoDatabaseFactory) {
+        return new MongoTransactionManager(mongoDatabaseFactory);
     }
 
     @Override
