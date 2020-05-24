@@ -19,6 +19,9 @@ public class BookingController {
     @NonNull
     private final BookingRepository bookingRepository;
 
+    @NonNull
+    private final BookingService bookingService;
+
     @PutMapping("/bookings/{id}/confirm")
     public ResponseEntity confirm(@PathVariable String id) {
 
@@ -28,7 +31,7 @@ public class BookingController {
             Booking booking = foundBooking.get();
             if (valid(booking.getStatus(), CONFIRMED)) {
 
-                booking = bookingRepository.save(booking.confirm());
+                booking = bookingService.confirmBooking(booking);
                 return ResponseEntity.ok(booking);
             } else {
 
@@ -51,7 +54,7 @@ public class BookingController {
             Booking booking = foundBooking.get();
             if (valid(booking.getStatus(), CHECKED_IN)) {
 
-                booking = bookingRepository.save(booking.checkIn());
+                booking = bookingService.checkInBooking(booking);
                 return ResponseEntity.ok(booking);
             } else {
 
@@ -75,7 +78,7 @@ public class BookingController {
             Booking booking = foundBooking.get();
             if (valid(booking.getStatus(), CANCELLED)) {
 
-                booking = bookingRepository.save(booking.cancel());
+                booking = bookingService.cancelBooking(booking);
                 return ResponseEntity.ok(booking);
             } else {
 
