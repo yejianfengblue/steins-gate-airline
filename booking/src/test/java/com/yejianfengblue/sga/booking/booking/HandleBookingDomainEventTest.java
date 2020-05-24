@@ -12,6 +12,7 @@ import org.springframework.cloud.stream.binder.test.TestChannelBinderConfigurati
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDate;
 
@@ -34,6 +35,9 @@ public class HandleBookingDomainEventTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
     @AfterEach
     void cleanTestData() {
         bookingRepository.deleteAll();
@@ -42,13 +46,15 @@ public class HandleBookingDomainEventTest {
     @Test
     void whenConfirmBooking_thenBookingEventIsSent() throws JsonProcessingException {
 
-        Booking booking = new Booking(null,
-                "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", "Tester", null, DRAFT,
-                null, null, null, null);
-        // when
-        booking.confirm();
-        booking = bookingRepository.save(booking);
+        Booking booking = transactionTemplate.execute(status -> {
+            Booking bookingToConfirm = new Booking(null,
+                    "SG", "001", LocalDate.of(2020, 1, 1),
+                    "HKG", "TPE", "Tester", null, DRAFT,
+                    null, null, null, null);
+            // when
+            bookingToConfirm.confirm();
+            return bookingRepository.save(bookingToConfirm);
+        });
         assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
 
         // then
@@ -74,13 +80,16 @@ public class HandleBookingDomainEventTest {
     @Test
     void whenCheckInBooking_thenBookingEventIsSent() throws JsonProcessingException {
 
-        Booking booking = new Booking(null,
-                "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", "Tester", null, CONFIRMED,
-                null, null, null, null);
-        // when
-        booking.checkIn();
-        booking = bookingRepository.save(booking);
+        Booking booking = transactionTemplate.execute(status -> {
+            Booking bookingToCheckIn = new Booking(null,
+                    "SG", "001", LocalDate.of(2020, 1, 1),
+                    "HKG", "TPE", "Tester", null, CONFIRMED,
+                    null, null, null, null);
+
+            // when
+            bookingToCheckIn.checkIn();
+            return bookingRepository.save(bookingToCheckIn);
+        });
         assertThat(booking.getStatus()).isEqualTo(CHECKED_IN);
 
         // then
@@ -106,13 +115,16 @@ public class HandleBookingDomainEventTest {
     @Test
     void whenCancelDraftBooking_thenBookingEventNotSent() {
 
-        Booking booking = new Booking(null,
-                "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", "Tester", null, DRAFT,
-                null, null, null, null);
-        // when
-        booking.cancel();
-        booking = bookingRepository.save(booking);
+        Booking booking = transactionTemplate.execute(status -> {
+            Booking bookingToCancel = new Booking(null,
+                    "SG", "001", LocalDate.of(2020, 1, 1),
+                    "HKG", "TPE", "Tester", null, DRAFT,
+                    null, null, null, null);
+
+            // when
+            bookingToCancel.cancel();
+            return bookingRepository.save(bookingToCancel);
+        });
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);
 
         // then
@@ -123,13 +135,15 @@ public class HandleBookingDomainEventTest {
     @Test
     void whenCancelConfirmedBooking_thenBookingEventIsSent() throws JsonProcessingException {
 
-        Booking booking = new Booking(null,
-                "SG", "001", LocalDate.of(2020, 1, 1),
-                "HKG", "TPE", "Tester", null, CONFIRMED,
-                null, null, null, null);
-        // when
-        booking.cancel();
-        booking = bookingRepository.save(booking);
+        Booking booking = transactionTemplate.execute(status -> {
+            Booking bookingToCancel = new Booking(null,
+                    "SG", "001", LocalDate.of(2020, 1, 1),
+                    "HKG", "TPE", "Tester", null, CONFIRMED,
+                    null, null, null, null);
+            // when
+            bookingToCancel.cancel();
+            return bookingRepository.save(bookingToCancel);
+        });
         assertThat(booking.getStatus()).isEqualTo(CANCELLED);
 
         // then
