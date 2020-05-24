@@ -1,13 +1,6 @@
 package com.yejianfengblue.sga.booking.inventory.flt;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
@@ -17,31 +10,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document("flts")
-@Data
-@AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-public class Flt {
 
-    @Id
-    String id;
+@Value
+public class Flt {
 
     @NotNull
     @Size(min = 2, max = 2)
-    @EqualsAndHashCode.Include
     String carrier;
 
     @NotNull
     @Size(min = 3, max = 5)
-    @EqualsAndHashCode.Include
     String fltNum;
 
     @NotNull
     ServiceType serviceType;
 
     @NotNull
-    @EqualsAndHashCode.Include
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     LocalDate fltDate;
 

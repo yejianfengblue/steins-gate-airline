@@ -15,9 +15,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,9 +30,6 @@ public class FltEventReceiverTest {
     InputDestination inputDestination;
 
     @Autowired
-    FltRepository fltRepository;
-
-    @Autowired
     InventoryRepository inventoryRepository;
 
     @Autowired
@@ -43,16 +37,12 @@ public class FltEventReceiverTest {
 
     @AfterEach
     void clean() {
-        fltRepository.deleteAll();
         inventoryRepository.deleteAll();
     }
 
     @Test
     void whenReceiveCreatedFltEvent_thenFltIsCreatedAndInventoryIsCreated() {
 
-        Optional<Flt> flt_sg520_20200101 = fltRepository.findByCarrierAndFltNumAndFltDate(
-                "SG", "520", LocalDate.of(2020, 1, 1));
-        assertThat(flt_sg520_20200101).isEmpty();
         Optional<Inventory> inventory_sg520_20200101 = inventoryRepository.findByCarrierAndFltNumAndFltDate(
                 "SG", "520", LocalDate.of(2020, 1, 1));
         assertThat(inventory_sg520_20200101).isEmpty();
@@ -94,43 +84,12 @@ public class FltEventReceiverTest {
                 "fltEventReceiver-in-0");
 
         // then
-        flt_sg520_20200101 = fltRepository.findByCarrierAndFltNumAndFltDate(
-                "SG", "520", LocalDate.of(2020, 1, 1));
-        assertThat(flt_sg520_20200101).isPresent();
-        assertThat(flt_sg520_20200101.get().getCarrier()).isEqualTo(fltJson.get("carrier").asText());
-        assertThat(flt_sg520_20200101.get().getFltNum()).isEqualTo(fltJson.get("fltNum").asText());
-        assertThat(flt_sg520_20200101.get().getServiceType()).isEqualTo(ServiceType.valueOf(fltJson.get("serviceType").asText()));
-        assertThat(flt_sg520_20200101.get().getFltDate()).isEqualTo(LocalDate.of(2020, 1, 1));
-        assertThat(flt_sg520_20200101.get().getFltDow()).isEqualTo(fltJson.get("fltDow").asInt());
-        assertThat(flt_sg520_20200101.get().getCreatedBy()).isEqualTo(fltJson.get("createdBy").asText());
-        assertThat(flt_sg520_20200101.get().getCreatedDate())
-                .isEqualTo(ZonedDateTime.of(2020, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")).toInstant());
-        assertThat(flt_sg520_20200101.get().getLastModifiedBy()).isEqualTo(fltJson.get("lastModifiedBy").asText());
-        assertThat(flt_sg520_20200101.get().getLastModifiedDate())
-                .isEqualTo(ZonedDateTime.of(2020, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")).toInstant());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getDepDate())
-                .isEqualTo(LocalDate.of(2020, 1, 1));
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getDepDow()).isEqualTo(fltLegHkgNrtJson.get("depDow").asInt());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getLegDep()).isEqualTo(fltLegHkgNrtJson.get("legDep").asText());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getLegArr()).isEqualTo(fltLegHkgNrtJson.get("legArr").asText());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getLegSeqNum()).isEqualTo(fltLegHkgNrtJson.get("legSeqNum").asInt());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getSchDepTime()).isEqualTo(LocalDateTime.of(2020, 1, 1, 10, 00, 00));
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getSchArrTime()).isEqualTo(LocalDateTime.of(2020, 1, 1, 16, 0, 0));
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getEstDepTime()).isNull();
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getEstArrTime()).isNull();
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getActDepTime()).isNull();
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getActArrTime()).isNull();
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getDepTimeDiff()).isEqualTo(fltLegHkgNrtJson.get("depTimeDiff").asInt());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getArrTimeDiff()).isEqualTo(fltLegHkgNrtJson.get("arrTimeDiff").asInt());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getAcReg()).isEqualTo(fltLegHkgNrtJson.get("acReg").asText());
-        assertThat(flt_sg520_20200101.get().getFltLegs().get(0).getIataAcType()).isEqualTo(fltLegHkgNrtJson.get("iataAcType").asText());
-
         inventory_sg520_20200101 = inventoryRepository.findByCarrierAndFltNumAndFltDate(
                 "SG", "520", LocalDate.of(2020, 1, 1));
         assertThat(inventory_sg520_20200101).isPresent();
-        assertThat(inventory_sg520_20200101.get().getCarrier()).isEqualTo(flt_sg520_20200101.get().getCarrier());
-        assertThat(inventory_sg520_20200101.get().getFltNum()).isEqualTo(flt_sg520_20200101.get().getFltNum());
-        assertThat(inventory_sg520_20200101.get().getFltDate()).isEqualTo(flt_sg520_20200101.get().getFltDate());
+        assertThat(inventory_sg520_20200101.get().getCarrier()).isEqualTo("SG");
+        assertThat(inventory_sg520_20200101.get().getFltNum()).isEqualTo("520");
+        assertThat(inventory_sg520_20200101.get().getFltDate()).isEqualTo(LocalDate.of(2020, 1, 1));
         assertThat(inventory_sg520_20200101.get().getAvailable()).isEqualTo(100);
         assertThat(inventory_sg520_20200101.get().getCreatedDate()).isNotNull();
         assertThat(inventory_sg520_20200101.get().getLastModifiedDate()).isNotNull();

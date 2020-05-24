@@ -14,8 +14,7 @@ import java.util.function.Consumer;
 public class FltEventReceiverConfig {
 
     @Bean
-    public Consumer<FltEvent> fltEventReceiver(FltRepository fltRepository,
-                                         InventoryRepository inventoryRepository) {
+    public Consumer<FltEvent> fltEventReceiver(InventoryRepository inventoryRepository) {
 
         return fltEvent -> {
 
@@ -25,11 +24,9 @@ public class FltEventReceiverConfig {
             if (FltEvent.Type.CREATE.equals(fltEvent.getType())) {
 
                 Flt flt = fltEvent.getFlt();
-                Optional<Flt> foundFlt = fltRepository.findByCarrierAndFltNumAndFltDate(
+                Optional<Inventory> foundInventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
                         flt.getCarrier(), flt.getFltNum(), flt.getFltDate());
-                if (foundFlt.isEmpty()) {
-
-                    fltRepository.save(flt);
+                if (foundInventory.isEmpty()) {
 
                     // In reality, there should be an application which manages the initial available value
                     Inventory inventory = new Inventory(flt.getCarrier(), flt.getFltNum(), flt.getFltDate(), 100);
