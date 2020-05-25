@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
-import org.springframework.hateoas.client.LinkDiscoverers;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -32,9 +31,6 @@ public class BookingStateTransitionTest {
 
     @Autowired
     ObjectMapper objectMapper;
-
-    @Autowired
-    LinkDiscoverers linkDiscoverers;
 
     @Autowired
     BookingRepository bookingRepository;
