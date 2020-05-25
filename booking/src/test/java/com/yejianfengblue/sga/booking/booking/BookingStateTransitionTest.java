@@ -177,7 +177,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenPutCheckIn_thenStatusBecomesCheckedIn() throws Exception {
+    void givenConfirmedBooking_whenCheckIn_thenStatusBecomesCheckedIn() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -198,7 +198,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenDeleteCancel_thenStatusBecomesCancelled() throws Exception {
+    void givenConfirmedBooking_whenCancel_thenStatusBecomesCancelled() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -219,7 +219,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenDeleteCancelAndInventoryExist_thenStatusBecomesCancelledAndInventoryAvailableIncreasedBy1() throws Exception {
+    void givenConfirmedBooking_whenCancelAndInventoryExist_thenStatusBecomesCancelledAndInventoryAvailableIncreasedBy1() throws Exception {
 
         String carrier = "SG";
         String fltNum = "001";
@@ -252,7 +252,7 @@ public class BookingStateTransitionTest {
     // illegal state transition
 
     @Test
-    void givenDraftBooking_whenPutCheckIn_thenBadRequest() throws Exception {
+    void givenDraftBooking_whenCheckIn_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -271,7 +271,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenPutConfirm_thenBadRequest() throws Exception {
+    void givenConfirmedBooking_whenConfirm_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -291,7 +291,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenCheckedInBooking_whenPutConfirm_thenBadRequest() throws Exception {
+    void givenCheckedInBooking_whenConfirm_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -312,7 +312,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenCheckedInBooking_whenDeleteCancel_thenBadRequest() throws Exception {
+    void givenCheckedInBooking_whenCancel_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -333,7 +333,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenCancelledBooking_whenPutConfirm_thenBadRequest() throws Exception {
+    void givenCancelledBooking_whenConfirm_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -353,7 +353,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenCancelledBooking_whenPutCheckIn_thenBadRequest() throws Exception {
+    void givenCancelledBooking_whenCheckIn_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
@@ -373,7 +373,7 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenCancelledBooking_whenDeleteCancel_thenBadRequest() throws Exception {
+    void givenCancelledBooking_whenCancel_thenBadRequest() throws Exception {
 
         // given
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
