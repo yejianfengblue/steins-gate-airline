@@ -1,6 +1,8 @@
 package com.yejianfengblue.sga.booking.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yejianfengblue.sga.booking.inventory.Inventory;
+import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.hateoas.client.LinkDiscoverers;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.yejianfengblue.sga.booking.booking.Booking.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,11 +39,15 @@ public class BookingStateTransitionTest {
     @Autowired
     BookingRepository bookingRepository;
 
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
     private final static String BASE_URL = "http://localhost";
 
     @AfterEach
     void cleanTestData() {
         bookingRepository.deleteAll();
+        inventoryRepository.deleteAll();
     }
 
     // GET
@@ -144,9 +151,10 @@ public class BookingStateTransitionTest {
     // legal state transition
 
     @Test
-    void givenDraftBooking_whenPutConfirm_thenStatusBecomesConfirmed() throws Exception {
+    void givenDraftBookingAndEnoughInventory_whenConfirm_thenStatusBecomesConfirmedAndInventoryAvailableIsReducedBy1() throws Exception {
 
         // given
+        inventoryRepository.save(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1));
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
@@ -161,6 +169,11 @@ public class BookingStateTransitionTest {
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
                 .andExpect(jsonPath("$.status").value(CONFIRMED.toString()));
+
+        Optional<Inventory> inventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
+                "SG", "001", LocalDate.of(2020, 1, 1));
+        assertThat(inventory).isPresent();
+        assertThat(inventory.get().getAvailable()).isEqualTo(0);
     }
 
     @Test
@@ -203,6 +216,37 @@ public class BookingStateTransitionTest {
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
                 .andExpect(jsonPath("$.status").value(CANCELLED.toString()));
+    }
+
+    @Test
+    void givenConfirmedBooking_whenDeleteCancelAndInventoryExist_thenStatusBecomesCancelledAndInventoryAvailableIncreasedBy1() throws Exception {
+
+        String carrier = "SG";
+        String fltNum = "001";
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+
+        // given
+        inventoryRepository.save(new Inventory(carrier, fltNum, fltDate, 0));
+        Booking booking = new Booking(carrier, fltNum, fltDate, "HKG", "TPE", "Tester");
+        booking.confirm();
+        booking = bookingRepository.save(booking);
+        assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
+        String bookingUri = BASE_URL + "/bookings/" + booking.getId();
+
+        // when
+        mockMvc.perform(
+                delete(bookingUri + "/cancel")
+                        .accept(RestMediaTypes.HAL_JSON)
+                        .with(jwt()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
+                // then
+                .andExpect(jsonPath("$.status").value(CANCELLED.toString()));
+
+        Optional<Inventory> foundInventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
+                carrier, fltNum, fltDate);
+        assertThat(foundInventory).isPresent();
+        assertThat(foundInventory.get().getAvailable()).isEqualTo(1);
     }
 
     // illegal state transition
@@ -348,4 +392,45 @@ public class BookingStateTransitionTest {
                 ));
     }
 
+    // fail to confirm booking due to unsatisfied inventory
+
+    @Test
+    void givenDraftBooking_whenConfirmButInventoryNotExist_thenInternalServerErrorWithReasonInventoryNotFound() throws Exception {
+
+        // given
+        assertThat(inventoryRepository.findByCarrierAndFltNumAndFltDate(
+                "SG", "001", LocalDate.of(2020, 1, 1)))
+                .isEmpty();
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
+        booking = bookingRepository.save(booking);
+        assertThat(booking.getStatus()).isEqualTo(DRAFT);
+        String bookingUri = BASE_URL + "/bookings/" + booking.getId();
+
+        // when
+        mockMvc.perform(
+                put(bookingUri + "/confirm")
+                        .with(jwt()))
+                // then
+                .andExpect(status().isInternalServerError())
+                .andExpect(status().reason("Inventory not found"));
+    }
+
+    @Test
+    void givenDraftBooking_whenConfirmButNoEnoughInventory_thenBadRequestWithReasonNoEnoughInventory() throws Exception {
+
+        // given
+        inventoryRepository.save(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 0));
+        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
+        booking = bookingRepository.save(booking);
+        assertThat(booking.getStatus()).isEqualTo(DRAFT);
+        String bookingUri = BASE_URL + "/bookings/" + booking.getId();
+
+        // when
+        mockMvc.perform(
+                put(bookingUri + "/confirm")
+                        .with(jwt()))
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("No enough inventory"));
+    }
 }
