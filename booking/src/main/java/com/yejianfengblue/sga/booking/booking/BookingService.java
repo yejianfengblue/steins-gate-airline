@@ -44,7 +44,6 @@ class BookingService {
         }
     }
 
-    @Transactional
     Booking checkInBooking(Booking booking) {
 
         Booking checkedInBooking = booking.checkIn();
