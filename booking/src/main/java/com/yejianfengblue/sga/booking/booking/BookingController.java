@@ -3,6 +3,7 @@ package com.yejianfengblue.sga.booking.booking;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class BookingController {
             if (valid(booking.getStatus(), CONFIRMED)) {
 
                 booking = bookingService.confirmBooking(booking);
-                return ResponseEntity.ok(booking);
+                return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
                 return ResponseEntity
@@ -55,7 +56,7 @@ public class BookingController {
             if (valid(booking.getStatus(), CHECKED_IN)) {
 
                 booking = bookingService.checkInBooking(booking);
-                return ResponseEntity.ok(booking);
+                return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
                 return ResponseEntity
@@ -79,7 +80,7 @@ public class BookingController {
             if (valid(booking.getStatus(), CANCELLED)) {
 
                 booking = bookingService.cancelBooking(booking);
-                return ResponseEntity.ok(booking);
+                return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
                 return ResponseEntity
