@@ -30,7 +30,10 @@ public class BookingController {
         if (foundBooking.isPresent()) {
 
             Booking booking = foundBooking.get();
-            if (valid(booking.getStatus(), CONFIRMED)) {
+            if (booking.getStatus() == CONFIRMED) {
+                // if booking status is already CONFIRMED, do nothing
+                return ResponseEntity.ok(EntityModel.of(booking));
+            } else if (valid(booking.getStatus(), CONFIRMED)) {
 
                 booking = bookingService.confirmBooking(booking);
                 return ResponseEntity.ok(EntityModel.of(booking));
@@ -53,7 +56,10 @@ public class BookingController {
         if (foundBooking.isPresent()) {
 
             Booking booking = foundBooking.get();
-            if (valid(booking.getStatus(), CHECKED_IN)) {
+            if (booking.getStatus() == CHECKED_IN) {
+                // if booking status is already CHECKED_IN, do nothing
+                return ResponseEntity.ok(EntityModel.of(booking));
+            } else if (valid(booking.getStatus(), CHECKED_IN)) {
 
                 booking = bookingService.checkInBooking(booking);
                 return ResponseEntity.ok(EntityModel.of(booking));
@@ -77,7 +83,10 @@ public class BookingController {
         if (foundBooking.isPresent()) {
 
             Booking booking = foundBooking.get();
-            if (valid(booking.getStatus(), CANCELLED)) {
+            if (booking.getStatus() == CANCELLED) {
+                // if booking status is already CANCELLED, do nothing
+                return ResponseEntity.ok(EntityModel.of(booking));
+            } else if (valid(booking.getStatus(), CANCELLED)) {
 
                 booking = bookingService.cancelBooking(booking);
                 return ResponseEntity.ok(EntityModel.of(booking));

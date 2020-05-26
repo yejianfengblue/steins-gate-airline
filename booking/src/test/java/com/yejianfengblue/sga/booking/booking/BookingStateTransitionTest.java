@@ -267,26 +267,6 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenConfirm_thenBadRequest() throws Exception {
-
-        // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
-        booking.confirm();
-        booking = bookingRepository.save(booking);
-        assertThat(booking.getStatus()).isEqualTo(CONFIRMED);
-        String bookingUri = BASE_URL + "/bookings/" + booking.getId();
-
-        // when
-        mockMvc.perform(
-                put(bookingUri + "/confirm")
-                        .with(jwt()))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CONFIRMED, CONFIRMED)
-                ));
-    }
-
-    @Test
     void givenCheckedInBooking_whenConfirm_thenBadRequest() throws Exception {
 
         // given
@@ -365,26 +345,6 @@ public class BookingStateTransitionTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(
                         String.format("\"Booking status cannot be transited from %s to %s\"", CANCELLED, CHECKED_IN)
-                ));
-    }
-
-    @Test
-    void givenCancelledBooking_whenCancel_thenBadRequest() throws Exception {
-
-        // given
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
-        booking.cancel();
-        booking = bookingRepository.save(booking);
-        assertThat(booking.getStatus()).isEqualTo(CANCELLED);
-        String bookingUri = BASE_URL + "/bookings/" + booking.getId();
-
-        // when
-        mockMvc.perform(
-                delete(bookingUri + "/cancel")
-                        .with(jwt()))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CANCELLED, CANCELLED)
                 ));
     }
 
