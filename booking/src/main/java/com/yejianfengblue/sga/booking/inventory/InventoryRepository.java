@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@RepositoryRestResource
+@RepositoryRestResource(exported = false)
 public interface InventoryRepository extends PagingAndSortingRepository<Inventory, String> {
 
     Optional<Inventory> findByCarrierAndFltNumAndFltDate(String carrier, String fltNum, LocalDate fltDate);
