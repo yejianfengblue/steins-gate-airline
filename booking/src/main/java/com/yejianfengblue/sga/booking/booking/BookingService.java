@@ -2,7 +2,6 @@ package com.yejianfengblue.sga.booking.booking;
 
 import com.yejianfengblue.sga.booking.inventory.Inventory;
 import com.yejianfengblue.sga.booking.inventory.InventoryService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,12 +16,9 @@ import java.util.Optional;
 @Slf4j
 class BookingService {
 
-    @NonNull
     private final BookingRepository bookingRepository;
 
     private final InventoryService inventoryService;
-
-    @NonNull
 
     @Transactional
     Booking confirmBooking(Booking booking) {

@@ -20,7 +20,6 @@ import javax.validation.Validator;
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
     // reuse spring boot properties spring.data.mongodb.*
-    @NonNull
     private final MongoProperties properties;
 
     @Override

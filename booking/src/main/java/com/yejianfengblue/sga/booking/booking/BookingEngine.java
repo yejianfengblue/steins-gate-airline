@@ -13,7 +13,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class BookingEngine {
 
-    @NonNull
     private final StreamBridge streamBridge;
 
     static final String BOOKING_EVENT_OUT_BINDING = "booking-out-0";

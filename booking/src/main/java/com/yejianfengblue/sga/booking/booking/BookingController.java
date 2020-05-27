@@ -17,10 +17,8 @@ import static com.yejianfengblue.sga.booking.booking.Booking.Status.*;
 @RequiredArgsConstructor
 public class BookingController {
 
-    @NonNull
     private final BookingRepository bookingRepository;
 
-    @NonNull
     private final BookingService bookingService;
 
     @PutMapping("/bookings/{id}/confirm")

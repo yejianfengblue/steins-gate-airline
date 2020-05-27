@@ -13,7 +13,6 @@ import org.springframework.validation.Validator;
 @RequiredArgsConstructor
 public class RepositoryRestConfig implements RepositoryRestConfigurer {
 
-    @NonNull
     private final Validator beanValidator;
 
     @Override
