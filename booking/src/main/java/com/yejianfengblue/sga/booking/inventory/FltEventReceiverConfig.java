@@ -1,7 +1,6 @@
-package com.yejianfengblue.sga.booking.inventory.flt;
+package com.yejianfengblue.sga.booking.inventory;
 
-import com.yejianfengblue.sga.booking.inventory.Inventory;
-import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
+import com.yejianfengblue.sga.booking.inventory.FltEvent.Flt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,8 @@
-package com.yejianfengblue.sga.booking.inventory.flt;
+package com.yejianfengblue.sga.booking.inventory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.yejianfengblue.sga.booking.inventory.Inventory;
-import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
