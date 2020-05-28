@@ -1,13 +1,14 @@
 package com.yejianfengblue.sga.booking.booking;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -37,9 +38,9 @@ public class BookingController {
                 return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
-                return ResponseEntity
-                        .badRequest()
-                        .body(String.format("Booking status cannot be transited from %s to %s",
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        String.format("Booking status cannot be transited from %s to %s",
                                 booking.getStatus(), CONFIRMED));
             }
         } else {
@@ -63,9 +64,9 @@ public class BookingController {
                 return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
-                return ResponseEntity
-                        .badRequest()
-                        .body(String.format("Booking status cannot be transited from %s to %s",
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        String.format("Booking status cannot be transited from %s to %s",
                                 booking.getStatus(), CHECKED_IN));
             }
         } else {
@@ -90,9 +91,9 @@ public class BookingController {
                 return ResponseEntity.ok(EntityModel.of(booking));
             } else {
 
-                return ResponseEntity
-                        .badRequest()
-                        .body(String.format("Booking status cannot be transited from %s to %s",
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        String.format("Booking status cannot be transited from %s to %s",
                                 booking.getStatus(), CANCELLED));
             }
         } else {

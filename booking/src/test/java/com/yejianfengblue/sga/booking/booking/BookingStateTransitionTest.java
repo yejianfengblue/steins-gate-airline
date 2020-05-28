@@ -257,8 +257,8 @@ public class BookingStateTransitionTest {
                 put(bookingUri + "/check-in")
                         .with(jwt()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", DRAFT, CHECKED_IN)
+                .andExpect(status().reason(
+                        String.format("Booking status cannot be transited from %s to %s", DRAFT, CHECKED_IN)
                 ));
     }
 
@@ -278,8 +278,8 @@ public class BookingStateTransitionTest {
                 put(bookingUri + "/confirm")
                         .with(jwt()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CHECKED_IN, CONFIRMED)
+                .andExpect(status().reason(
+                        String.format("Booking status cannot be transited from %s to %s", CHECKED_IN, CONFIRMED)
                 ));
     }
 
@@ -299,8 +299,8 @@ public class BookingStateTransitionTest {
                 delete(bookingUri + "/cancel")
                         .with(jwt()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CHECKED_IN, CANCELLED)
+                .andExpect(status().reason(
+                        String.format("Booking status cannot be transited from %s to %s", CHECKED_IN, CANCELLED)
                 ));
     }
 
@@ -319,8 +319,8 @@ public class BookingStateTransitionTest {
                 put(bookingUri + "/confirm")
                         .with(jwt()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CANCELLED, CONFIRMED)
+                .andExpect(status().reason(
+                        String.format("Booking status cannot be transited from %s to %s", CANCELLED, CONFIRMED)
                 ));
     }
 
@@ -339,8 +339,8 @@ public class BookingStateTransitionTest {
                 put(bookingUri + "/check-in")
                         .with(jwt()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        String.format("\"Booking status cannot be transited from %s to %s\"", CANCELLED, CHECKED_IN)
+                .andExpect(status().reason(
+                        String.format("Booking status cannot be transited from %s to %s", CANCELLED, CHECKED_IN)
                 ));
     }
 
