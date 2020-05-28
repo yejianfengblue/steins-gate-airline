@@ -2,12 +2,13 @@ package com.yejianfengblue.sga.booking.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yejianfengblue.sga.booking.inventory.Inventory;
-import com.yejianfengblue.sga.booking.inventory.InventoryRepository;
+import com.yejianfengblue.sga.booking.inventory.InventoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static com.yejianfengblue.sga.booking.booking.Booking.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,15 +37,14 @@ public class BookingStateTransitionTest {
     @Autowired
     BookingRepository bookingRepository;
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
+    @MockBean
+    private InventoryService inventoryService;
 
     private final static String BASE_URL = "http://localhost";
 
     @AfterEach
     void cleanTestData() {
         bookingRepository.deleteAll();
-        inventoryRepository.deleteAll();
     }
 
     // GET
@@ -147,10 +148,14 @@ public class BookingStateTransitionTest {
     // legal state transition
 
     @Test
-    void givenDraftBookingAndEnoughInventory_whenConfirm_thenStatusBecomesConfirmedAndInventoryAvailableIsReducedBy1() throws Exception {
+    void givenDraftBookingAndEnoughInventory_whenConfirm_thenStatusBecomesConfirmed() throws Exception {
+
+        String carrier = "SG", fltNum = "001";
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
 
         // given
-        inventoryRepository.save(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1));
+        given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
+                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 1)));
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
@@ -165,11 +170,6 @@ public class BookingStateTransitionTest {
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
                 .andExpect(jsonPath("$.status").value(CONFIRMED.toString()));
-
-        Optional<Inventory> inventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
-                "SG", "001", LocalDate.of(2020, 1, 1));
-        assertThat(inventory).isPresent();
-        assertThat(inventory.get().getAvailable()).isEqualTo(0);
     }
 
     @Test
@@ -215,14 +215,15 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenConfirmedBooking_whenCancelAndInventoryExist_thenStatusBecomesCancelledAndInventoryAvailableIncreasedBy1() throws Exception {
+    void givenExistingInventoryAndConfirmedBooking_whenCancel_thenStatusBecomesCancelled() throws Exception {
 
         String carrier = "SG";
         String fltNum = "001";
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
 
         // given
-        inventoryRepository.save(new Inventory(carrier, fltNum, fltDate, 0));
+        given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
+                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 0)));
         Booking booking = new Booking(carrier, fltNum, fltDate, "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
@@ -238,11 +239,6 @@ public class BookingStateTransitionTest {
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
                 .andExpect(jsonPath("$.status").value(CANCELLED.toString()));
-
-        Optional<Inventory> foundInventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
-                carrier, fltNum, fltDate);
-        assertThat(foundInventory).isPresent();
-        assertThat(foundInventory.get().getAvailable()).isEqualTo(1);
     }
 
     // illegal state transition
@@ -351,12 +347,15 @@ public class BookingStateTransitionTest {
     // fail to confirm booking due to unsatisfied inventory
 
     @Test
-    void givenDraftBooking_whenConfirmButInventoryNotExist_thenInternalServerErrorWithReasonInventoryNotFound() throws Exception {
+    void givenDraftBookingAndInventoryNotExist_whenConfirm_thenInternalServerErrorWithReasonInventoryNotFound() throws Exception {
+
+        String carrier = "SG";
+        String fltNum = "001";
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
 
         // given
-        assertThat(inventoryRepository.findByCarrierAndFltNumAndFltDate(
-                "SG", "001", LocalDate.of(2020, 1, 1)))
-                .isEmpty();
+        given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
+                .willReturn(Optional.empty());
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
@@ -372,10 +371,15 @@ public class BookingStateTransitionTest {
     }
 
     @Test
-    void givenDraftBooking_whenConfirmButNoEnoughInventory_thenBadRequestWithReasonNoEnoughInventory() throws Exception {
+    void givenDraftBookingAndNoEnoughInventory_whenConfirm_thenBadRequestWithReasonNoEnoughInventory() throws Exception {
+
+        String carrier = "SG";
+        String fltNum = "001";
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
 
         // given
-        inventoryRepository.save(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 0));
+        given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
+                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 0)));
         Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
