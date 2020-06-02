@@ -20,3 +20,8 @@ spring:
 eureka:
   client:
     enabled: false
+
+server:
+  error:
+    include-message: always
+    include-stacktrace: never

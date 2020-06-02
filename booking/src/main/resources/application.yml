@@ -30,3 +30,6 @@ spring:
 server:
   forward-headers-strategy: framework
   port: 30200
+  error:
+    include-message: always
+    include-stacktrace: never
