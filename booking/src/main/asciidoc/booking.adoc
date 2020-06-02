@@ -1,0 +1,88 @@
+[[resource_bookings]]
+== Bookings
+The bookings resource is used to list and create bookings.
+
+
+[[resource_bookings_list]]
+=== List bookings
+A `GET` request will list all bookings.
+
+operation::bookings-get[snippets='curl-request,http-request,http-response,response-fields,links']
+
+
+[[resource_bookings_create]]
+=== Create a booking
+A `POST` request is used to create a booking.
+
+operation::bookings-create[snippets='curl-request,http-request,request-fields,http-response,response-fields,links']
+
+==== Validation error
+Whenever the request body violates constraints, a validation error response will be returned.
+include::{snippets}/bookings-create-validation-error/response-body.adoc[]
+
+
+[[resource_booking]]
+== Booking
+
+
+[[resource_booking_get]]
+=== Get a booking
+A `GET` request will get the details of a bookings
+
+operation::booking-get[snippets='curl-request,http-request,http-response,response-fields']
+
+
+[[resource_booking_links]]
+=== Links
+include::{snippets}/booking-get/links.adoc[]
+
+
+[[resource_booking_update]]
+=== Update a booking
+A `PATCH` request is used to update a booking
+
+operation::booking-update[snippets='request-fields,curl-request,http-request,http-response']
+
+==== Validation error
+Whenever the request body violates constraints, a validation error response will be returned.
+include::{snippets}/bookings-update-validation-error/response-body.adoc[]
+
+
+[[resource_booking_confirm]]
+=== Confirm a booking
+If a booking can be confirmed, a `confirm` link will be included in the representation.
+include::{snippets}/booking-get/response-body.adoc[]
+
+==== Issue a confirm request
+
+operation::booking-confirm[snippets='curl-request,http-request,http-response']
+
+==== Error
+If a booking cannot be confirmed due to no enough inventory, an error response with status code 400 will be returned.
+include::{snippets}/booking-confirm-no-enough-inventory/http-response.adoc[]
+If the `confirm` link is not included in the representation, and a confirm request has been issued, an error response with status code 400 will be returned.
+include::{snippets}/booking-confirm-invalid-status-transition/http-response.adoc[]
+
+[[resource_booking_check_in]]
+=== Check-in a booking
+If a booking can be checked-in, a `check-in` link will be included in the representation.
+include::{snippets}/booking-confirm/response-body.adoc[]
+
+==== Issue a check-in request
+
+operation::booking-check-in[snippets='curl-request,http-request,http-response']
+
+If the `check-in` link is not included in the representation, and a check-in request has been issued, an error response with status code 400 will be returned.
+include::{snippets}/booking-check-in-invalid-status-transition/http-response.adoc[]
+
+[[resource_booking_cancel]]
+=== Cancel a booking
+If a booking can be cancelled, a `cancel` link will be included in the representation.
+include::{snippets}/booking-confirm/response-body.adoc[]
+
+==== Issue a cancel request
+
+operation::booking-cancel[snippets='curl-request,http-request,http-response']
+
+If the `cancel` link is not included in the representation, and a cancel request has been issued, an error response with status code 400 will be returned.
+include::{snippets}/booking-cancel-invalid-status-transition/http-response.adoc[]
