@@ -2,6 +2,12 @@ spring:
   application:
     name: sga-search
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+
 server:
   port: 30300
   forward-headers-strategy: framework
