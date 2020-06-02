@@ -26,6 +26,12 @@ public class ProxyConfig {
                                         .stripPrefix(1)
                                         .filter(tokenRelayGatewayFilterFactory.apply()))
                                 .uri("lb://sga-booking"))
+                .route("sga-search",
+                        predicateSpec -> predicateSpec.path("/sga-search/**")
+                                .filters(gatewayFilterSpec -> gatewayFilterSpec
+                                        .stripPrefix(1)
+                                        .filter(tokenRelayGatewayFilterFactory.apply()))
+                                .uri("lb://sga-search"))
                 .build();
     }
 }

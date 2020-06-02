@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: sga-search
+
+server:
+  port: 30300
+  forward-headers-strategy: framework
+  error:
+    include-message: always
+    include-stacktrace: never
