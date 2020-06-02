@@ -1,4 +1,4 @@
-package com.yejianfengblule.sga.search.config;
+package com.yejianfengblue.sga.search.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
