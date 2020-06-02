@@ -2,6 +2,16 @@ spring:
   application:
     name: sga-search
 
+  jackson:
+    mapper:
+      infer-property-mutators: false
+
+  kafka:
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: fltEvent:com.yejianfengblue.sga.search.flt.FltEvent
+
   security:
     oauth2:
       resourceserver:
