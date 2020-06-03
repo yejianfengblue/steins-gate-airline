@@ -69,7 +69,11 @@ public class Flt {
                @JsonProperty("serviceType") ServiceType serviceType,
                @JsonProperty("fltDate") LocalDate fltDate,
                @JsonProperty("fltDow") Integer fltDow,
-               @JsonProperty("fltLegs") List<FltLeg> fltLegs) {
+               @JsonProperty("fltLegs") List<FltLeg> fltLegs,
+               @JsonProperty("createdBy") String createdBy,
+               @JsonProperty("createdDate") Instant createdDate,
+               @JsonProperty("lastModifiedBy") String lastModifiedBy,
+               @JsonProperty("lastModifiedDate") Instant lastModifiedDate) {
 
         this.carrier = carrier;
         this.fltNum = fltNum;
@@ -77,5 +81,9 @@ public class Flt {
         this.fltDate = fltDate;
         this.fltDow = fltDow;
         this.fltLegs = null != fltLegs ? fltLegs : new ArrayList<>();
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
+        this.lastModifiedDate = lastModifiedDate;
     }
 }
