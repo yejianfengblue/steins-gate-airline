@@ -28,7 +28,7 @@ public class FltEventReceiverConfig {
                 if (foundInventory.isEmpty()) {
 
                     // In reality, there should be an application which manages the initial available value
-                    Inventory inventory = new Inventory(flt.getCarrier(), flt.getFltNum(), flt.getFltDate(), 100);
+                    Inventory inventory = new Inventory(flt, 100);
                     inventoryRepository.save(inventory);
 
                 } else {
