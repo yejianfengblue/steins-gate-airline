@@ -8,7 +8,6 @@ import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +54,7 @@ class FltEvent {
 
         @NotEmpty
         @Valid
-        List<FltLeg> fltLegs = new ArrayList<>();
+        List<FltLeg> fltLegs;
 
         String createdBy;
 
