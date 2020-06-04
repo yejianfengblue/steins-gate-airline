@@ -26,9 +26,12 @@ class BookingService {
         Optional<Inventory> foundInventory = inventoryService.findInventory(booking.getCarrier(), booking.getFltNum(), booking.getFltDate());
         if (foundInventory.isPresent()) {
 
-            if (foundInventory.get().getAvailable() >= 1) {
+            if (foundInventory.get().getAvailable(booking.getSegOrig(), booking.getSegDest()) >= 1) {
 
-                inventoryService.subtractInventory(foundInventory.get(), 1);
+                inventoryService.subtractInventory(foundInventory.get(),
+                        booking.getSegOrig(),
+                        booking.getSegDest(),
+                        1);
                 Booking confirmedBooking = booking.confirm();
                 confirmedBooking = bookingRepository.save(confirmedBooking);
                 return confirmedBooking;
@@ -56,7 +59,11 @@ class BookingService {
 
             Optional<Inventory> foundInventory = inventoryService.findInventory(booking.getCarrier(), booking.getFltNum(), booking.getFltDate());
             if (foundInventory.isPresent()) {
-                inventoryService.addInventory(foundInventory.get(), 1);
+
+                inventoryService.addInventory(foundInventory.get(),
+                        booking.getSegOrig(),
+                        booking.getSegDest(),
+                        1);
             } else {
                 log.warn("Cancel confirmed booking but inventory not found. Booking = {}", booking);
             }

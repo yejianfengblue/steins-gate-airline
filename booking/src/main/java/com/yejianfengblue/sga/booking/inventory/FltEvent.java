@@ -1,5 +1,6 @@
 package com.yejianfengblue.sga.booking.inventory;
 
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import lombok.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,7 +9,6 @@ import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +55,7 @@ class FltEvent {
 
         @NotEmpty
         @Valid
-        List<FltLeg> fltLegs = new ArrayList<>();
+        List<FltLeg> fltLegs;
 
         String createdBy;
 
@@ -64,20 +64,6 @@ class FltEvent {
         String lastModifiedBy;
 
         Instant lastModifiedDate;
-
-        enum ServiceType {
-
-            PAX,  // passenger
-            FRTR;  // freighter
-
-            boolean isPassenger(ServiceType serviceType) {
-                return PAX.equals(serviceType);
-            }
-
-            boolean isFreighter(ServiceType serviceType) {
-                return FRTR.equals(serviceType);
-            }
-        }
 
         public boolean isCompleteRouting() {
 

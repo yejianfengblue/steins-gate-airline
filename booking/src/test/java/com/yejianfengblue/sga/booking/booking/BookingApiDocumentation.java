@@ -2,7 +2,9 @@ package com.yejianfengblue.sga.booking.booking;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import com.yejianfengblue.sga.booking.inventory.Inventory;
+import com.yejianfengblue.sga.booking.inventory.InventoryLeg;
 import com.yejianfengblue.sga.booking.inventory.InventoryService;
 import com.yejianfengblue.sga.booking.util.RestdocsUtil;
 import lombok.SneakyThrows;
@@ -34,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.RequestDispatcher;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,7 +49,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.responseH
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -105,8 +108,17 @@ public class BookingApiDocumentation {
     @Test
     void createBookingTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1)));
+                .willReturn(Optional.of(
+                        new Inventory("SG", "001", ServiceType.PAX,
+                                fltDate, fltDate.getDayOfWeek().getValue(),
+                                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                        legDep, legArr, 1,
+                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        1)))));
 
         createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
@@ -195,8 +207,17 @@ public class BookingApiDocumentation {
     @Test
     void confirmBookingTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1)));
+                .willReturn(Optional.of(
+                        new Inventory("SG", "001", ServiceType.PAX,
+                                fltDate, fltDate.getDayOfWeek().getValue(),
+                                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                        legDep, legArr, 1,
+                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
@@ -209,9 +230,18 @@ public class BookingApiDocumentation {
     @SneakyThrows
     void confirmBookingNoEnoughInventoryTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         // inventory available is 0
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 0)));
+                .willReturn(Optional.of(
+                        new Inventory("SG", "001", ServiceType.PAX,
+                                fltDate, fltDate.getDayOfWeek().getValue(),
+                                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                        legDep, legArr, 1,
+                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        0)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
@@ -351,8 +381,17 @@ public class BookingApiDocumentation {
     @Test
     void checkInBookingTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1)));
+                .willReturn(Optional.of(new Inventory(
+                        "SG", "001", ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
@@ -367,8 +406,17 @@ public class BookingApiDocumentation {
     @SneakyThrows
     void checkInBookingInvalidStatusTransitionTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1)));
+                .willReturn(Optional.of(new Inventory(
+                        "SG", "001", ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
@@ -419,8 +467,17 @@ public class BookingApiDocumentation {
     @SneakyThrows
     void cancelBookingInvalidStatusTransitionTest() {
 
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+
         given(this.inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1)))
-                .willReturn(Optional.of(new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 1)));
+                .willReturn(Optional.of(new Inventory(
+                        "SG", "001", ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",

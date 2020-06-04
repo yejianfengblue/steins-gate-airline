@@ -1,7 +1,9 @@
 package com.yejianfengblue.sga.booking.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import com.yejianfengblue.sga.booking.inventory.Inventory;
+import com.yejianfengblue.sga.booking.inventory.InventoryLeg;
 import com.yejianfengblue.sga.booking.inventory.InventoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.yejianfengblue.sga.booking.booking.Booking.Status.*;
@@ -152,11 +155,18 @@ public class BookingStateTransitionTest {
 
         String carrier = "SG", fltNum = "001";
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
 
         // given
         given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
-                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 1)));
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
+                .willReturn(Optional.of(new Inventory(
+                        carrier, fltNum, ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                1)))));
+        Booking booking = new Booking(carrier, fltNum, LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();
@@ -220,10 +230,17 @@ public class BookingStateTransitionTest {
         String carrier = "SG";
         String fltNum = "001";
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
 
         // given
         given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
-                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 0)));
+                .willReturn(Optional.of(new Inventory(
+                        carrier, fltNum, ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                0)))));
         Booking booking = new Booking(carrier, fltNum, fltDate, "HKG", "TPE", "Tester");
         booking.confirm();
         booking = bookingRepository.save(booking);
@@ -356,7 +373,7 @@ public class BookingStateTransitionTest {
         // given
         given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
                 .willReturn(Optional.empty());
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
+        Booking booking = new Booking(carrier, fltNum, LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();
@@ -376,11 +393,18 @@ public class BookingStateTransitionTest {
         String carrier = "SG";
         String fltNum = "001";
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
 
         // given
         given(this.inventoryService.findInventory(carrier, fltNum, fltDate))
-                .willReturn(Optional.of(new Inventory(carrier, fltNum, fltDate, 0)));
-        Booking booking = new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
+                .willReturn(Optional.of(new Inventory(
+                        carrier, fltNum, ServiceType.PAX,
+                        fltDate, fltDate.getDayOfWeek().getValue(),
+                        List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                                legDep, legArr, 1,
+                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                0)))));
+        Booking booking = new Booking(carrier, fltNum, LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
         assertThat(booking.getStatus()).isEqualTo(DRAFT);
         String bookingUri = BASE_URL + "/bookings/" + booking.getId();

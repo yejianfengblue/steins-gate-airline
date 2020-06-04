@@ -3,6 +3,7 @@ package com.yejianfengblue.sga.booking.inventory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,9 +43,9 @@ public class FltEventReceiverTest {
     @Test
     void whenReceiveCreatedFltEvent_thenFltIsCreatedAndInventoryIsCreated() {
 
-        Optional<Inventory> inventory_sg520_20200101 = inventoryRepository.findByCarrierAndFltNumAndFltDate(
+        Optional<Inventory> foundInventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
                 "SG", "520", LocalDate.of(2020, 1, 1));
-        assertThat(inventory_sg520_20200101).isEmpty();
+        assertThat(foundInventory).isEmpty();
 
         ObjectNode fltEventJson = objectMapper.createObjectNode();
         fltEventJson.put("id", UUID.randomUUID().toString());
@@ -82,15 +84,32 @@ public class FltEventReceiverTest {
                 "fltEventReceiver-in-0");
 
         // then
-        inventory_sg520_20200101 = inventoryRepository.findByCarrierAndFltNumAndFltDate(
+        foundInventory = inventoryRepository.findByCarrierAndFltNumAndFltDate(
                 "SG", "520", LocalDate.of(2020, 1, 1));
-        assertThat(inventory_sg520_20200101).isPresent();
-        assertThat(inventory_sg520_20200101.get().getCarrier()).isEqualTo("SG");
-        assertThat(inventory_sg520_20200101.get().getFltNum()).isEqualTo("520");
-        assertThat(inventory_sg520_20200101.get().getFltDate()).isEqualTo(LocalDate.of(2020, 1, 1));
-        assertThat(inventory_sg520_20200101.get().getAvailable()).isEqualTo(100);
-        assertThat(inventory_sg520_20200101.get().getCreatedDate()).isNotNull();
-        assertThat(inventory_sg520_20200101.get().getLastModifiedDate()).isNotNull();
+        assertThat(foundInventory).isPresent();
+        Inventory inventory = foundInventory.get();
+        assertThat(inventory.getCarrier()).isEqualTo(fltJson.get("carrier").asText());
+        assertThat(inventory.getFltNum()).isEqualTo(fltJson.get("fltNum").asText());
+        assertThat(inventory.getServiceType()).isEqualTo(ServiceType.valueOf(fltJson.get("serviceType").asText()));
+        assertThat(inventory.getFltDate()).isEqualTo(fltJson.get("fltDate").asText());
+        assertThat(inventory.getFltDow()).isEqualTo(fltJson.get("fltDow").asInt());
+
+        List<InventoryLeg> inventoryLegList = inventory.getLegs();
+        assertThat(inventoryLegList).hasSize(1);
+        InventoryLeg inventoryLeg = inventoryLegList.get(0);
+        assertThat(inventoryLeg.getDepDate()).isEqualTo(fltLegHkgNrtJson.get("depDate").asText());
+        assertThat(inventoryLeg.getDepDow()).isEqualTo(fltLegHkgNrtJson.get("depDow").asInt());
+        assertThat(inventoryLeg.getLegDep()).isEqualTo(fltLegHkgNrtJson.get("legDep").asText());
+        assertThat(inventoryLeg.getLegArr()).isEqualTo(fltLegHkgNrtJson.get("legArr").asText());
+        assertThat(inventoryLeg.getLegSeqNum()).isEqualTo(fltLegHkgNrtJson.get("legSeqNum").asInt());
+        assertThat(inventoryLeg.getSchDepTime()).isEqualTo(fltLegHkgNrtJson.get("schDepTime").asText());
+        assertThat(inventoryLeg.getSchArrTime()).isEqualTo(fltLegHkgNrtJson.get("schArrTime").asText());
+        assertThat(inventoryLeg.getDepTimeDiff()).isEqualTo(fltLegHkgNrtJson.get("depTimeDiff").asInt());
+        assertThat(inventoryLeg.getArrTimeDiff()).isEqualTo(fltLegHkgNrtJson.get("arrTimeDiff").asInt());
+        assertThat(inventoryLeg.getAvailable()).isEqualTo(100);
+
+        assertThat(inventory.getCreatedDate()).isNotNull();
+        assertThat(inventory.getLastModifiedDate()).isNotNull();
 
     }
 
