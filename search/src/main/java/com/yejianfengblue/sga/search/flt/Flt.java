@@ -2,6 +2,7 @@ package com.yejianfengblue.sga.search.flt;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.yejianfengblue.sga.search.common.ServiceType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

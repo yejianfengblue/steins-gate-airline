@@ -1,4 +1,4 @@
-package com.yejianfengblue.sga.search.flt;
+package com.yejianfengblue.sga.search.common;
 
 public enum ServiceType {
 
