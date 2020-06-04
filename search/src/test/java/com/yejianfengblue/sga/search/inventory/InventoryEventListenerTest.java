@@ -21,7 +21,6 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 import java.util.Map;
@@ -34,14 +33,9 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest(properties = {
         "spring.kafka.consumer.value-deserializer = org.springframework.kafka.support.serializer.JsonDeserializer",
-        "spring.kafka.consumer.bootstrap-servers = PLAINTEXT://localhost:9094"
+        "spring.kafka.consumer.bootstrap-servers = ${spring.embedded.kafka.brokers}"
 })
-@EmbeddedKafka(
-        partitions = 1,
-        brokerProperties = {
-                "listeners=PLAINTEXT://localhost:9094"
-        })
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@EmbeddedKafka
 @Slf4j
 public class InventoryEventListenerTest {
 

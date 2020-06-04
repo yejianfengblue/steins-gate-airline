@@ -6,17 +6,20 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yejianfengblue.sga.search.common.ServiceType;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.converter.AbstractJavaTypeMapper;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.messaging.support.MessageBuilder;
 
@@ -33,14 +36,9 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(properties = {
         "spring.kafka.consumer.value-deserializer = org.springframework.kafka.support.serializer.JsonDeserializer",
         "spring.kafka.consumer.properties.spring.json.type.mapping = fltEvent:com.yejianfengblue.sga.search.flt.FltEvent",
-        "spring.kafka.consumer.auto-offset-reset = earliest",
-        "spring.kafka.consumer.bootstrap-servers = PLAINTEXT://localhost:9093"
+        "spring.kafka.consumer.bootstrap-servers = ${spring.embedded.kafka.brokers}"
 })
-@EmbeddedKafka(
-        partitions = 1,
-        brokerProperties = {
-                "listeners=PLAINTEXT://localhost:9093"
-        })
+@EmbeddedKafka
 @Slf4j
 public class FltEventListenerTest {
 
@@ -48,10 +46,20 @@ public class FltEventListenerTest {
     private EmbeddedKafkaBroker embeddedKafka;
 
     @Autowired
+    private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     @MockBean
     FltEventHandler fltEventHandler;
+
+    @BeforeEach
+    void setup() {
+        ContainerTestUtils.waitForAssignment(
+                kafkaListenerEndpointRegistry.getListenerContainer("inventory-search-group"),
+                embeddedKafka.getPartitionsPerTopic());
+    }
 
     @Test
     @SneakyThrows
