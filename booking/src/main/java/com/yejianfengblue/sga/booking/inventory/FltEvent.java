@@ -1,5 +1,6 @@
 package com.yejianfengblue.sga.booking.inventory;
 
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import lombok.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -63,20 +64,6 @@ class FltEvent {
         String lastModifiedBy;
 
         Instant lastModifiedDate;
-
-        enum ServiceType {
-
-            PAX,  // passenger
-            FRTR;  // freighter
-
-            boolean isPassenger(ServiceType serviceType) {
-                return PAX.equals(serviceType);
-            }
-
-            boolean isFreighter(ServiceType serviceType) {
-                return FRTR.equals(serviceType);
-            }
-        }
 
         public boolean isCompleteRouting() {
 
