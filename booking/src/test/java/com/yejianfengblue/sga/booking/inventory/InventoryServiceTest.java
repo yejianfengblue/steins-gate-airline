@@ -1,5 +1,6 @@
 package com.yejianfengblue.sga.booking.inventory;
 
+import com.yejianfengblue.sga.booking.common.ServiceType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +36,14 @@ public class InventoryServiceTest {
     void givenExistingInventory_whenGetInventoryByCarrierAndFltNumAndFltDate_thenReturnThatInventory() {
 
         // given
-        Inventory inventory = new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 99);
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+        Inventory inventory = new Inventory("SG", "001", ServiceType.PAX,
+                fltDate, fltDate.getDayOfWeek().getValue(),
+                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                        legDep, legArr, 1,
+                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        99)));
         inventoryRepository.save(inventory);
 
         // when
@@ -45,48 +54,61 @@ public class InventoryServiceTest {
         assertThat(foundInventory.get().getCarrier()).isEqualTo("SG");
         assertThat(foundInventory.get().getFltNum()).isEqualTo("001");
         assertThat(foundInventory.get().getFltDate()).isEqualTo(LocalDate.of(2020, 1, 1));
-        assertThat(foundInventory.get().getAvailable()).isEqualTo(99);
+        assertThat(foundInventory.get().getAvailable(legDep, legArr)).isEqualTo(99);
     }
 
     @Test
     void givenExistingInventory_whenSubtractInventory_thenInventoryAvailableIsReducedByGivenChange() {
 
         // given
-        Inventory inventory = new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 99);
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+        Inventory inventory = new Inventory("SG", "001", ServiceType.PAX,
+                fltDate, fltDate.getDayOfWeek().getValue(),
+                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                        legDep, legArr, 1,
+                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventory).isPresent();
 
         // when
-        Inventory inventoryAfterSubtract = inventoryService.subtractInventory(foundInventory.get(), 1);
-        assertThat(inventoryAfterSubtract.getAvailable()).isEqualTo(98);
+        Inventory inventoryAfterSubtract = inventoryService.subtractInventory(foundInventory.get(), legDep, legArr, 1);
+        assertThat(inventoryAfterSubtract.getAvailable(legDep, legArr)).isEqualTo(98);
 
         Optional<Inventory> foundInventoryAfterSubtract = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventoryAfterSubtract).isPresent();
-        assertThat(foundInventoryAfterSubtract.get().getAvailable()).isEqualTo(98);
+        assertThat(foundInventoryAfterSubtract.get().getAvailable(legDep, legArr)).isEqualTo(98);
     }
 
     @Test
-    void subtractInventoryChangeMinIs1() {
+    void subtractInventoryChangeMustBePositive() {
 
         // given
-        Inventory inventory = new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 99);
-        inventoryRepository.save(inventory);
+        LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+        Inventory inventory = new Inventory("SG", "001", ServiceType.PAX,
+                fltDate, fltDate.getDayOfWeek().getValue(),
+                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                        legDep, legArr, 1,
+                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        99)));        inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventory).isPresent();
 
         assertThatThrownBy(() ->
-                inventoryService.subtractInventory(foundInventory.get(), -1)
+                inventoryService.subtractInventory(foundInventory.get(), legDep, legArr, -1)
         ).isInstanceOf(ConstraintViolationException.class)
-                .hasMessage("subtractInventory.change: must be greater than or equal to 1");
+                .hasMessage("subtractInventory.availableChange: must be greater than 0");
 
         assertThatThrownBy(() ->
-                inventoryService.subtractInventory(foundInventory.get(), 0)
+                inventoryService.subtractInventory(foundInventory.get(), legDep, legArr, 0)
         ).isInstanceOf(ConstraintViolationException.class)
-                .hasMessage("subtractInventory.change: must be greater than or equal to 1");
+                .hasMessage("subtractInventory.availableChange: must be greater than 0");
 
         assertDoesNotThrow(() ->
-                inventoryService.subtractInventory(foundInventory.get(), 1)
+                inventoryService.subtractInventory(foundInventory.get(), legDep, legArr, 1)
         );
 
     }
@@ -95,41 +117,55 @@ public class InventoryServiceTest {
     void givenExistingInventory_whenAddInventory_thenInventoryAvailableIsIncreasedByGivenChange() {
 
         // given
-        Inventory inventory = new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 99);
+                LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+        Inventory inventory = new Inventory("SG", "001", ServiceType.PAX,
+                fltDate, fltDate.getDayOfWeek().getValue(),
+                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                        legDep, legArr, 1,
+                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventory).isPresent();
 
         // when
-        Inventory inventoryAfterAdd = inventoryService.addInventory(foundInventory.get(), 1);
-        assertThat(inventoryAfterAdd.getAvailable()).isEqualTo(100);
+        Inventory inventoryAfterAdd = inventoryService.addInventory(foundInventory.get(), legDep, legArr, 1);
+        assertThat(inventoryAfterAdd.getAvailable(legDep, legArr)).isEqualTo(100);
 
         Optional<Inventory> foundInventoryAfterAdd = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventoryAfterAdd).isPresent();
-        assertThat(foundInventoryAfterAdd.get().getAvailable()).isEqualTo(100);
+        assertThat(foundInventoryAfterAdd.get().getAvailable(legDep, legArr)).isEqualTo(100);
     }
 
     @Test
     void addInventoryChangeMinIs1() {
 
         // given
-        Inventory inventory = new Inventory("SG", "001", LocalDate.of(2020, 1, 1), 99);
+                LocalDate fltDate = LocalDate.of(2020, 1, 1);
+        String legDep = "HKG", legArr = "TPE";
+        Inventory inventory = new Inventory("SG", "001", ServiceType.PAX,
+                fltDate, fltDate.getDayOfWeek().getValue(),
+                List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                        legDep, legArr, 1,
+                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventory).isPresent();
 
         assertThatThrownBy(() ->
-                inventoryService.addInventory(foundInventory.get(), -1)
+                inventoryService.addInventory(foundInventory.get(), legDep, legArr, -1)
         ).isInstanceOf(ConstraintViolationException.class)
-                .hasMessage("addInventory.change: must be greater than or equal to 1");
+                .hasMessage("addInventory.availableChange: must be greater than 0");
 
         assertThatThrownBy(() ->
-                inventoryService.addInventory(foundInventory.get(), 0)
+                inventoryService.addInventory(foundInventory.get(), legDep, legArr, 0)
         ).isInstanceOf(ConstraintViolationException.class)
-                .hasMessage("addInventory.change: must be greater than or equal to 1");
+                .hasMessage("addInventory.availableChange: must be greater than 0");
 
         assertDoesNotThrow(() ->
-                inventoryService.addInventory(foundInventory.get(), 1)
+                inventoryService.addInventory(foundInventory.get(), legDep, legArr, 1)
         );
     }
 
