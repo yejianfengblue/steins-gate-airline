@@ -1,12 +1,9 @@
 package com.yejianfengblue.sga.fltsch;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yejianfengblue.sga.fltsch.flt.FltRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -28,12 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class IndexApiDocumentation {
 
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private FltRepository fltRepository;
 
     @BeforeEach
     public void configMockMvc(WebApplicationContext webAppContext, RestDocumentationContextProvider restDocumentation) {

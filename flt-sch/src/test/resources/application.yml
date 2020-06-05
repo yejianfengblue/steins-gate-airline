@@ -4,7 +4,7 @@ spring:
 
   data:
     mongodb:
-      database: sga-flt-sch
+      database: sga-flt-sch-test
       host: localhost
       port: 27017
 

@@ -9,6 +9,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -61,6 +62,14 @@ public class FltKafkaTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    private FltRepository fltRepository;
+
+    @AfterEach
+    void deleteTestData() {
+        this.fltRepository.deleteAll();
+    }
 
     @Test
     @SneakyThrows

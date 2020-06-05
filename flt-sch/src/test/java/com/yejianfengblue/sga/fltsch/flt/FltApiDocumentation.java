@@ -4,6 +4,7 @@ package com.yejianfengblue.sga.fltsch.flt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yejianfengblue.sga.fltsch.constant.ServiceType;
 import com.yejianfengblue.sga.fltsch.util.RestdocsUtil;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,10 +60,13 @@ public class FltApiDocumentation {
                 .build();
     }
 
+    @AfterEach
+    void deleteTestData() {
+        this.fltRepository.deleteAll();
+    }
+
     @Test
     void getFlts() throws Exception {
-
-        this.fltRepository.deleteAll();
 
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
         Flt sg001 = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
@@ -170,8 +174,6 @@ public class FltApiDocumentation {
 
     @Test
     void getFlt() throws Exception {
-
-        this.fltRepository.deleteAll();
 
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
         Flt flt = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
