@@ -186,4 +186,69 @@ public class InventoryControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @SneakyThrows
+    void querydslWebSupportTest() {
+
+        // populate test inventories
+        // SG001 / 2020-01-01 ~ 2020-01-02
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+            inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
+                    fltDate, fltDate.getDayOfWeek().getValue(),
+                    List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                            "HKG", "TPE", 1,
+                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            100)),
+                    Instant.now(), Instant.now()));
+        });
+        // SG002 / 2020-01-01 ~ 2020-01-02
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+            inventoryRepository.save(new Inventory("SG", "002", ServiceType.PAX,
+                    fltDate, fltDate.getDayOfWeek().getValue(),
+                    List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
+                            "HKG", "TPE", 1,
+                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            100)),
+                    Instant.now(), Instant.now()));
+        });
+
+        // sort by fltNum asc and fltDate asc, without querydsl parameter
+        mockMvc
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc").with(jwt()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaTypes.HAL_JSON))
+                .andExpect(jsonPath("_embedded.inventories").isArray())
+                .andExpect(jsonPath("_embedded.inventories", hasSize(4)))
+                .andExpect(jsonPath("_embedded.inventories[0].fltDate").value("2020-01-01"))
+                .andExpect(jsonPath("_embedded.inventories[0].fltNum").value("001"))
+                .andExpect(jsonPath("_embedded.inventories[1].fltDate").value("2020-01-02"))
+                .andExpect(jsonPath("_embedded.inventories[1].fltNum").value("001"))
+                .andExpect(jsonPath("_embedded.inventories[2].fltDate").value("2020-01-01"))
+                .andExpect(jsonPath("_embedded.inventories[2].fltNum").value("002"))
+                .andExpect(jsonPath("_embedded.inventories[3].fltDate").value("2020-01-02"))
+                .andExpect(jsonPath("_embedded.inventories[3].fltNum").value("002"));
+
+        // sort by fltNum asc and fltDate asc, with one querydsl parameter
+        mockMvc
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001").with(jwt()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaTypes.HAL_JSON))
+                .andExpect(jsonPath("_embedded.inventories").isArray())
+                .andExpect(jsonPath("_embedded.inventories", hasSize(2)))
+                .andExpect(jsonPath("_embedded.inventories[0].fltDate").value("2020-01-01"))
+                .andExpect(jsonPath("_embedded.inventories[0].fltNum").value("001"))
+                .andExpect(jsonPath("_embedded.inventories[1].fltDate").value("2020-01-02"))
+                .andExpect(jsonPath("_embedded.inventories[1].fltNum").value("001"));
+
+        // sort by fltNum asc and fltDate asc, with multiple querydsl parameters
+        mockMvc
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001&fltDate=2020-01-01").with(jwt()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaTypes.HAL_JSON))
+                .andExpect(jsonPath("_embedded.inventories").isArray())
+                .andExpect(jsonPath("_embedded.inventories", hasSize(1)))
+                .andExpect(jsonPath("_embedded.inventories[0].fltDate").value("2020-01-01"))
+                .andExpect(jsonPath("_embedded.inventories[0].fltNum").value("001"));
+    }
+
 }
