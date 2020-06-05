@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Inventory {
 
     @Id
     @JsonIgnore
+    @Setter(AccessLevel.PACKAGE)
     String id;
 
     @NotNull
@@ -54,9 +56,9 @@ public class Inventory {
     @Valid
     List<InventoryLeg> legs;
 
-    String createdDate;
+    Instant createdDate;
 
-    String lastModifiedDate;
+    Instant lastModifiedDate;
 
     @JsonCreator
     public Inventory(@JsonProperty("carrier") String carrier,
@@ -65,8 +67,8 @@ public class Inventory {
                      @JsonProperty("fltDate") LocalDate fltDate,
                      @JsonProperty("fltDow") Integer fltDow,
                      @JsonProperty("legs") List<InventoryLeg> legs,
-                     @JsonProperty("createdDate") String createdDate,
-                     @JsonProperty("lastModifiedDate") String lastModifiedDate) {
+                     @JsonProperty("createdDate") Instant createdDate,
+                     @JsonProperty("lastModifiedDate") Instant lastModifiedDate) {
 
         this.carrier = carrier;
         this.fltNum = fltNum;

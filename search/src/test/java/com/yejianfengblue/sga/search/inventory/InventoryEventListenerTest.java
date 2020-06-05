@@ -115,7 +115,7 @@ public class InventoryEventListenerTest {
         assertThat(capturedInventory.getServiceType()).isEqualTo(ServiceType.valueOf(inventoryJson.get("serviceType").asText()));
         assertThat(capturedInventory.getFltDate()).isEqualTo(inventoryJson.get("fltDate").asText());
         assertThat(capturedInventory.getFltDow()).isEqualTo(inventoryJson.get("fltDow").asInt());
-        assertThat(capturedInventory.getCreatedDate().toString()).isEqualTo(inventoryJson.get("createdDate").asText());
+        assertThat(capturedInventory.getCreatedDate()).isEqualTo(inventoryJson.get("createdDate").asText());
         assertThat(capturedInventory.getLastModifiedDate()).isEqualTo(inventoryJson.get("lastModifiedDate").asText());
         List<InventoryLeg> capturedInventoryLegs = capturedInventory.getLegs();
         assertThat(capturedInventoryLegs).hasSize(1);
