@@ -1,4 +1,4 @@
-package com.yejianfengblue.sga.fltsch.config;
+package com.yejianfengblue.sga.search.config;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

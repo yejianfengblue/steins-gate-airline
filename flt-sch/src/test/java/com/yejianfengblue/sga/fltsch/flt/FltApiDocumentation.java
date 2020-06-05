@@ -4,6 +4,7 @@ package com.yejianfengblue.sga.fltsch.flt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yejianfengblue.sga.fltsch.constant.ServiceType;
 import com.yejianfengblue.sga.fltsch.util.RestdocsUtil;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,10 +60,13 @@ public class FltApiDocumentation {
                 .build();
     }
 
+    @AfterEach
+    void deleteTestData() {
+        this.fltRepository.deleteAll();
+    }
+
     @Test
     void getFlts() throws Exception {
-
-        this.fltRepository.deleteAll();
 
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
         Flt sg001 = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
@@ -169,9 +173,56 @@ public class FltApiDocumentation {
     }
 
     @Test
-    void getFlt() throws Exception {
+    void createDuplicateFlt() throws Exception {
 
-        this.fltRepository.deleteAll();
+        HashMap<String, Object> fltPostRequestPayload = new HashMap<>();
+        fltPostRequestPayload.put("carrier", "SG");
+        fltPostRequestPayload.put("fltNum", "001");
+        fltPostRequestPayload.put("serviceType", "PAX");
+        fltPostRequestPayload.put("fltDate", "2020-01-01");
+        fltPostRequestPayload.put("fltDow", 3);
+        HashMap<String, Object> fltLeg = new HashMap<>();
+        fltLeg.put("depDate", "2020-01-01");
+        fltLeg.put("depDow", 3);
+        fltLeg.put("legDep", "HKG");
+        fltLeg.put("legArr", "TPE");
+        fltLeg.put("legSeqNum", 1);
+        fltLeg.put("schDepTime", "2020-01-01T00:00:00");
+        fltLeg.put("schArrTime", "2020-01-01T04:00:00");
+        fltLeg.put("estDepTime", "2020-01-01T00:00:00");
+        fltLeg.put("estArrTime", "2020-01-01T04:00:00");
+        fltLeg.put("actDepTime", "2020-01-01T00:00:00");
+        fltLeg.put("actArrTime", "2020-01-01T04:00:00");
+        fltLeg.put("depTimeDiff", 480);
+        fltLeg.put("arrTimeDiff", 480);
+        fltLeg.put("acReg", "B-LAD");
+        fltLeg.put("iataAcType", "333");
+        fltPostRequestPayload.put("fltLegs", List.of(fltLeg));
+
+        RestdocsUtil.ConstrainedFields fltConstrainedFields = new RestdocsUtil.ConstrainedFields(Flt.class);
+        RestdocsUtil.ConstrainedFields fltLegConstrainedFields = new RestdocsUtil.ConstrainedFields(FltLeg.class);
+
+        this.mockMvc
+                .perform(
+                        post("/flts")
+                                .contentType(RestMediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
+                .andExpect(status().isCreated());
+
+        // create duplicate flt
+        this.mockMvc
+                .perform(
+                        post("/flts")
+                                .contentType(RestMediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
+                                .with(jwt()))
+                .andExpect(status().isConflict())
+                .andDo(document("flts-create-duplicate"));
+    }
+
+    @Test
+    void getFlt() throws Exception {
 
         LocalDate fltDate = LocalDate.of(2020, 1, 1);
         Flt flt = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),

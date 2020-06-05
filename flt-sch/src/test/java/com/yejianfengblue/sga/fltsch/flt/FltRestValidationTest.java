@@ -3,6 +3,7 @@ package com.yejianfengblue.sga.fltsch.flt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.core.IsNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +35,14 @@ public class FltRestValidationTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    private FltRepository fltRepository;
+
+    @AfterEach
+    void deleteTestData() {
+        this.fltRepository.deleteAll();
+    }
 
     @Test
     void createFltSuccess() throws Exception {

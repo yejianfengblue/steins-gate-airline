@@ -1,6 +1,9 @@
 package com.yejianfengblue.sga.fltsch.flt;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.yejianfengblue.sga.fltsch.constant.ServiceType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.Description;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +30,7 @@ import java.util.UUID;
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
+@CompoundIndex(name = "fltKey", def = "{'carrier':1, 'fltNum':1, 'fltDate':1}", unique = true)
 public class Flt {
 
     @Id
@@ -170,7 +176,6 @@ public class Flt {
     }
 
     /**
-     *
      * @return the concatenation of carrier and fltNum, for example "SG001"
      */
     @Transient
@@ -180,7 +185,6 @@ public class Flt {
     }
 
     /**
-     *
      * @return the concatenation of carrier, fltNum and fltDate,
      * for example "SG001/01JAN20" for flight SG001 on 01 January 2020
      */
