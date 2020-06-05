@@ -2,6 +2,12 @@ spring:
   application:
     name: sga-search
 
+  data:
+    mongodb:
+      database: sga-search
+      host: localhost
+      port: 27017
+
   jackson:
     mapper:
       infer-property-mutators: false
