@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -58,10 +59,10 @@ public class Inventory extends AbstractAggregateRoot<Inventory> {
     List<InventoryLeg> legs;
 
     @CreatedDate
-    String createdDate;
+    Instant createdDate;
 
     @LastModifiedDate
-    String lastModifiedDate;
+    Instant lastModifiedDate;
 
     public Inventory(String carrier,
                      String fltNum,
