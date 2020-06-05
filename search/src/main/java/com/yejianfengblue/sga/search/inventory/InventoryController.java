@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,10 @@ public class InventoryController {
         Optional<Inventory> inventory = inventoryRepository.findById(id);
 
         return inventory.isPresent() ?
-                ResponseEntity.ok(inventory.get()) :
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaTypes.HAL_JSON)
+                        .body(inventoryModelAssembler.toModel(inventory.get())) :
                 ResponseEntity.notFound().build();
     }
 
@@ -41,6 +45,9 @@ public class InventoryController {
 
         Page<Inventory> inventories = inventoryRepository.findAll(predicate, pageable);
 
-        return ResponseEntity.ok(pagedResourcesAssembler.toModel(inventories, inventoryModelAssembler));
+        return ResponseEntity
+                .ok()
+                .contentType(MediaTypes.HAL_JSON)
+                .body(pagedResourcesAssembler.toModel(inventories, inventoryModelAssembler));
     }
 }
