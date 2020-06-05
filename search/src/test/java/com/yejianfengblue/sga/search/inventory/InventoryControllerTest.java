@@ -37,7 +37,7 @@ public class InventoryControllerTest {
 
     @Test
     @SneakyThrows
-    void getAllByDefaultReturnPagedInventoriesWithSize20() {
+    void pagingParameterSizeIs20ByDefault() {
 
         // populate 30 test inventories
         LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate -> {
@@ -73,7 +73,7 @@ public class InventoryControllerTest {
 
     @Test
     @SneakyThrows
-    void getAllSupportPagingParameterPageAndSize() {
+    void pagingParameterPageAndSizeTest() {
 
         // populate 30 test inventories
         LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate -> {
@@ -127,7 +127,7 @@ public class InventoryControllerTest {
 
     @Test
     @SneakyThrows
-    void getAllSupportSorting() {
+    void sortingTest() {
 
         // populate test inventories
         // SG001 / 2020-01-01 ~ 2020-01-02
