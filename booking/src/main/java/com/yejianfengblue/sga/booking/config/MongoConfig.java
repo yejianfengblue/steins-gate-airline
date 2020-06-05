@@ -2,7 +2,6 @@ package com.yejianfengblue.sga.booking.config;
 
 import com.yejianfengblue.sga.booking.common.MoneyReadConverter;
 import com.yejianfengblue.sga.booking.common.MoneyWriteConverter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +37,11 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
         adapter.useNativeDriverJavaTimeCodecs();
         adapter.registerConverter(new MoneyReadConverter());
         adapter.registerConverter(new MoneyWriteConverter());
+    }
+
+    @Override
+    protected boolean autoIndexCreation() {
+        return true;
     }
 
     // enable JSR-303 validation before save to Mongo DB
