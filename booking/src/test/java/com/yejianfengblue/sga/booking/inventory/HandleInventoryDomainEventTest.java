@@ -76,6 +76,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -89,6 +90,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(inventoryLeg.getAvailable());
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
@@ -122,6 +126,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -135,6 +140,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(inventoryLeg.getAvailable());
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
@@ -197,6 +205,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -210,6 +219,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(101);
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
@@ -250,6 +262,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -263,6 +276,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(101);
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
@@ -331,6 +347,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -344,6 +361,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(99);
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
@@ -384,6 +404,7 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryJson.get("serviceType").asText()).isEqualTo(inventory.getServiceType().toString());
         assertThat(inventoryJson.get("fltDate").asText()).isEqualTo(inventory.getFltDate().toString());
         assertThat(inventoryJson.get("fltDow").asInt()).isEqualTo(inventory.getFltDow());
+
         JsonNode inventoryLegsJson = inventoryJson.get("legs");
         assertThat(inventoryLegsJson.isArray()).isTrue();
         assertThat(inventoryLegsJson.size()).isEqualTo(1);
@@ -397,6 +418,9 @@ public class HandleInventoryDomainEventTest {
         assertThat(inventoryLegJson.get("depTimeDiff").asInt()).isEqualTo(inventoryLeg.getDepTimeDiff());
         assertThat(inventoryLegJson.get("arrTimeDiff").asInt()).isEqualTo(inventoryLeg.getArrTimeDiff());
         assertThat(inventoryLegJson.get("available").asInt()).isEqualTo(99);
+
+        assertThat(inventoryJson.hasNonNull("createdDate")).isTrue();
+        assertThat(inventoryJson.hasNonNull("lastModifiedDate")).isTrue();
     }
 
     @Test
