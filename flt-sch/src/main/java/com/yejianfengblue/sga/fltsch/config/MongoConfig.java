@@ -26,4 +26,8 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
         adapter.useNativeDriverJavaTimeCodecs();
     }
 
+    @Override
+    protected boolean autoIndexCreation() {
+        return true;
+    }
 }

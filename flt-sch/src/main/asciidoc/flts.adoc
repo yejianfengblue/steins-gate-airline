@@ -21,6 +21,9 @@ A `POST` request is used to create a flight.
 
 operation::flts-create[snippets='request-fields,curl-request,http-response']
 
+==== Error
+If the flight already exists, an error response with status code 409 will be returned.
+include::{snippets}/flts-create-duplicate/http-response.adoc[]
 
 
 [[resources_flt]]
