@@ -21,7 +21,7 @@ class BookingService {
     private final InventoryService inventoryService;
 
     @Transactional
-    Booking confirmBooking(Booking booking) {
+    public Booking confirmBooking(Booking booking) {
 
         Optional<Inventory> foundInventory = inventoryService.findInventory(booking.getCarrier(), booking.getFltNum(), booking.getFltDate());
         if (foundInventory.isPresent()) {
@@ -44,7 +44,7 @@ class BookingService {
     }
 
     @Transactional
-    Booking checkInBooking(Booking booking) {
+    public Booking checkInBooking(Booking booking) {
 
         Booking checkedInBooking = booking.checkIn();
         checkedInBooking = bookingRepository.save(checkedInBooking);
@@ -53,7 +53,7 @@ class BookingService {
     }
 
     @Transactional
-    Booking cancelBooking(Booking booking) {
+    public Booking cancelBooking(Booking booking) {
 
         if (booking.getStatus().equals(Booking.Status.CONFIRMED)) {
 
