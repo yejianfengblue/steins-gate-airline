@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 // the RestDocumentationExtension is auto configured with an output dir target/generated-snippets
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockUser(roles = "flt-sch-user")
 public class FltApiDocumentation {
 
     private MockMvc mockMvc;
