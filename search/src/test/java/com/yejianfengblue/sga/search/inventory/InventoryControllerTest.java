@@ -3,32 +3,39 @@ package com.yejianfengblue.sga.search.inventory;
 import com.yejianfengblue.sga.search.common.ServiceType;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class InventoryControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private InventoryRepository inventoryRepository;
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void cleanTestData() {
@@ -51,7 +58,7 @@ public class InventoryControllerTest {
         });
 
         mockMvc
-                .perform(get("/inventories").with(jwt()))
+                .perform(get("/inventories"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -88,7 +95,7 @@ public class InventoryControllerTest {
 
         // page 0
         mockMvc
-                .perform(get("/inventories?size=10").with(jwt()))
+                .perform(get("/inventories?size=10"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -108,7 +115,7 @@ public class InventoryControllerTest {
 
         // page 1
         mockMvc
-                .perform(get("/inventories?page=1&size=10").with(jwt()))
+                .perform(get("/inventories?page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -153,7 +160,7 @@ public class InventoryControllerTest {
 
         // default sorting
         mockMvc
-                .perform(get("/inventories").with(jwt()))
+                .perform(get("/inventories"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -170,7 +177,7 @@ public class InventoryControllerTest {
 
         // sort by fltDate desc and fltNum desc
         mockMvc
-                .perform(get("/inventories?sort=fltDate,desc&sort=fltNum,desc").with(jwt()))
+                .perform(get("/inventories?sort=fltDate,desc&sort=fltNum,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -214,7 +221,7 @@ public class InventoryControllerTest {
 
         // sort by fltNum asc and fltDate asc, without querydsl parameter
         mockMvc
-                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc").with(jwt()))
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -230,7 +237,7 @@ public class InventoryControllerTest {
 
         // sort by fltNum asc and fltDate asc, with one querydsl parameter
         mockMvc
-                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001").with(jwt()))
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())
@@ -242,7 +249,7 @@ public class InventoryControllerTest {
 
         // sort by fltNum asc and fltDate asc, with multiple querydsl parameters
         mockMvc
-                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001&fltDate=2020-01-01").with(jwt()))
+                .perform(get("/inventories?sort=fltNum,asc&sort=fltDate,asc&fltNum=001&fltDate=2020-01-01"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaTypes.HAL_JSON))
                 .andExpect(jsonPath("_embedded.inventories").isArray())

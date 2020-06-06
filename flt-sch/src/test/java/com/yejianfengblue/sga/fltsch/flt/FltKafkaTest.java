@@ -10,9 +10,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +31,8 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -47,7 +49,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "app.flt.kafka.enabled = true"
 })
 @EmbeddedKafka(topics = "flt")
-@AutoConfigureMockMvc
 @Slf4j
 public class FltKafkaTest {
 
@@ -57,7 +58,6 @@ public class FltKafkaTest {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
-    @Autowired
     MockMvc mockMvc;
 
     @Autowired
@@ -65,6 +65,14 @@ public class FltKafkaTest {
 
     @Autowired
     private FltRepository fltRepository;
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void deleteTestData() {
@@ -114,8 +122,7 @@ public class FltKafkaTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated());
 
         // one FltEvent message is sent to Kafka
@@ -188,8 +195,7 @@ public class FltKafkaTest {
                 .perform(
                         post("/flts")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -228,8 +234,7 @@ public class FltKafkaTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().is2xxSuccessful());
 
         // one FltEvent message is sent to Kafka
