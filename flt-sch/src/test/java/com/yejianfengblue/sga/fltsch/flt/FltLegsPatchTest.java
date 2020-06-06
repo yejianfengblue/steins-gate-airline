@@ -3,19 +3,20 @@ package com.yejianfengblue.sga.fltsch.flt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,11 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Ensure the bean validation works when create flt via HTTP POST request and update flt via HTTP PATCH request
  */
 @SpringBootTest
-@AutoConfigureMockMvc
 @Slf4j
 public class FltLegsPatchTest {
 
-    @Autowired
     MockMvc mockMvc;
 
     @Autowired
@@ -36,6 +35,14 @@ public class FltLegsPatchTest {
 
     @Autowired
     private FltRepository fltRepository;
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void deleteTestData() {
@@ -91,8 +98,7 @@ public class FltLegsPatchTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -101,8 +107,7 @@ public class FltLegsPatchTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -121,16 +126,14 @@ public class FltLegsPatchTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // then, fltLegs remain same as before
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -193,8 +196,7 @@ public class FltLegsPatchTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -203,8 +205,7 @@ public class FltLegsPatchTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -224,16 +225,14 @@ public class FltLegsPatchTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // then, first FltLeg is removed
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(1)))
@@ -292,8 +291,7 @@ public class FltLegsPatchTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -302,8 +300,7 @@ public class FltLegsPatchTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -323,16 +320,14 @@ public class FltLegsPatchTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // then, 2nd FltLeg is removed
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(1)))
@@ -391,8 +386,7 @@ public class FltLegsPatchTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -401,8 +395,7 @@ public class FltLegsPatchTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -439,16 +432,14 @@ public class FltLegsPatchTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // then, 2nd FltLeg is removed, 3nd FltLeg is added
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -511,8 +502,7 @@ public class FltLegsPatchTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -521,8 +511,7 @@ public class FltLegsPatchTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))
@@ -545,16 +534,14 @@ public class FltLegsPatchTest {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPatchRequestPayload)))
                 .andExpect(status().isNoContent());
 
         // then, 2nd FltLeg is updated
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs").isArray())
                 .andExpect(jsonPath("fltLegs", hasSize(2)))

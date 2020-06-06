@@ -6,13 +6,15 @@ import com.yejianfengblue.sga.booking.inventory.Inventory;
 import com.yejianfengblue.sga.booking.inventory.InventoryLeg;
 import com.yejianfengblue.sga.booking.inventory.InventoryService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,16 +24,13 @@ import static com.yejianfengblue.sga.booking.booking.Booking.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class BookingStateTransitionTest {
 
-    @Autowired
     MockMvc mockMvc;
 
     @Autowired
@@ -44,6 +43,14 @@ public class BookingStateTransitionTest {
     private InventoryService inventoryService;
 
     private final static String BASE_URL = "http://localhost";
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void cleanTestData() {
@@ -64,8 +71,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 get(bookingUri)
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$.status").value(DRAFT.toString()))
@@ -88,8 +94,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 get(bookingUri)
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$.status").value(CONFIRMED.toString()))
@@ -113,8 +118,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 get(bookingUri)
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$.status").value(CHECKED_IN.toString()))
@@ -137,8 +141,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 get(bookingUri)
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 .andExpect(jsonPath("$.status").value(CANCELLED.toString()))
@@ -174,8 +177,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 put(bookingUri + "/confirm")
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
@@ -195,8 +197,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 put(bookingUri + "/check-in")
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
@@ -216,8 +217,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 delete(bookingUri + "/cancel")
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
@@ -250,8 +250,7 @@ public class BookingStateTransitionTest {
         // when
         mockMvc.perform(
                 delete(bookingUri + "/cancel")
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(RestMediaTypes.HAL_JSON))
                 // then
@@ -271,8 +270,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/check-in")
-                        .with(jwt()))
+                put(bookingUri + "/check-in"))
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(
                         String.format("Booking status cannot be transited from %s to %s", DRAFT, CHECKED_IN)
@@ -292,8 +290,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/confirm")
-                        .with(jwt()))
+                put(bookingUri + "/confirm"))
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(
                         String.format("Booking status cannot be transited from %s to %s", CHECKED_IN, CONFIRMED)
@@ -313,8 +310,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                delete(bookingUri + "/cancel")
-                        .with(jwt()))
+                delete(bookingUri + "/cancel"))
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(
                         String.format("Booking status cannot be transited from %s to %s", CHECKED_IN, CANCELLED)
@@ -333,8 +329,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/confirm")
-                        .with(jwt()))
+                put(bookingUri + "/confirm"))
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(
                         String.format("Booking status cannot be transited from %s to %s", CANCELLED, CONFIRMED)
@@ -353,8 +348,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/check-in")
-                        .with(jwt()))
+                put(bookingUri + "/check-in"))
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(
                         String.format("Booking status cannot be transited from %s to %s", CANCELLED, CHECKED_IN)
@@ -380,8 +374,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/confirm")
-                        .with(jwt()))
+                put(bookingUri + "/confirm"))
                 // then
                 .andExpect(status().isInternalServerError())
                 .andExpect(status().reason("Inventory not found"));
@@ -411,8 +404,7 @@ public class BookingStateTransitionTest {
 
         // when
         mockMvc.perform(
-                put(bookingUri + "/confirm")
-                        .with(jwt()))
+                put(bookingUri + "/confirm"))
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason("No enough inventory"));

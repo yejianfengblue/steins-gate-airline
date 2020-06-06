@@ -2,27 +2,26 @@ package com.yejianfengblue.sga.fltsch.flt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class FltDisabledHttpMethodTest {
 
-    @Autowired
     MockMvc mockMvc;
 
     @Autowired
@@ -30,6 +29,14 @@ public class FltDisabledHttpMethodTest {
 
     @Autowired
     private FltRepository fltRepository;
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void deleteTestData() {
@@ -45,8 +52,7 @@ public class FltDisabledHttpMethodTest {
                 .perform(
                         put("/flts/" + UUID.randomUUID().toString())
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isMethodNotAllowed());
     }
 
@@ -60,8 +66,7 @@ public class FltDisabledHttpMethodTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -70,8 +75,7 @@ public class FltDisabledHttpMethodTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk());
 
         // PUT update
@@ -79,8 +83,7 @@ public class FltDisabledHttpMethodTest {
                 .perform(
                         put(fltLocation)
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isMethodNotAllowed());
     }
 
@@ -94,8 +97,7 @@ public class FltDisabledHttpMethodTest {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -104,15 +106,13 @@ public class FltDisabledHttpMethodTest {
         this.mockMvc
                 .perform(
                         get(fltLocation)
-                                .accept(RestMediaTypes.HAL_JSON)
-                                .with(jwt()))
+                                .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk());
 
         // DELETE
         this.mockMvc
                 .perform(
-                        delete(fltLocation)
-                                .with(jwt()))
+                        delete(fltLocation))
                 .andExpect(status().isMethodNotAllowed());
     }
 
