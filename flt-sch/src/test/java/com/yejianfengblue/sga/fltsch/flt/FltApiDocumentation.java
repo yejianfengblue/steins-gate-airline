@@ -34,7 +34,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +52,7 @@ public class FltApiDocumentation {
     private FltRepository fltRepository;
 
     @BeforeEach
-    public void configMockMvc(WebApplicationContext webAppContext, RestDocumentationContextProvider restDocumentation) {
+    void configMockMvc(WebApplicationContext webAppContext, RestDocumentationContextProvider restDocumentation) {
 
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext)
                 .apply(documentationConfiguration(restDocumentation))
@@ -90,8 +89,7 @@ public class FltApiDocumentation {
         sg002 = this.fltRepository.save(sg002);
 
         this.mockMvc.perform(
-                get("/flts")
-                        .with(jwt()))
+                get("/flts"))
                 .andExpect(status().isOk())
                 .andDo(document("flts-get",  //  snippet dir "flts" under target/generated-snippets
                         // generate a snippet "links.adoc" under "flts"
@@ -140,8 +138,7 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andDo(document("flts-create",
                         requestFields(
@@ -206,8 +203,7 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated());
 
         // create duplicate flt
@@ -215,8 +211,7 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isConflict())
                 .andDo(document("flts-create-duplicate"));
     }
@@ -238,8 +233,7 @@ public class FltApiDocumentation {
 
         this.mockMvc.perform(
                 get("/flts/" + flt.getId())
-                        .accept(RestMediaTypes.HAL_JSON)
-                        .with(jwt()))
+                        .accept(RestMediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("carrier").value(flt.getCarrier()))
                 .andExpect(jsonPath("fltNum").value(flt.getFltNum()))
@@ -325,8 +319,7 @@ public class FltApiDocumentation {
                 .perform(
                         post("/flts")
                                 .contentType(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(fltPostRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(fltPostRequestPayload)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse()
                 .getHeader(HttpHeaders.LOCATION);
@@ -358,8 +351,7 @@ public class FltApiDocumentation {
                 .perform(
                         patch(fltLocation)
                                 .contentType(RestMediaTypes.MERGE_PATCH_JSON)
-                                .content(objectMapper.writeValueAsString(updateRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(updateRequestPayload)))
                 .andExpect(status().isNoContent())
                 .andDo(document("flt-update",
                         requestFields(
@@ -387,12 +379,10 @@ public class FltApiDocumentation {
                 .perform(
                         get(fltLocation)
                                 .accept(RestMediaTypes.HAL_JSON)
-                                .content(objectMapper.writeValueAsString(updateRequestPayload))
-                                .with(jwt()))
+                                .content(objectMapper.writeValueAsString(updateRequestPayload)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("fltLegs[0].acReg").value(updatedFltLeg.get("acReg")))
                 .andExpect(jsonPath("fltLegs[0].iataAcType").value(updatedFltLeg.get("iataAcType")));
     }
-
 
 }

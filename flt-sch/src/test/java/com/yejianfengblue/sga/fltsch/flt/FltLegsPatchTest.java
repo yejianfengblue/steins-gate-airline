@@ -3,13 +3,15 @@ package com.yejianfengblue.sga.fltsch.flt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.RestMediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Ensure the bean validation works when create flt via HTTP POST request and update flt via HTTP PATCH request
  */
 @SpringBootTest
-@AutoConfigureMockMvc
 @Slf4j
 public class FltLegsPatchTest {
 
-    @Autowired
     MockMvc mockMvc;
 
     @Autowired
@@ -36,6 +36,14 @@ public class FltLegsPatchTest {
 
     @Autowired
     private FltRepository fltRepository;
+
+    @BeforeEach
+    void configMockMvc(WebApplicationContext webAppContext) {
+
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
+    }
 
     @AfterEach
     void deleteTestData() {
