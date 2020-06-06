@@ -30,6 +30,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -40,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "app.flt.kafka.enabled = true"
 })
 @EmbeddedKafka(topics = "flt")
+@WithMockUser(roles = "flt-sch-user")
 @Slf4j
 public class FltKafkaTest {
 
