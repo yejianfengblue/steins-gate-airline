@@ -14,4 +14,7 @@ spring:
           okta:
             issuer-uri: https://dev-722818.okta.com/oauth2/default
             user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
 debug: true

@@ -2,7 +2,6 @@ package com.yejianfengblue.sga.apigateway.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -10,6 +9,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OidcController {
 
+    private final JwtDecoder jwtDecoder;
+
     @GetMapping("/oidc-info")
-    public ResponseEntity<String> oidcInfo(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient oAuth2AuthorizedClient,
-                                          @AuthenticationPrincipal OidcUser oidcUser,
-                                          OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+    public String oidcInfo(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient oAuth2AuthorizedClient,
+                           @AuthenticationPrincipal OidcUser oidcUser,
+                           OAuth2AuthenticationToken oAuth2AuthenticationToken) {
 
         // OAuth2AuthorizedClient.principalName
         log.info("oAuth2AuthorizedClient.getPrincipalName() = {}", oAuth2AuthorizedClient.getPrincipalName());
@@ -33,12 +36,14 @@ public class OidcController {
         log.info("accessToken.getIssuedAt() = {}", accessToken.getIssuedAt());
         log.info("accessToken.getExpiresAt() = {}", accessToken.getExpiresAt());
         log.info("accessToken.getScopes() = {}", accessToken.getScopes());
+        // JWT
+        Jwt jwt = jwtDecoder.decode(accessToken.getTokenValue());
+        logJwt(jwt);
         // OAuth2AuthorizedClient.refreshToken
         OAuth2RefreshToken refreshToken = oAuth2AuthorizedClient.getRefreshToken();
         log.info("refreshToken = {}", refreshToken.getTokenValue());
         log.info("refreshToken.getIssuedAt() = {}", refreshToken.getIssuedAt());
         Assert.isNull(refreshToken.getExpiresAt(), "refreshToken should have no expiresAt");
-
 
         // OidcUser
         log.info("oAuth2User.getName() = {}", oidcUser.getName());
@@ -51,10 +56,24 @@ public class OidcController {
         Assert.isTrue(oAuth2AuthenticationToken.getName().equals(oAuth2AuthorizedClient.getPrincipalName()), "Principal name should be same");
         Assert.isTrue(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId().equals("okta"), "Authorized client registration ID should be okta");
         log.info("oAuth2AuthenticationToken.getAuthorities() = {}", oAuth2AuthenticationToken.getAuthorities());
-//        Assert.isInstanceOf(WebAuthenticationDetails.class, oAuth2AuthenticationToken.getDetails(), "Authentication additional details should be a WebAuthenticationDetails");
         log.info("oAuth2AuthenticationToken.getDetails() = {}", oAuth2AuthenticationToken.getDetails());
         Assert.isTrue(oAuth2AuthenticationToken.isAuthenticated(), "isAuthenticated should be true");
 
-        return ResponseEntity.ok(oidcUser.toString());
+
+        return oidcUser.toString();
+    }
+
+    private void logJwt(Jwt jwt) {
+
+        log.info("JWT token = {}", jwt.getTokenValue());
+        log.info("JWT claims = {}", jwt.getClaims());
+        log.info("JWT headers = {}", jwt.getHeaders());
+        log.info("JWT issuer = {}", jwt.getIssuer().getAuthority());
+        log.info("JWT subject = {}", jwt.getSubject());
+        log.info("JWT audience = {}", jwt.getAudience());
+        log.info("JWT expiration = {}", jwt.getExpiresAt());
+        log.info("JWT not before = {}", jwt.getNotBefore());
+        log.info("JWT issued at = {}", jwt.getIssuedAt());
+        log.info("JWT ID = {}", jwt.getId());
     }
 }
