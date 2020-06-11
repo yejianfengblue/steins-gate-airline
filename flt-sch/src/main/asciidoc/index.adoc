@@ -37,7 +37,7 @@ use of HTTP status codes.
 |===
 | Status code | Usage
 
-| `200 OK``
+| `200 OK`
 | The request completed successfully
 
 | `201 Created`
