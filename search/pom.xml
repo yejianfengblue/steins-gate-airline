@@ -107,7 +107,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>target/generated-sources/queries</outputDirectory>
-                            <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor, lombok.launch.AnnotationProcessorHider$AnnotationProcessor</processor>
+                            <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor,lombok.launch.AnnotationProcessorHider$AnnotationProcessor</processor>
                             <logOnlyOnError>true</logOnlyOnError>
                         </configuration>
                     </execution>
