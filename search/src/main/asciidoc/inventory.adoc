@@ -1,0 +1,21 @@
+[[resource_inventories]]
+== Inventories
+The inventories resource is used to list and create inventories.
+
+
+[[resource_inventories_list]]
+=== List inventories
+A `GET` request will list all inventories.
+
+operation::inventories-get[snippets='curl-request,http-request,request-parameters,http-response,response-fields']
+
+
+[[resource_inventory]]
+== Inventory
+
+
+[[resource_inventory_get]]
+=== Get an Inventory
+A `GET` request will get the details of a bookings
+
+operation::inventory-get[snippets='curl-request,http-request,http-response,response-fields']
