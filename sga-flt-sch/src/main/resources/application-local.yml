@@ -1,0 +1,22 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+
+server:
+  port: 30100
+
+app:
+  flt:
+    populator:
+      enabled: true
+    kafka.enabled: true

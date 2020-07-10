@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo:4.2.8
+    container_name: mongo
+    ports:
+      - 27017:27017
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: mongo-express
+    ports:
+      - 8081:8081

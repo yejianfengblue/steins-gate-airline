@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sga-flt-sch
+  profiles:
+    active: local
+
+  data:
+    mongodb:
+      database: sga-flt-sch
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: fltEvent:com.yejianfengblue.sga.fltsch.flt.Flt$FltEvent
+
+server:
+  forward-headers-strategy: framework

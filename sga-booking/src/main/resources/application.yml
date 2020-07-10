@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: sga-booking
+
+  cloud:
+    stream:
+      source: booking
+      bindings:
+        fltEventReceiver-in-0:
+          destination: flt
+      function:
+        definition: fltEventReceiver
+
+  data:
+    mongodb:
+      database: sga-booking
+      host: localhost
+      port: 27017
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+
+server:
+  forward-headers-strategy: framework
+  port: 30200
+  error:
+    include-message: always
+    include-stacktrace: never

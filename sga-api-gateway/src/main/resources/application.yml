@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: sga-api-gateway
+
+  security:
+    oauth2:
+      client:
+        registration:
+          okta:
+            client-name: Okta
+            client-id: 0oacex4c0rpSH0ItW4x6
+            client-secret: hVhrUMS6V3N3GVg3lCv0ArUfnEeJ-ONLZrElCjgG
+        provider:
+          okta:
+            issuer-uri: https://dev-722818.okta.com/oauth2/default

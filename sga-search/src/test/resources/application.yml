@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: sga-search
+
+  data:
+    mongodb:
+      database: sga-search-test
+      host: localhost
+      port: 27017
+
+  jackson:
+    mapper:
+      infer-property-mutators: false
+
+  kafka:
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: fltEvent:com.yejianfengblue.sga.search.flt.FltEvent
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-722818.okta.com/oauth2/default
+
+server:
+  port: 30300
+  forward-headers-strategy: framework
+  error:
+    include-message: always
+    include-stacktrace: never
