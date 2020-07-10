@@ -97,12 +97,12 @@ public class BookingApiDocumentation {
     void accessBookingsTest() {
 
         // prepared test data
-        Booking sg001 = bookingRepository.save(
+        bookingRepository.save(
                 new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester"));
-        Booking sg002 = bookingRepository.save(
+        bookingRepository.save(
                 new Booking("SG", "001", LocalDate.of(2020, 1, 2), "HKG", "TPE", "Tester"));
 
-        MockHttpServletResponse response = accessBookingsResource();
+        accessBookingsResource();
     }
 
     @Test
@@ -517,7 +517,7 @@ public class BookingApiDocumentation {
     @SneakyThrows
     private MockHttpServletResponse accessBookingsResource() {
 
-        MockHttpServletResponse response = mockMvc
+        return mockMvc
                 .perform(
                         get(bookingBasePath)
                                 .accept(RestMediaTypes.HAL_JSON))
@@ -531,8 +531,6 @@ public class BookingApiDocumentation {
                         )
                 ))
                 .andReturn().getResponse();
-
-        return response;
     }
 
     @SneakyThrows
@@ -635,7 +633,7 @@ public class BookingApiDocumentation {
     @SneakyThrows
     private MockHttpServletResponse getBooking(String bookingLocation) {
 
-        MockHttpServletResponse response = this.mockMvc
+        return this.mockMvc
                 .perform(
                         get(bookingLocation)
                                 .accept(RestMediaTypes.HAL_JSON))
@@ -660,8 +658,6 @@ public class BookingApiDocumentation {
                                 linkWithRel("cancel").optional().description("Cancel this booking"))
                 ))
                 .andReturn().getResponse();
-
-        return response;
     }
 
     @SneakyThrows
@@ -669,15 +665,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("confirm"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         put(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CONFIRMED.toString()))
                 .andDo(document("booking-confirm"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
     @SneakyThrows
@@ -685,15 +679,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("check-in"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         put(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CHECKED_IN.toString()))
                 .andDo(document("booking-check-in"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
     @SneakyThrows
@@ -701,15 +693,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("cancel"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         delete(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CANCELLED.toString()))
                 .andDo(document("booking-cancel"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
 }

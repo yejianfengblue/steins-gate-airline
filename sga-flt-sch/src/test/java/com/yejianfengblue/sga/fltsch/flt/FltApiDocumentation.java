@@ -198,9 +198,6 @@ public class FltApiDocumentation {
         fltLeg.put("iataAcType", "333");
         fltPostRequestPayload.put("fltLegs", List.of(fltLeg));
 
-        RestdocsUtil.ConstrainedFields fltConstrainedFields = new RestdocsUtil.ConstrainedFields(Flt.class);
-        RestdocsUtil.ConstrainedFields fltLegConstrainedFields = new RestdocsUtil.ConstrainedFields(FltLeg.class);
-
         this.mockMvc
                 .perform(
                         post("/flts")
