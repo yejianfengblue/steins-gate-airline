@@ -25,7 +25,7 @@ import java.time.LocalDate;
 @Document("bookings")
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class Booking extends AbstractAggregateRoot<Booking> {
 
