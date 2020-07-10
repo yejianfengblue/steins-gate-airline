@@ -16,9 +16,8 @@ public class FltEventHandler {
         Flt flt = fltEvent.getFlt();
         Optional<Flt> foundFlt = fltRepository.findByCarrierAndFltNumAndFltDate(flt.getCarrier(), flt.getFltNum(), flt.getFltDate());
 
-        if (foundFlt.isPresent()) {
-            flt.setId(foundFlt.get().getId());
-        }
+        foundFlt.ifPresent(f -> flt.setId(f.getId()));
+
         fltRepository.save(flt);
     }
 }
