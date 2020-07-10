@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @CompoundIndex(name = "fltKey", def = "{'carrier':1, 'fltNum':1, 'fltDate':1}", unique = true)
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Getter
 @ToString
 public class Inventory extends AbstractAggregateRoot<Inventory> {
