@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
@@ -22,6 +26,8 @@ public class FltPopulator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        setupSecurityContext();
 
         if (fltRepository.count() == 0) {
 
@@ -122,4 +128,10 @@ public class FltPopulator implements CommandLineRunner {
         }
     }
 
+    private void setupSecurityContext() {
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = new TestingAuthenticationToken("robot", "robot", "ROLE_flt-sch-user");
+        context.setAuthentication(authentication);
+    }
 }
