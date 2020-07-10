@@ -6,7 +6,7 @@
 
     <groupId>com.yejianfengblue.sga</groupId>
     <artifactId>sga-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>Steins Gate Airline</name>
