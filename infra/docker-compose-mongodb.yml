@@ -3,7 +3,7 @@ version: '3'
 services:
 
   mongo:
-    image: mongo
+    image: mongo:4.2.8
     container_name: mongo
     ports:
       - 27017:27017
@@ -11,7 +11,7 @@ services:
 
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54.0
     container_name: mongo-express
     ports:
       - 8081:8081
