@@ -1,6 +1,6 @@
 spring:
   application:
-    name: api-gateway
+    name: sga-api-gateway
 
   security:
     oauth2:
