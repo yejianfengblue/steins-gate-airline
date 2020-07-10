@@ -52,7 +52,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );
@@ -88,7 +88,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );
@@ -143,7 +143,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );
@@ -153,7 +153,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );
@@ -204,7 +204,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );
@@ -214,7 +214,7 @@ public class InventoryControllerTest {
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
-                            fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
+                            fltDate.atTime(10, 0), fltDate.atTime(14, 0), 480, 480,
                             100)),
                     Instant.now(), Instant.now()))
         );

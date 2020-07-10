@@ -49,8 +49,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG520 / leg 1 / HKG 1000 -> NRT 1600
                             new FltLeg(date, date.getDayOfWeek().getValue(),
                                     "HKG", "NRT", 1,
-                                    LocalDateTime.of(date, LocalTime.of(10, 00)),
-                                    LocalDateTime.of(date, LocalTime.of(16, 00)),
+                                    LocalDateTime.of(date, LocalTime.of(10, 0)),
+                                    LocalDateTime.of(date, LocalTime.of(16, 0)),
                                     null, null, null, null,
                                     480, 540,
                                     "B-LAD", "333"));
@@ -67,8 +67,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG101 / leg 1 / NRT 1700 -> HKG 2100
                             new FltLeg(date, date.getDayOfWeek().getValue(),
                                     "NRT", "HKG", 1,
-                                    LocalDateTime.of(date, LocalTime.of(17, 00)),
-                                    LocalDateTime.of(date, LocalTime.of(21, 00)),
+                                    LocalDateTime.of(date, LocalTime.of(17, 0)),
+                                    LocalDateTime.of(date, LocalTime.of(21, 0)),
                                     null, null, null, null,
                                     540, 480,
                                     "B-LAD", "333"));
@@ -88,8 +88,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG296 / leg 1 / HKG 2100 -> ANC 1500
                             new FltLeg(date, date.getDayOfWeek().getValue(),
                                     "HKG", "ANC", 1,
-                                    LocalDateTime.of(date, LocalTime.of(21, 00)),
-                                    LocalDateTime.of(date, LocalTime.of(15, 00)),
+                                    LocalDateTime.of(date, LocalTime.of(21, 0)),
+                                    LocalDateTime.of(date, LocalTime.of(15, 0)),
                                     null, null, null, null,
                                     480, -480,
                                     "B-LJA", "74N"));
@@ -97,8 +97,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG296 / leg 2 / ANC 1600 -> LAX 2200
                             new FltLeg(date, date.getDayOfWeek().getValue(),
                                     "ANC", "LAX", 2,
-                                    LocalDateTime.of(date, LocalTime.of(16, 00)),
-                                    LocalDateTime.of(date, LocalTime.of(22, 00)),
+                                    LocalDateTime.of(date, LocalTime.of(16, 0)),
+                                    LocalDateTime.of(date, LocalTime.of(22, 0)),
                                     null, null, null, null,
                                     -480, -420,
                                     "B-LJA", "74N"));
@@ -106,8 +106,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG296 / leg 3 / LAX 0030+1 -> MEX 0630+1
                             new FltLeg(date.plusDays(1), date.plusDays(1).getDayOfWeek().getValue(),
                                     "LAX", "MEX", 3,
-                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(00, 30)),
-                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(06, 30)),
+                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(0, 30)),
+                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(6, 30)),
                                     null, null, null, null,
                                     -420, -300,
                                     "B-LJA", "74N"));
@@ -115,8 +115,8 @@ public class FltPopulator implements CommandLineRunner {
                             // SG296 / leg 4 / MEX 0800+1 -> GDL 0900+1
                             new FltLeg(date.plusDays(1), date.plusDays(1).getDayOfWeek().getValue(),
                                     "MEX", "GDL", 4,
-                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(8, 00)),
-                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(9, 00)),
+                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(8, 0)),
+                                    LocalDateTime.of(date.plusDays(1), LocalTime.of(9, 0)),
                                     null, null, null, null,
                                     -300, -300,
                                     "B-LJA", "74N"));

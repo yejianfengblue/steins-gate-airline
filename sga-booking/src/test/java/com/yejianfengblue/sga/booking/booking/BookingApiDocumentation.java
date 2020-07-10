@@ -117,7 +117,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         1)))));
 
         createNewBooking(Map.of(
@@ -216,7 +216,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -240,7 +240,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         0)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -390,7 +390,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -415,7 +415,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -476,7 +476,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(

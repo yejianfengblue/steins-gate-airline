@@ -55,7 +55,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
 
         // when
@@ -104,7 +104,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
 
         // when
@@ -154,7 +154,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
 
         // when
@@ -180,7 +180,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
         Inventory inventory = inventoryRepository.save(
                 new Inventory(carrier, fltNum, ServiceType.PAX,
@@ -233,7 +233,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
         Inventory inventory = inventoryRepository.save(
                 new Inventory(carrier, fltNum, ServiceType.PAX,
@@ -294,7 +294,7 @@ public class HandleInventoryDomainEventTest {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 100))));
         // consume the event published by the save
         Message<byte[]> inventoryEventMessage = outputDestination.receive(100, INVENTORY_EVENT_OUT_BINDING);
@@ -322,7 +322,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
         Inventory inventory = inventoryRepository.save(
                 new Inventory(carrier, fltNum, ServiceType.PAX,
@@ -375,7 +375,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
         Inventory inventory = inventoryRepository.save(
                 new Inventory(carrier, fltNum, ServiceType.PAX,
@@ -432,7 +432,7 @@ public class HandleInventoryDomainEventTest {
         String legDep = "HKG", legArr = "TPE";
         InventoryLeg inventoryLeg = new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                 legDep, legArr, 1,
-                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                 100);
         Inventory inventory = inventoryRepository.save(
                 new Inventory(carrier, fltNum, ServiceType.PAX,

@@ -31,9 +31,9 @@ public class FltUniqueTest {
         fltRepository.save(new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(
                         new FltLeg(fltDate, fltDate.getDayOfWeek().getValue(), "HKG", "TPE", 1,
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
                                 480, 480, "B-LAD", "333")),
                 "Tester", Instant.now(), "Tester", Instant.now()));
 
@@ -41,9 +41,9 @@ public class FltUniqueTest {
                 fltRepository.save(new Flt("SG", "001", ServiceType.FRTR, fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(
                                 new FltLeg(fltDate, fltDate.getDayOfWeek().getValue(), "XXX", "YYY", 2,
-                                        fltDate.atTime(10, 00), fltDate.atTime(14, 00),
-                                        fltDate.atTime(10, 00), fltDate.atTime(14, 00),
-                                        fltDate.atTime(10, 00), fltDate.atTime(14, 00),
+                                        fltDate.atTime(10, 0), fltDate.atTime(14, 0),
+                                        fltDate.atTime(10, 0), fltDate.atTime(14, 0),
+                                        fltDate.atTime(10, 0), fltDate.atTime(14, 0),
                                         0, 0, "B-XYZ", "999")),
                         "X", Instant.now(), "X", Instant.now())))
                 .isInstanceOf(DuplicateKeyException.class);

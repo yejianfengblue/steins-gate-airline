@@ -167,7 +167,7 @@ public class BookingStateTransitionTest {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
         Booking booking = new Booking(carrier, fltNum, LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
@@ -239,7 +239,7 @@ public class BookingStateTransitionTest {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 0)))));
         Booking booking = new Booking(carrier, fltNum, fltDate, "HKG", "TPE", "Tester");
         booking.confirm();
@@ -395,7 +395,7 @@ public class BookingStateTransitionTest {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 0)))));
         Booking booking = new Booking(carrier, fltNum, LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester");
         booking = bookingRepository.save(booking);
