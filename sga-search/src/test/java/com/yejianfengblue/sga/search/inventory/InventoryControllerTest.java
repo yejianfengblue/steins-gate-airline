@@ -47,15 +47,15 @@ public class InventoryControllerTest {
     void pagingParameterSizeIs20ByDefault() {
 
         // populate 30 test inventories
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
 
         mockMvc
                 .perform(get("/inventories"))
@@ -83,15 +83,15 @@ public class InventoryControllerTest {
     void pagingParameterPageAndSizeTest() {
 
         // populate 30 test inventories
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 31)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
 
         // page 0
         mockMvc
@@ -138,25 +138,25 @@ public class InventoryControllerTest {
 
         // populate test inventories
         // SG001 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
         // SG002 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "002", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
 
         // default sorting
         mockMvc
@@ -199,25 +199,25 @@ public class InventoryControllerTest {
 
         // populate test inventories
         // SG001 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
         // SG002 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 3)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "002", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
 
         // sort by fltNum asc and fltDate asc, without querydsl parameter
         mockMvc

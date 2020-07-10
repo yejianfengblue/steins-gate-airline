@@ -64,25 +64,25 @@ public class InventoryApiDocumentation {
 
         // populate test inventories
         // SG001 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 21)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 21)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "001", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
         // SG002 / 2020-01-01 ~ 2020-01-02
-        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 21)).forEach(fltDate -> {
+        LocalDate.of(2020, 1, 1).datesUntil(LocalDate.of(2020, 1, 21)).forEach(fltDate ->
             inventoryRepository.save(new Inventory("SG", "002", ServiceType.PAX,
                     fltDate, fltDate.getDayOfWeek().getValue(),
                     List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                             "HKG", "TPE", 1,
                             fltDate.atTime(10, 00), fltDate.atTime(14, 00), 480, 480,
                             100)),
-                    Instant.now(), Instant.now()));
-        });
+                    Instant.now(), Instant.now()))
+        );
 
         mockMvc
                 .perform(get("/inventories?" +
