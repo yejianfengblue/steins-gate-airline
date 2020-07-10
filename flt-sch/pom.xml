@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>flt-sch</artifactId>
+    <artifactId>sga-flt-sch</artifactId>
     <name>Flight Schedule</name>
 
     <properties>

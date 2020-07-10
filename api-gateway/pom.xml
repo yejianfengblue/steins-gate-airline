@@ -9,8 +9,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>api-gateway</artifactId>
-    <name>api-gateway</name>
+    <artifactId>sga-api-gateway</artifactId>
+    <name>API Gateway</name>
 
     <properties>
         <java.version>11</java.version>

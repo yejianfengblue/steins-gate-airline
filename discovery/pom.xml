@@ -8,8 +8,9 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>discovery</artifactId>
-    <name>discovery</name>
+
+    <artifactId>sga-discovery</artifactId>
+    <name>Discovery</name>
 
     <properties>
         <java.version>11</java.version>
