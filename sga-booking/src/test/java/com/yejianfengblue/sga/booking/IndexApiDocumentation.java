@@ -66,8 +66,10 @@ public class IndexApiDocumentation {
                 .andExpect(status().isOk())
                 .andDo(document("index",
                         links(
-                                linkWithRel("bookings").description("The <<resource_bookings, Bookings resource>>"),
-                                linkWithRel("profile").description("The ALPS profile for this resource"))
+                                linkWithRel("bookings").description("The <<resources_bookings, Bookings resource>>"),
+                                linkWithRel("profile").description("The ALPS profile for this resource")),
+                        responseFields(
+                                subsectionWithPath("_links").description("<<resources_index_access_links, Links>> to other resources"))
                 ));
     }
 
