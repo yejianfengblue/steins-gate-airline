@@ -56,7 +56,7 @@ public class Flt {
 
     @NotEmpty
     @Valid
-    List<FltLeg> fltLegs = new ArrayList<>();
+    List<FltLeg> fltLegs;
 
     String createdBy;
 

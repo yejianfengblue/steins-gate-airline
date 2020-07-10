@@ -19,6 +19,6 @@ public class FltEventHandler {
         if (foundFlt.isPresent()) {
             flt.setId(foundFlt.get().getId());
         }
-        flt = fltRepository.save(flt);
+        fltRepository.save(flt);
     }
 }

@@ -64,7 +64,7 @@ public class Flt {
     @NotEmpty
     @Valid
     @Description("flight leg collection")
-    List<FltLeg> fltLegs = new ArrayList<>();
+    List<FltLeg> fltLegs;
 
     @CreatedBy
     String createdBy;

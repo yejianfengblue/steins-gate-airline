@@ -348,7 +348,7 @@ public class BookingApiDocumentation {
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("confirm"), response.getContentAsString());
-        response = cancelBooking(response);
+        cancelBooking(response);
 
         // it's valid to confirm cancelled booking
         response = mockMvc
@@ -423,7 +423,7 @@ public class BookingApiDocumentation {
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         response = confirmBooking(response);
         Link checkInLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("check-in"), response.getContentAsString());
-        response = cancelBooking(response);
+        cancelBooking(response);
 
         // it's valid to check-in cancelled booking
         response = mockMvc
@@ -484,7 +484,7 @@ public class BookingApiDocumentation {
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         Link cancelLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("cancel"), response.getContentAsString());
         response = confirmBooking(response);
-        response = checkInBooking(response);
+        checkInBooking(response);
 
         // it's valid to cancel checked-in booking
         response = mockMvc

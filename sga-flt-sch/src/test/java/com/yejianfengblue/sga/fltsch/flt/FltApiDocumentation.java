@@ -78,7 +78,7 @@ public class FltApiDocumentation {
                                 fltDate.atTime(0, 0), fltDate.atTime(4, 0),
                                 480, 480, "B-LAD", "333")
                 ));
-        sg001 = this.fltRepository.save(sg001);
+        this.fltRepository.save(sg001);
 
         Flt sg002 = new Flt("SG", "002", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(
@@ -88,7 +88,7 @@ public class FltApiDocumentation {
                                 fltDate.atTime(12, 0), fltDate.atTime(16, 0),
                                 480, 480, "B-LAD", "333")
                 ));
-        sg002 = this.fltRepository.save(sg002);
+        this.fltRepository.save(sg002);
 
         this.mockMvc.perform(
                 get("/flts"))
