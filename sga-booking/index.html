@@ -636,7 +636,7 @@ use of HTTP status codes.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code>{
-  "timestamp" : "2020-06-11T06:44:57.838+00:00",
+  "timestamp" : "2020-07-10T09:55:45.474+00:00",
   "status" : 400,
   "error" : "Bad Request",
   "message" : "No enough inventory",
@@ -731,7 +731,7 @@ not create URIs themselves, instead they should use the above-described links to
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>_links</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#resources_index_access_links">Links</a> to other resources</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#resource_index_access_links">Links</a> to other resources</p></td>
 </tr>
 </tbody>
 </table>
@@ -777,7 +777,7 @@ Content-Length: 210
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="#resources_bookings">Bookings resource</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="#resource_bookings">Bookings resource</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>profile</code></p></td>
@@ -845,21 +845,21 @@ Content-Length: 2150
       },
       "status" : "DRAFT",
       "createdBy" : "user",
-      "createdDate" : "2020-06-11T06:44:47.548Z",
+      "createdDate" : "2020-07-10T09:55:34.163Z",
       "lastModifiedBy" : "user",
-      "lastModifiedDate" : "2020-06-11T06:44:47.548Z",
+      "lastModifiedDate" : "2020-07-10T09:55:34.163Z",
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913a"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3030"
         },
         "booking" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913a"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3030"
         },
         "confirm" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913a/confirm"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3030/confirm"
         },
         "cancel" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913a/cancel"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3030/cancel"
         }
       }
     }, {
@@ -875,21 +875,21 @@ Content-Length: 2150
       },
       "status" : "DRAFT",
       "createdBy" : "user",
-      "createdDate" : "2020-06-11T06:44:47.550Z",
+      "createdDate" : "2020-07-10T09:55:34.165Z",
       "lastModifiedBy" : "user",
-      "lastModifiedDate" : "2020-06-11T06:44:47.550Z",
+      "lastModifiedDate" : "2020-07-10T09:55:34.165Z",
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913b"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3031"
         },
         "booking" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913b"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3031"
         },
         "confirm" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913b/confirm"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3031/confirm"
         },
         "cancel" : {
-          "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd9913b/cancel"
+          "href" : "http://localhost:8080/bookings/5f083b166b548e681edb3031/cancel"
         }
       }
     } ]
@@ -976,12 +976,12 @@ Content-Length: 2150
     -H 'Content-Type: application/json' \
     -H 'Accept: application/hal+json' \
     -d '{
-  "fltDate" : "2020-01-01",
-  "fltNum" : "001",
-  "segOrig" : "HKG",
   "passenger" : "Tester",
   "carrier" : "SG",
-  "segDest" : "TPE"
+  "segDest" : "TPE",
+  "fltDate" : "2020-01-01",
+  "fltNum" : "001",
+  "segOrig" : "HKG"
 }'</code></pre>
 </div>
 </div>
@@ -997,12 +997,12 @@ Content-Length: 138
 Host: localhost:8080
 
 {
-  "fltDate" : "2020-01-01",
-  "fltNum" : "001",
-  "segOrig" : "HKG",
   "passenger" : "Tester",
   "carrier" : "SG",
-  "segDest" : "TPE"
+  "segDest" : "TPE",
+  "fltDate" : "2020-01-01",
+  "fltNum" : "001",
+  "segOrig" : "HKG"
 }</code></pre>
 </div>
 </div>
@@ -1072,8 +1072,8 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT
-Location: http://localhost:8080/bookings/5ee1d2df210ca51efcd99139
+Last-Modified: Fri, 10 Jul 2020 09:55:34 GMT
+Location: http://localhost:8080/bookings/5f083b166b548e681edb302f
 Content-Type: application/hal+json
 Content-Length: 802
 
@@ -1090,21 +1090,21 @@ Content-Length: 802
   },
   "status" : "DRAFT",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.518355Z",
+  "createdDate" : "2020-07-10T09:55:34.127865Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.518355Z",
+  "lastModifiedDate" : "2020-07-10T09:55:34.127865Z",
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99139"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302f"
     },
     "booking" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99139"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302f"
     },
     "confirm" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99139/confirm"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302f/confirm"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99139/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302f/cancel"
     }
   }
 }</code></pre>
@@ -1262,7 +1262,7 @@ Content-Length: 802
 <h4 id="resource_booking_get_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5ee1d2df210ca51efcd99131' -i -X GET \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5f083b156b548e681edb3027' -i -X GET \
     -H 'Accept: application/hal+json'</code></pre>
 </div>
 </div>
@@ -1271,7 +1271,7 @@ Content-Length: 802
 <h4 id="resource_booking_get_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /bookings/5ee1d2df210ca51efcd99131 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /bookings/5f083b156b548e681edb3027 HTTP/1.1
 Accept: application/hal+json
 Host: localhost:8080</code></pre>
 </div>
@@ -1285,7 +1285,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT
+Last-Modified: Fri, 10 Jul 2020 09:55:33 GMT
 Content-Type: application/hal+json
 Content-Length: 796
 
@@ -1302,21 +1302,21 @@ Content-Length: 796
   },
   "status" : "DRAFT",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.179Z",
+  "createdDate" : "2020-07-10T09:55:33.723Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.179Z",
+  "lastModifiedDate" : "2020-07-10T09:55:33.723Z",
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027"
     },
     "booking" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027"
     },
     "confirm" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131/confirm"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027/confirm"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027/cancel"
     }
   }
 }</code></pre>
@@ -1506,7 +1506,7 @@ Content-Length: 796
 <h4 id="resource_booking_update_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5ee1d2df210ca51efcd99130' -i -X PATCH \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5f083b156b548e681edb3026' -i -X PATCH \
     -H 'Content-Type: application/merge-patch+json' \
     -d '{
   "fltDate" : "2020-01-02"
@@ -1518,7 +1518,7 @@ Content-Length: 796
 <h4 id="resource_booking_update_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /bookings/5ee1d2df210ca51efcd99130 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /bookings/5f083b156b548e681edb3026 HTTP/1.1
 Content-Type: application/merge-patch+json
 Content-Length: 30
 Host: localhost:8080
@@ -1537,7 +1537,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT</code></pre>
+Last-Modified: Fri, 10 Jul 2020 09:55:33 GMT</code></pre>
 </div>
 </div>
 </div>
@@ -1580,21 +1580,21 @@ Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT</code></pre>
   },
   "status" : "DRAFT",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.179Z",
+  "createdDate" : "2020-07-10T09:55:33.723Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.179Z",
+  "lastModifiedDate" : "2020-07-10T09:55:33.723Z",
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027"
     },
     "booking" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027"
     },
     "confirm" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131/confirm"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027/confirm"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99131/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b156b548e681edb3027/cancel"
     }
   }
 }</code></pre>
@@ -1606,7 +1606,7 @@ Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT</code></pre>
 <h5 id="_issue_a_confirm_request_curl_request">Curl request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/confirm' -i -X PUT</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5f083b166b548e681edb302d/confirm' -i -X PUT</code></pre>
 </div>
 </div>
 </div>
@@ -1614,7 +1614,7 @@ Last-Modified: Thu, 11 Jun 2020 06:44:47 GMT</code></pre>
 <h5 id="_issue_a_confirm_request_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /bookings/5ee1d2df210ca51efcd99137/confirm HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /bookings/5f083b166b548e681edb302d/confirm HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1643,15 +1643,15 @@ Content-Length: 612
   },
   "status" : "CONFIRMED",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.426Z",
+  "createdDate" : "2020-07-10T09:55:34.011Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.446157Z",
+  "lastModifiedDate" : "2020-07-10T09:55:34.032095Z",
   "_links" : {
     "check-in" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/check-in"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/check-in"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/cancel"
     }
   }
 }</code></pre>
@@ -1671,11 +1671,11 @@ Content-Type: application/json
 Content-Length: 211
 
 {
-  "timestamp" : "2020-06-11T06:44:47.503+00:00",
+  "timestamp" : "2020-07-10T09:55:34.106+00:00",
   "status" : 400,
   "error" : "Bad Request",
   "message" : "No enough inventory",
-  "path" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99138/confirm"
+  "path" : "http://localhost:8080/bookings/5f083b166b548e681edb302e/confirm"
 }</code></pre>
 </div>
 </div>
@@ -1689,11 +1689,11 @@ Content-Type: application/json
 Content-Length: 254
 
 {
-  "timestamp" : "2020-06-11T06:44:47.257+00:00",
+  "timestamp" : "2020-07-10T09:55:33.815+00:00",
   "status" : 400,
   "error" : "Bad Request",
   "message" : "Booking status cannot be transited from CANCELLED to CONFIRMED",
-  "path" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99132/confirm"
+  "path" : "http://localhost:8080/bookings/5f083b156b548e681edb3028/confirm"
 }</code></pre>
 </div>
 </div>
@@ -1719,15 +1719,15 @@ Content-Length: 254
   },
   "status" : "CONFIRMED",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.426Z",
+  "createdDate" : "2020-07-10T09:55:34.011Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.446157Z",
+  "lastModifiedDate" : "2020-07-10T09:55:34.032095Z",
   "_links" : {
     "check-in" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/check-in"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/check-in"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/cancel"
     }
   }
 }</code></pre>
@@ -1739,7 +1739,7 @@ Content-Length: 254
 <h5 id="_issue_a_check_in_request_curl_request">Curl request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5ee1d2df210ca51efcd9912f/check-in' -i -X PUT</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5f083b156b548e681edb3025/check-in' -i -X PUT</code></pre>
 </div>
 </div>
 </div>
@@ -1747,7 +1747,7 @@ Content-Length: 254
 <h5 id="_issue_a_check_in_request_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /bookings/5ee1d2df210ca51efcd9912f/check-in HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /bookings/5f083b156b548e681edb3025/check-in HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1776,9 +1776,9 @@ Content-Length: 382
   },
   "status" : "CHECKED_IN",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.050Z",
+  "createdDate" : "2020-07-10T09:55:33.543Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.093678Z"
+  "lastModifiedDate" : "2020-07-10T09:55:33.603246Z"
 }</code></pre>
 </div>
 </div>
@@ -1793,11 +1793,11 @@ Content-Type: application/json
 Content-Length: 256
 
 {
-  "timestamp" : "2020-06-11T06:44:47.469+00:00",
+  "timestamp" : "2020-07-10T09:55:34.057+00:00",
   "status" : 400,
   "error" : "Bad Request",
   "message" : "Booking status cannot be transited from CANCELLED to CHECKED_IN",
-  "path" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/check-in"
+  "path" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/check-in"
 }</code></pre>
 </div>
 </div>
@@ -1823,15 +1823,15 @@ Content-Length: 256
   },
   "status" : "CONFIRMED",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.426Z",
+  "createdDate" : "2020-07-10T09:55:34.011Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.446157Z",
+  "lastModifiedDate" : "2020-07-10T09:55:34.032095Z",
   "_links" : {
     "check-in" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/check-in"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/check-in"
     },
     "cancel" : {
-      "href" : "http://localhost:8080/bookings/5ee1d2df210ca51efcd99137/cancel"
+      "href" : "http://localhost:8080/bookings/5f083b166b548e681edb302d/cancel"
     }
   }
 }</code></pre>
@@ -1843,7 +1843,7 @@ Content-Length: 256
 <h5 id="_issue_a_cancel_request_curl_request">Curl request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5ee1d2df210ca51efcd99139/cancel' -i -X DELETE</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/bookings/5f083b166b548e681edb302f/cancel' -i -X DELETE</code></pre>
 </div>
 </div>
 </div>
@@ -1851,7 +1851,7 @@ Content-Length: 256
 <h5 id="_issue_a_cancel_request_http_request">HTTP request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /bookings/5ee1d2df210ca51efcd99139/cancel HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /bookings/5f083b166b548e681edb302f/cancel HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1880,9 +1880,9 @@ Content-Length: 381
   },
   "status" : "CANCELLED",
   "createdBy" : "user",
-  "createdDate" : "2020-06-11T06:44:47.518Z",
+  "createdDate" : "2020-07-10T09:55:34.127Z",
   "lastModifiedBy" : "user",
-  "lastModifiedDate" : "2020-06-11T06:44:47.535616Z"
+  "lastModifiedDate" : "2020-07-10T09:55:34.148750Z"
 }</code></pre>
 </div>
 </div>
@@ -1897,11 +1897,11 @@ Content-Type: application/json
 Content-Length: 254
 
 {
-  "timestamp" : "2020-06-11T06:44:46.994+00:00",
+  "timestamp" : "2020-07-10T09:55:33.475+00:00",
   "status" : 400,
   "error" : "Bad Request",
   "message" : "Booking status cannot be transited from CHECKED_IN to CANCELLED",
-  "path" : "http://localhost:8080/bookings/5ee1d2de210ca51efcd9912e/cancel"
+  "path" : "http://localhost:8080/bookings/5f083b156b548e681edb3024/cancel"
 }</code></pre>
 </div>
 </div>
@@ -1912,7 +1912,7 @@ Content-Length: 254
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-02 02:23:10 -0400
+Last updated 2020-07-10 05:52:01 -0400
 </div>
 </div>
 </body>
