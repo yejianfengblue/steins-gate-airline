@@ -73,22 +73,22 @@ public class FltApiDocumentation {
         Flt sg001 = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(
                         new FltLeg(fltDate, fltDate.getDayOfWeek().getValue(), "HKG", "TPE", 1,
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
                                 480, 480, "B-LAD", "333")
                 ));
-        sg001 = this.fltRepository.save(sg001);
+        this.fltRepository.save(sg001);
 
         Flt sg002 = new Flt("SG", "002", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(
                         new FltLeg(fltDate, fltDate.getDayOfWeek().getValue(), "TPE", "HKG", 1,
-                                fltDate.atTime(12, 00), fltDate.atTime(16, 00),
-                                fltDate.atTime(12, 00), fltDate.atTime(16, 00),
-                                fltDate.atTime(12, 00), fltDate.atTime(16, 00),
+                                fltDate.atTime(12, 0), fltDate.atTime(16, 0),
+                                fltDate.atTime(12, 0), fltDate.atTime(16, 0),
+                                fltDate.atTime(12, 0), fltDate.atTime(16, 0),
                                 480, 480, "B-LAD", "333")
                 ));
-        sg002 = this.fltRepository.save(sg002);
+        this.fltRepository.save(sg002);
 
         this.mockMvc.perform(
                 get("/flts"))
@@ -198,9 +198,6 @@ public class FltApiDocumentation {
         fltLeg.put("iataAcType", "333");
         fltPostRequestPayload.put("fltLegs", List.of(fltLeg));
 
-        RestdocsUtil.ConstrainedFields fltConstrainedFields = new RestdocsUtil.ConstrainedFields(Flt.class);
-        RestdocsUtil.ConstrainedFields fltLegConstrainedFields = new RestdocsUtil.ConstrainedFields(FltLeg.class);
-
         this.mockMvc
                 .perform(
                         post("/flts")
@@ -225,9 +222,9 @@ public class FltApiDocumentation {
         Flt flt = new Flt("SG", "001", ServiceType.PAX, fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(
                         new FltLeg(fltDate, fltDate.getDayOfWeek().getValue(), "HKG", "TPE", 1,
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
-                                fltDate.atTime(00, 00), fltDate.atTime(04, 00),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
+                                fltDate.atTime(0, 0), fltDate.atTime(4, 0),
                                 480, 480, "B-LAD", "333")
                 ));
 

@@ -66,7 +66,7 @@ public class FltEventListenerTest {
     void whenFltEventMessageIsSentToTopic_thenFltEventListenerListenIsExecuted() {
 
         Map<String, Object> producerProps = KafkaTestUtils.producerProps(this.embeddedKafka);
-        ProducerFactory<String, String> producerFactory = new DefaultKafkaProducerFactory<String, String>(producerProps);
+        ProducerFactory<String, String> producerFactory = new DefaultKafkaProducerFactory<>(producerProps);
         KafkaTemplate<String, String> template = new KafkaTemplate<>(producerFactory);
 
         ObjectNode fltEventJson = objectMapper.createObjectNode();

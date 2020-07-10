@@ -97,12 +97,12 @@ public class BookingApiDocumentation {
     void accessBookingsTest() {
 
         // prepared test data
-        Booking sg001 = bookingRepository.save(
+        bookingRepository.save(
                 new Booking("SG", "001", LocalDate.of(2020, 1, 1), "HKG", "TPE", "Tester"));
-        Booking sg002 = bookingRepository.save(
+        bookingRepository.save(
                 new Booking("SG", "001", LocalDate.of(2020, 1, 2), "HKG", "TPE", "Tester"));
 
-        MockHttpServletResponse response = accessBookingsResource();
+        accessBookingsResource();
     }
 
     @Test
@@ -117,7 +117,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         1)))));
 
         createNewBooking(Map.of(
@@ -216,7 +216,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -240,7 +240,7 @@ public class BookingApiDocumentation {
                                 fltDate, fltDate.getDayOfWeek().getValue(),
                                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                         legDep, legArr, 1,
-                                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                         0)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -348,7 +348,7 @@ public class BookingApiDocumentation {
                 "carrier", "SG", "fltNum", "001", "fltDate", "2020-01-01",
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("confirm"), response.getContentAsString());
-        response = cancelBooking(response);
+        cancelBooking(response);
 
         // it's valid to confirm cancelled booking
         response = mockMvc
@@ -390,7 +390,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -415,7 +415,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -423,7 +423,7 @@ public class BookingApiDocumentation {
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         response = confirmBooking(response);
         Link checkInLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("check-in"), response.getContentAsString());
-        response = cancelBooking(response);
+        cancelBooking(response);
 
         // it's valid to check-in cancelled booking
         response = mockMvc
@@ -476,7 +476,7 @@ public class BookingApiDocumentation {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 legDep, legArr, 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 1)))));
 
         MockHttpServletResponse response = createNewBooking(Map.of(
@@ -484,7 +484,7 @@ public class BookingApiDocumentation {
                 "segOrig", "HKG", "segDest", "TPE", "passenger", "Tester"));
         Link cancelLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("cancel"), response.getContentAsString());
         response = confirmBooking(response);
-        response = checkInBooking(response);
+        checkInBooking(response);
 
         // it's valid to cancel checked-in booking
         response = mockMvc
@@ -517,7 +517,7 @@ public class BookingApiDocumentation {
     @SneakyThrows
     private MockHttpServletResponse accessBookingsResource() {
 
-        MockHttpServletResponse response = mockMvc
+        return mockMvc
                 .perform(
                         get(bookingBasePath)
                                 .accept(RestMediaTypes.HAL_JSON))
@@ -531,8 +531,6 @@ public class BookingApiDocumentation {
                         )
                 ))
                 .andReturn().getResponse();
-
-        return response;
     }
 
     @SneakyThrows
@@ -635,7 +633,7 @@ public class BookingApiDocumentation {
     @SneakyThrows
     private MockHttpServletResponse getBooking(String bookingLocation) {
 
-        MockHttpServletResponse response = this.mockMvc
+        return this.mockMvc
                 .perform(
                         get(bookingLocation)
                                 .accept(RestMediaTypes.HAL_JSON))
@@ -660,8 +658,6 @@ public class BookingApiDocumentation {
                                 linkWithRel("cancel").optional().description("Cancel this booking"))
                 ))
                 .andReturn().getResponse();
-
-        return response;
     }
 
     @SneakyThrows
@@ -669,15 +665,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("confirm"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         put(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CONFIRMED.toString()))
                 .andDo(document("booking-confirm"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
     @SneakyThrows
@@ -685,15 +679,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("check-in"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         put(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CHECKED_IN.toString()))
                 .andDo(document("booking-check-in"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
     @SneakyThrows
@@ -701,15 +693,13 @@ public class BookingApiDocumentation {
 
         Link confirmLink = linkDiscoverer.findRequiredLinkWithRel(LinkRelation.of("cancel"), sourceResponse.getContentAsString());
 
-        MockHttpServletResponse resultResponse = mockMvc
+        return mockMvc
                 .perform(
                         delete(confirmLink.getHref()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(CANCELLED.toString()))
                 .andDo(document("booking-cancel"))
                 .andReturn().getResponse();
-
-        return resultResponse;
     }
 
 }

@@ -12,7 +12,6 @@ import lombok.Value;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.Description;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,7 +28,7 @@ import java.util.UUID;
 @Document("flts")
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 @CompoundIndex(name = "fltKey", def = "{'carrier':1, 'fltNum':1, 'fltDate':1}", unique = true)
 public class Flt {
 
@@ -65,7 +64,7 @@ public class Flt {
     @NotEmpty
     @Valid
     @Description("flight leg collection")
-    List<FltLeg> fltLegs = new ArrayList<>();
+    List<FltLeg> fltLegs;
 
     @CreatedBy
     String createdBy;

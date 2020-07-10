@@ -21,11 +21,11 @@ public interface FltRepository extends PagingAndSortingRepository<Flt, String> {
     @Override
     Flt save(Flt flt);
 
-    public Page<Flt> findByFltDateBetween(LocalDate fltDateStart, LocalDate fltDateEnd,
-                                          Pageable p);
+    Page<Flt> findByFltDateBetween(LocalDate fltDateStart, LocalDate fltDateEnd,
+                                   Pageable p);
 
-    public Page<Flt> findByCarrierAndFltNumAndFltDateBetween(String carrier, String fltNum,
-                                                             @DateTimeFormat(iso = DATE) LocalDate fltDateStart,
-                                                             @DateTimeFormat(iso = DATE) LocalDate fltDateEnd,
-                                                             Pageable p);
+    Page<Flt> findByCarrierAndFltNumAndFltDateBetween(String carrier, String fltNum,
+                                                      @DateTimeFormat(iso = DATE) LocalDate fltDateStart,
+                                                      @DateTimeFormat(iso = DATE) LocalDate fltDateEnd,
+                                                      Pageable p);
 }

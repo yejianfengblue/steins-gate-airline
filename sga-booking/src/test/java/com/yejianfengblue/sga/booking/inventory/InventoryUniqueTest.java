@@ -34,7 +34,7 @@ public class InventoryUniqueTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         "HKG", "TPE", 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         100)));
         inventoryRepository.save(inventory);
 
@@ -43,7 +43,7 @@ public class InventoryUniqueTest {
                         fltDate, fltDate.getDayOfWeek().getValue(),
                         List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                                 "HKG", "TPE", 1,
-                                fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                                fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                                 100)))))
                 .isInstanceOf(DuplicateKeyException.class);
 

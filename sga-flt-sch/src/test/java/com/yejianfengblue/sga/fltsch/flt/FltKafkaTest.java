@@ -308,11 +308,10 @@ public class FltKafkaTest {
 
             Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
             producerProps.put(JsonSerializer.TYPE_MAPPINGS, "fltEvent:com.yejianfengblue.sga.fltsch.flt.Flt$FltEvent");
-            DefaultKafkaProducerFactory<?, ?> producerFactory = new DefaultKafkaProducerFactory<>(
+            return new DefaultKafkaProducerFactory<>(
                     producerProps,
                     () -> null,
                     () -> jsonSerializer);
-            return producerFactory;
         }
     }
 

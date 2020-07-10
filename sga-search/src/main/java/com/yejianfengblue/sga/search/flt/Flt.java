@@ -26,7 +26,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor(onConstructor_ = {@PersistenceConstructor})  // DB mapping uses the all args constructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Flt {
 
     @Id
@@ -56,7 +56,7 @@ public class Flt {
 
     @NotEmpty
     @Valid
-    List<FltLeg> fltLegs = new ArrayList<>();
+    List<FltLeg> fltLegs;
 
     String createdBy;
 

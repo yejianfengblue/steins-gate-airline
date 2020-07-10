@@ -42,7 +42,7 @@ public class InventoryServiceTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         legDep, legArr, 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         99)));
         inventoryRepository.save(inventory);
 
@@ -67,7 +67,7 @@ public class InventoryServiceTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         legDep, legArr, 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
@@ -92,7 +92,7 @@ public class InventoryServiceTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         legDep, legArr, 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         99)));        inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
         assertThat(foundInventory).isPresent();
@@ -123,7 +123,7 @@ public class InventoryServiceTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         legDep, legArr, 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));
@@ -148,7 +148,7 @@ public class InventoryServiceTest {
                 fltDate, fltDate.getDayOfWeek().getValue(),
                 List.of(new InventoryLeg(fltDate, fltDate.getDayOfWeek().getValue(),
                         legDep, legArr, 1,
-                        fltDate.atTime(10, 00), fltDate.atTime(16, 00), 480, 480,
+                        fltDate.atTime(10, 0), fltDate.atTime(16, 0), 480, 480,
                         99)));
         inventoryRepository.save(inventory);
         Optional<Inventory> foundInventory = inventoryService.findInventory("SG", "001", LocalDate.of(2020, 1, 1));

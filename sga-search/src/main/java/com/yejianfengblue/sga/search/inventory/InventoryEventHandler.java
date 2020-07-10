@@ -20,9 +20,7 @@ class InventoryEventHandler {
                 inventory.getFltNum(),
                 inventory.getFltDate());
 
-        if (foundInventory.isPresent()) {
-            inventory.setId(foundInventory.get().getId());
-        }
+        foundInventory.ifPresent(inv -> inventory.setId(inv.getId()));
         inventoryRepository.save(inventory);
     }
 }

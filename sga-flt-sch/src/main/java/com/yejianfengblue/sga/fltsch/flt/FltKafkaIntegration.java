@@ -1,6 +1,5 @@
 package com.yejianfengblue.sga.fltsch.flt;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yejianfengblue.sga.fltsch.flt.Flt.FltEvent;
 import lombok.NonNull;
@@ -32,7 +31,7 @@ public class FltKafkaIntegration {
     private final ObjectMapper objectMapper;
 
     @HandleAfterCreate
-    public void handleFltCreate(Flt flt) throws JsonProcessingException {
+    public void handleFltCreate(Flt flt) {
 
         FltEvent fltEvent = FltEvent.of(flt, FltEvent.Type.CREATE);
         Message<?> message = MessageBuilder.withPayload(fltEvent)
@@ -43,7 +42,7 @@ public class FltKafkaIntegration {
     }
 
     @HandleAfterSave
-    public void handleFltSave(Flt flt) throws JsonProcessingException {
+    public void handleFltSave(Flt flt) {
 
         FltEvent fltEvent = FltEvent.of(flt, FltEvent.Type.UPDATE);
         Message<?> message = MessageBuilder.withPayload(fltEvent)
