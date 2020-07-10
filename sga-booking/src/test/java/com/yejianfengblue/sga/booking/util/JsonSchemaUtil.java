@@ -47,7 +47,6 @@ public class JsonSchemaUtil {
          * Assert the given field can be serialized
          *
          * @param objectMapper  the Jackson {@link ObjectMapper}
-         * @param field
          */
         public static AbstractBooleanAssert<?> assertCouldSerialize(ObjectMapper objectMapper, Field field) {
 
@@ -98,7 +97,6 @@ public class JsonSchemaUtil {
      * Assert the given field can be deserialized
      *
      * @param objectMapper  the Jackson {@link ObjectMapper}
-     * @param field
      */
     public static AbstractBooleanAssert<?> assertCouldDeserialize(ObjectMapper objectMapper, Field field) {
 
