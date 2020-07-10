@@ -43,7 +43,7 @@ public class FltPopulator implements CommandLineRunner {
                 {
                     Flt sg520 = new Flt(null, "SG", "520", ServiceType.PAX,
                             date, date.getDayOfWeek().getValue(),
-                            new ArrayList<FltLeg>(),
+                            new ArrayList<>(),
                             null, null, null, null);
                     sg520.addFltLeg(
                             // SG520 / leg 1 / HKG 1000 -> NRT 1600
@@ -61,7 +61,7 @@ public class FltPopulator implements CommandLineRunner {
                 {
                     Flt sg521 = new Flt(null, "SG", "521", ServiceType.PAX,
                             date, date.getDayOfWeek().getValue(),
-                            new ArrayList<FltLeg>(),
+                            new ArrayList<>(),
                             null, null, null, null);
                     sg521.addFltLeg(
                             // SG101 / leg 1 / NRT 1700 -> HKG 2100
@@ -82,7 +82,7 @@ public class FltPopulator implements CommandLineRunner {
 
                     Flt sg296 = new Flt(null, "SG", "296", ServiceType.FRTR,
                             date, date.getDayOfWeek().getValue(),
-                            new ArrayList<FltLeg>(),
+                            new ArrayList<>(),
                             null, null, null, null);
                     sg296.addFltLeg(
                             // SG296 / leg 1 / HKG 2100 -> ANC 1500

@@ -63,7 +63,7 @@ public class InventoryEventListenerTest {
     void whenInventoryEventMessageIsSentToTopic_thenInventoryEventListenerListenIsExecuted() {
 
         Map<String, Object> producerProps = KafkaTestUtils.producerProps(this.embeddedKafka);
-        ProducerFactory<String, String> producerFactory = new DefaultKafkaProducerFactory<String, String>(producerProps);
+        ProducerFactory<String, String> producerFactory = new DefaultKafkaProducerFactory<>(producerProps);
         KafkaTemplate<String, String> template = new KafkaTemplate<>(producerFactory);
 
         ObjectNode inventoryEventJson = objectMapper.createObjectNode();
