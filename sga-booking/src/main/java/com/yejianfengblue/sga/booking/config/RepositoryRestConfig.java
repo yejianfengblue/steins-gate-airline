@@ -1,6 +1,5 @@
 package com.yejianfengblue.sga.booking.config;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
